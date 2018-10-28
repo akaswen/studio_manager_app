@@ -1,24 +1,28 @@
-# README
+# Jeff's App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## types of users
 
-Things you may want to cover:
+### non-logged in users
+- can visit home page
+- can visit about page
+- can visit create new account page
+- can visit sign in page
+- has a contact teacher page?
 
-* Ruby version
+### logged in non-student page
+- can visit home page
+- can visit about page
+- can visit studio request page
 
-* System dependencies
+### logged in student page
+- has a dashboard
+- has a calendar lesson request page
+- has a lesson show page
+- has a profile settings page
+- has a contact teacher page
 
-* Configuration
+### logged in admin
+- has a dashboard
+- has a student roster page
+- has a calendar page
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

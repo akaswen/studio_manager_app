@@ -39,11 +39,17 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Use Devise for authentication
 gem 'devise'
 
+# Use bootstrap framework
+gem 'bootstrap', '~> 4.1.3'
+# boostrap requires jquery
+gem 'jquery-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.8'
   gem 'capybara'
+  gem 'rails-controller-testing'
 end
 
 group :development do
