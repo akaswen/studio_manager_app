@@ -1,1 +1,9 @@
 @import "bootstrap";
+
+#header {
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

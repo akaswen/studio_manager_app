@@ -1,8 +1,17 @@
 <%= render 'shared/header' %>
 
-<div class"row">
-  <div class="col-12 text-center">
-    <h1>StaticPages#about</h1>
-    <p>Find me in app/views/static_pages/about.html.erb</p>
+<div class="row mt-5">
+  <div class="col-3"></div>
+
+  <div class="col">
+    <%#<div class="media">%>
+      <%= image_tag 'about/teacher.jpeg', alt: 'teacher photo', class: 'float-left mr-5' %>
+      <%#<div class="media-body">%>
+        <h1>About</h1>
+        <p><%= Faker::Lorem.paragraphs(15).join(' ') %></p>
+      <%#</div>%>
+    <%#</div>%>
   </div>
+
+  <div class="col-3"></div>
 </div>
