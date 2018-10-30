@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before(:each) do
-    @user = User.new(first_name: "Aaron", last_name: "Kaswen", email: "aaron@example.com", password: "Password1", password_confirmation: "Password1")
+    @user = build(:user)
+    address_attr = attributes_for(:address)
+    @address = @user.addresses.build(address_attr)
   end
 
   it('should be valid') do
@@ -22,9 +24,11 @@ RSpec.describe User, type: :model do
       end
 
       it('lower cases names') do
+        expect(User.count).to eq(0)
         @user.first_name = 'AaRoN'
         @user.last_name = 'KaSwEn'
         @user.save
+        expect(User.count).to eq(1)
         expect(@user.first_name).to eq('aaron')
         expect(@user.last_name).to eq('kaswen')
       end
@@ -87,6 +91,8 @@ RSpec.describe User, type: :model do
 
     describe('associated objects') do
       describe('addresses') do
+        xit('should have at least one address') do
+        end
       end
 
       describe('phone numbers') do

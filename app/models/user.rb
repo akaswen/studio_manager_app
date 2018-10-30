@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
   before_save :lower_case
 
+  has_many :addresses
+
   def full_name
     first_name.capitalize + " " + last_name.capitalize
   end
