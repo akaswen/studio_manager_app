@@ -1,1 +1,25 @@
 @import "bootstrap";
+@import "dropdown";
+
+#icon {
+  height: 80px;
+  width: 80px;
+  color: brown;
+  background-color: green;
+  font-size: 0.7em;
+}
+
+#menu {
+  width: 0;
+  overflow: hidden;
+  transition: width 1s;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: black;
+}
+
+.shown {
+  width: 130px !important;
+}

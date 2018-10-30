@@ -1,6 +1,6 @@
 # Jeff's App
 
-## types of users
+## pages for types of users
 
 ### non-logged in users
 - can visit home page
@@ -26,3 +26,24 @@
 - has a student roster page
 - has a calendar page
 
+## database
+
+### users
+
+- admin vs non-admin
+- studio vs non-studio
+- first-name:string
+- last-name:string
+- email:string unique: true
+- has many addresses
+- has many phone numbers
+
+#### address
+- street address
+- city
+- state
+- zip code
+
+#### phone number
+- number: bigint
+- type: mobile/home
