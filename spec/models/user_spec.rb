@@ -35,6 +35,34 @@ RSpec.describe User, type: :model do
     end
 
     describe('email') do
+      it('should be present') do
+        @user.email = ''
+        expect(@user).to_not be_valid
+      end
+
+      it('should be formatted correctly') do
+        @user.email = 'aaronexample.com'
+        expect(@user).to_not be_valid
+        @user.email = 'aaron@examplecom'
+        expect(@user).to_not be_valid
+     end
+
+      it('should be downcased before save') do
+        @user.email = 'AarOn@ExaMPLe.CoM'
+        @user.save
+        @user.reload
+        expect(@user.email).to eq('aaron@example.com')
+      end
+
+      it('should be unique and not by case') do
+        @other_user = User.new(first_name: 'other', last_name: 'user', email: 'aaron@example.com', password: 'Password1', password_confirmation: 'Password1')
+        @user.save
+        expect(@other_user).to_not be_valid
+        @other_user.email = 'AarOn@example.com'
+        expect(@other_user).to_not be_valid
+        @other_user.email = 'aaron1@example.com'
+        expect(@other_user).to be_valid
+     end
     end
 
     describe('password') do
