@@ -43,6 +43,7 @@ gem 'devise'
 gem 'bootstrap', '~> 4.1.3'
 # boostrap requires jquery
 gem 'jquery-rails'
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

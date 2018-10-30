@@ -88,6 +88,8 @@ GEM
     erubi (1.7.1)
     eventmachine (1.2.7)
     execjs (2.7.0)
+    faker (1.9.1)
+      i18n (>= 0.7)
     ffi (1.9.25)
     formatador (0.2.5)
     globalid (0.4.1)
@@ -277,6 +279,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.2)
   devise
+  faker
   guard
   guard-livereload (~> 2.5)
   guard-rspec

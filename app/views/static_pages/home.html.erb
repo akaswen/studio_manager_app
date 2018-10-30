@@ -1,4 +1,15 @@
 <%= render 'shared/header' %>
 
-<h1>StaticPages#home</h1>
-<p>Find me in app/views/static_pages/home.html.erb</p>
+<div class="row mt-5 home">
+  <div class="col-2"></div>
+  <div class="col-8 text-center">
+    <div class="card">
+      <%= image_tag 'studio.jpg', alt: "studio", class: "card-img" %>
+      <div class="card-img-overlay">
+        <h1 class="text-white"><%= Faker::FunnyName.four_word_name %></h1>
+        <p class="text-white"><%= Faker::Lorem.sentence %></p>
+      </div>
+    </div>
+  </div>  
+  <div class="col-2"></div>
+</div>

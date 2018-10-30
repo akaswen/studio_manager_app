@@ -1,0 +1,36 @@
+/* dropdown menu */
+
+#icon {
+  height: 80px;
+  width: 80px;
+  color: brown;
+  background-color: green;
+  font-size: 0.7em;
+}
+
+#menu {
+  width: 0;
+  overflow: hidden;
+  transition: width 1s, padding-left 1s;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: black;
+  padding-top: 50px;
+  padding-left: 0;
+}
+
+.shown {
+  width: 150px !important;
+  padding-left: 20px !important;
+}
+
+.container-fluid {
+  transition: margin-left 1s;
+  margin-left: 0;
+}
+
+.shifted {
+  margin-left: 150px;
+}
