@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   before(:each) do
     @user = build(:user)
-    address_attr = attributes_for(:address)
-    @address = @user.addresses.build(address_attr)
+    @address_attr = attributes_for(:address)
+    @address = @user.addresses.build(@address_attr)
   end
 
   it('should be valid') do
@@ -65,6 +65,7 @@ RSpec.describe User, type: :model do
         @other_user.email = 'AarOn@example.com'
         expect(@other_user).to_not be_valid
         @other_user.email = 'aaron1@example.com'
+        @other_user.addresses.build(@address_attr)
         expect(@other_user).to be_valid
      end
     end
@@ -91,7 +92,11 @@ RSpec.describe User, type: :model do
 
     describe('associated objects') do
       describe('addresses') do
-        xit('should have at least one address') do
+        it('should have at least one address') do
+          @other_user = build(:user)
+          expect(@other_user).to_not be_valid
+          @other_user.addresses.build(@address_attr)
+          expect(@other_user).to be_valid
         end
       end
 
