@@ -1,7 +1,8 @@
 //= require dropdown_maker
 
-window.addEventListener('load', () => {
+document.addEventListener('turbolinks:load', () => {
   let icon = document.getElementById('icon');
   let menu = document.getElementById('menu');
-  dropDownMaker.addDropDown(icon, menu);
+  let container = document.querySelector('.container-fluid');
+  dropDownMaker.addDropDown(icon, menu, container);
 });

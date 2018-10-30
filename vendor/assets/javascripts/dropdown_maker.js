@@ -40,24 +40,21 @@ const dropDownMaker = (() => {
         styleText(text, icon);
         icon.appendChild(text);
     };
-    const toggleDropDown = (icon, menu) => {
+    const toggleDropDown = (icon, menu, container) => {
         menu.classList.toggle('shown');
         icon.classList.toggle('active');
+        container.classList.toggle('shifted');
     };
 
-    const addDropDown = (icon, menu) => {
+    const addDropDown = (icon, menu, container) => {
         icon.textContent = '';
         makeClickable(icon);
         makeLines(icon);
         addText(icon);
 
-        const addToggle = (e) => {
-            e.target.removeEventListener('click', addToggle);
-            toggleDropDown(icon, menu, e);
-            e.target.addEventListener('click', addToggle);
-        };
-
-        icon.addEventListener('click', addToggle);
+        icon.addEventListener('click', e => {
+          toggleDropDown(icon, menu, container);
+        });
     };
     
     return {addDropDown};

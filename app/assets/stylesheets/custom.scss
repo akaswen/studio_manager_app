@@ -1,6 +1,8 @@
 @import "bootstrap";
 @import "dropdown";
 
+/* dropdown menu */
+
 #icon {
   height: 80px;
   width: 80px;
@@ -21,5 +23,14 @@
 }
 
 .shown {
-  width: 130px !important;
+  width: 150px !important;
+}
+
+.container-fluid {
+  transition: margin-left 1s;
+  margin-left: 0;
+}
+
+.shifted {
+  margin-left: 150px;
 }
