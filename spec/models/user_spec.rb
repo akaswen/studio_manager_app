@@ -66,6 +66,23 @@ RSpec.describe User, type: :model do
     end
 
     describe('password') do
+      it('should have a minimum length of 8') do
+        @user.password = 'Passwo1'
+        @user.password_confirmation = 'Passwo1'
+        expect(@user).to_not be_valid
+      end
+
+      it('should have at least one number') do
+        @user.password = 'Password'
+        @user.password_confirmation = 'Password'
+        expect(@user).to_not be_valid
+      end
+
+      it('should have at least one capital') do
+        @user.password = 'password1'
+        @user.password_confirmation = 'password1'
+        expect(@user).to_not be_valid
+      end
     end
 
     describe('associated objects') do
