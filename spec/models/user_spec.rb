@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   before(:each) do
     @user = build(:user)
-    @address_attr = attributes_for(:address)
-    @address = @user.addresses.build(@address_attr)
+    @address = @user.addresses.first
+    @number = @user.phone_numbers.first
   end
 
   it('should be valid') do
@@ -59,13 +59,14 @@ RSpec.describe User, type: :model do
       end
 
       it('should be unique and not by case') do
-        @other_user = User.new(first_name: 'other', last_name: 'user', email: 'aaron@example.com', password: 'Password1', password_confirmation: 'Password1')
+        @other_user = User.new(attributes_for(:user))
+        @other_user.addresses << build(:address)
+        @other_user.phone_numbers << build(:phone_number)
         @user.save
         expect(@other_user).to_not be_valid
         @other_user.email = 'AarOn@example.com'
         expect(@other_user).to_not be_valid
         @other_user.email = 'aaron1@example.com'
-        @other_user.addresses.build(@address_attr)
         expect(@other_user).to be_valid
      end
     end
@@ -91,39 +92,39 @@ RSpec.describe User, type: :model do
     end
 
     describe('associated objects') do
+      before(:each) do
+        @other_user = User.new(attributes_for :user)
+      end
       describe('addresses') do
         it('should have at least one address') do
-          @other_user = build(:user)
+          @other_user.phone_numbers << build(:phone_number)
           expect(@other_user).to_not be_valid
-          @other_user.addresses.build(@address_attr)
+          @other_user.addresses << build(:address)
           expect(@other_user).to be_valid
         end
 
-        xit('should delete addresses when it is destroyed') do
+        it('should delete addresses when it is destroyed') do
+          expect{@user.save}.to change{Address.count}.by(1)
+          @user.reload
+          expect{@user.destroy}.to change{Address.count}.by(-1)
         end
       end
 
       describe('phone numbers') do
-        xit('should have at least one phone number') do
+        it('should have at least one phone number') do
+          @other_user.addresses << build(:address)
+          expect(@other_user).to_not be_valid
+          @other_user.phone_numbers << build(:phone_number)
+          expect(@other_user).to be_valid
         end
 
-        xit('should delete phone numbers when it is deleted') do
+        it('should delete phone numbers when it is deleted') do
+          expect{@user.save}.to change{PhoneNumber.count}.by(1)
+          @user.reload
+          expect{@user.destroy}.to change{PhoneNumber.count}.by(-1)
         end
       end
     end
   end
 
-  describe('devise methods') do
-    it('should be resetable') do
-    end
-
-    it('should be rememberable') do
-    end
-
-    it('should be confirmable') do
-    end
-
-    it('should be lockable') do
-    end
-  end
 end

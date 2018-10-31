@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PhoneNumber, type: :model, focus: true do
+RSpec.describe PhoneNumber, type: :model do
   before(:each) do
     @user = build(:user)
     @number = @user.phone_numbers.first
