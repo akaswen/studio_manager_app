@@ -4,7 +4,6 @@ FactoryBot.define do
     city { "Springfield" }
     state { "NJ" }
     zip_code { "55555" }
-    user
   end
 end
 

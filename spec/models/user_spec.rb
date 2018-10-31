@@ -98,9 +98,17 @@ RSpec.describe User, type: :model do
           @other_user.addresses.build(@address_attr)
           expect(@other_user).to be_valid
         end
+
+        xit('should delete addresses when it is destroyed') do
+        end
       end
 
       describe('phone numbers') do
+        xit('should have at least one phone number') do
+        end
+
+        xit('should delete phone numbers when it is deleted') do
+        end
       end
     end
   end

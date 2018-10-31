@@ -47,3 +47,6 @@
 #### phone number
 - number: bigint
 - type: mobile/home
+
+#Random Thoughts
+- babel gem
