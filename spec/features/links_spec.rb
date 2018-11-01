@@ -13,6 +13,7 @@ RSpec.feature "Links", type: :feature do
       expect(page).to have_link("Home", href: root_path)
       expect(page).to have_link("About", href: about_path)
       expect(page).to have_link("Sign in", href: new_user_session_path)
+      expect(page).to have_link("Sign up", href: new_user_registration_path)
       expect(page).to_not have_link("Sign out", href: destroy_user_session_path)
     end 
 
@@ -21,6 +22,7 @@ RSpec.feature "Links", type: :feature do
       expect(page).to have_link('Home', href: root_path)
       expect(page).to have_link('About', href: about_path)
       expect(page).to have_link("Sign in", href: new_user_session_path)
+      expect(page).to have_link("Sign up", href: new_user_registration_path)
       expect(page).to_not have_link("Sign out", href: destroy_user_session_path)
 
     end
@@ -29,6 +31,11 @@ RSpec.feature "Links", type: :feature do
   describe "links logged in" do
     it('should allow a user to sign in') do
       visit new_user_session_path
+      expect(page).to have_link('Home', href: root_path)
+      expect(page).to have_link('About', href: about_path)
+      expect(page).to have_link("Sign in", href: new_user_session_path)
+      expect(page).to have_link("Sign up", href: new_user_registration_path)
+      expect(page).to_not have_link("Sign out", href: destroy_user_session_path)
         within("#new_user") do
           fill_in 'Email', with: 'aaron@example.com'
           fill_in 'Password', with: 'Password1'
@@ -38,6 +45,7 @@ RSpec.feature "Links", type: :feature do
         expect(page).to have_link('Home', href: root_path)
         expect(page).to have_link('About', href: about_path)
         expect(page).to_not have_link("Sign in", href: new_user_session_path)
+        expect(page).to_not have_link("Sign up", href: new_user_registration_path)
         expect(page).to have_link("Sign out", href: destroy_user_session_path)
     end
   end
