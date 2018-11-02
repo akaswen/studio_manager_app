@@ -1,0 +1,20 @@
+#error_explanation {
+  color: red;
+}
+
+.invalid {
+  color: red;
+  input {
+    border: 2px solid red;
+  }
+  span {
+    font-size: 0.6em;
+  }
+}
+
+.valid {
+  color: green;
+  input {
+    border: 2px solid green;
+  }
+}
