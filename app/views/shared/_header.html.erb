@@ -5,6 +5,11 @@
   <div class="col-10 text-center">
     <h1 class="mt-4"><%= link_to 'Heights Studios', root_path, class: "text-white" %></h1>
   </div>
+  <div class='col-1'>
+    <% if user_signed_in? %>
+      <%= link_to 'Dashboard', user_path(current_user) %>
+    <% end %>
+  </div>
 </div>
 
 <div id="menu">
