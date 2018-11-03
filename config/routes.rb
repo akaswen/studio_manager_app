@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     confirmations: 'users/confirmations'
   }
-  root to: 'static_pages#home'
+  root to: 'users#dashboard'
   get '/home', to: 'static_pages#home'
   get '/about', to: 'static_pages#about'
   get '/dashboard', to: 'users#dashboard'

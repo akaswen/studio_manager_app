@@ -1,3 +1,4 @@
+<h1 class="text-center">Welcome <%= @user.full_name %>!</h1>
 <% if @user.teacher? %>
   <%= render 'users/dashboard/teacher' %>
 <% elsif @user.student? %>
