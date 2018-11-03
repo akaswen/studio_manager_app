@@ -1,4 +1,4 @@
-<button id="new_student_toggle" class="btn" data-toggle="collapse" data-target="#new_students"><h6>New Student Requests (<%= @new_students.length %>) <i class="fas fa-sort-up text-primary"></i></h6></button>
+<button id="new_student_toggle" class="btn btn-outline-secondary" data-toggle="collapse" data-target="#new_students"><h6>New Student Requests <em>(<%= @new_students.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6></button>
 <div class="row collapse" id="new_students">
   <% if @new_students %>
     <ul class="list-group ml-5">
@@ -9,8 +9,8 @@
               <%= s.full_name %>
             </div>
             <div class="col-5">
-              <button class="btn btn-link"><span class="badge badge-pill badge-success">&#10004;</span>Studio</button>
-              <button class="btn btn-link"><span class="badge badge-pill badge-danger">&#10006;</span>Wait List</button>
+              <button class="btn btn-link" data-decision="add"><span class="badge badge-pill badge-success" data-decision="add">&#10004;</span>Studio</button>
+              <button class="btn btn-link" data-decision="wait-list"><span data-decision="wait-list" class="badge badge-pill badge-danger">&#10006;</span>Wait List</button>
             </div>
           </div>
         </li>

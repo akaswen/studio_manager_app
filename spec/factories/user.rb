@@ -19,6 +19,7 @@ FactoryBot.define do
     password { "Password1" }
     password_confirmation { "Password1" }
     teacher { true }
+    status { nil }
 
     after(:build) do |user|
       user.phone_numbers << build(:cell_number) if user.phone_numbers.empty?

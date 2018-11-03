@@ -5,15 +5,53 @@ function toggleArrow() {
 }
 
 const newStudents = (() => {
-  let students;
+  let studentListItems;
+
+  function removeElement(element) {
+    element.parentNode.removeChild(element);
+    studentListItems = document.querySelectorAll('#new_students li');
+    let number = document.querySelector('#new_student_toggle em');
+    number.textContent = `(${studentListItems.length})`;
+  }
+
+  function patchFetch(path, id) {
+    let metaTag = document.querySelector('meta[name="csrf-token"]');
+    let token = metaTag.getAttribute('content');
+    fetch(path, {
+      method: 'PATCH', 
+      headers: {
+        'X-CSRF-TOKEN': token
+      },
+      body: JSON.stringify({
+        id: id
+      })
+    });
+  }
+
+  function addStudent(id) {
+    let path = '/add_student';
+    patchFetch(path, id);
+  }
+
+  function waitListStudent(id) {
+    let path = '/wait_list';
+    patchFetch(path, id);
+  }
 
   function sort(e) {
-    console.log(e.target);
-    console.log(e.currentTarget);
+    let userId = e.currentTarget.id;
+    let decision = e.target.getAttribute('data-decision');
+    if (decision === 'add') {
+      removeElement(e.currentTarget);
+      addStudent(userId);
+    } else if (decision === 'wait-list') {
+      removeElement(e.currentTarget);
+      waitListStudent(userId);
+    }
   }
 
   function enableSorting() {
-    studentListItems = querySelectorAll('#new_students li'); 
+    studentListItems = document.querySelectorAll('#new_students li'); 
     [...studentListItems].forEach(studentItem => {
       studentItem.addEventListener('click', sort);
     });

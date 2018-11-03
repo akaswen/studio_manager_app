@@ -50,3 +50,4 @@
 
 #Random Thoughts
 - babel gem
+- autoprefixer

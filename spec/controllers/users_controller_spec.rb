@@ -41,14 +41,14 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe "PATCH #update_status" do
+  describe "PATCH #wait_list" do
     before(:each) do
       @teacher = create(:teacher)
       @student = create(:student)
     end
 
     subject { 
-      patch :update_status, params: { id: @user.id, status: "Wait Listed" } 
+      patch :wait_list, body: { id: @user.id }.to_json
       @user.reload
     }
 
@@ -71,6 +71,42 @@ RSpec.describe UsersController, type: :controller do
     it "doesn't allow a student to update a student's status" do
       sign_in(@student)
       expect{ subject }.to_not change{ @user.status }
+      expect(response.status).to be(302)
+    end
+  end
+
+  describe "PATCH #add_student" do
+    before(:each) do
+      @teacher = create(:teacher)
+      @student = create(:student)
+    end
+
+    subject { 
+      patch :add_student, body: { id: @user.id }.to_json
+      @user.reload
+    }
+
+    it "doesn't allow a non-user to add a student to studio" do
+      expect{ subject }.to_not change{ @user.student }
+      expect(response.status).to be(302)
+    end
+
+    it "allows a teacher to add a new student" do
+      sign_in(@teacher)
+      expect{ subject }.to change{ @user.student }.from(false).to(true)
+      @user.reload
+      expect(@user.status).to be_nil
+    end
+
+    it "doesn't allow a non-student to add a student" do
+      sign_in(@user)
+      expect{ subject }.to_not change{ @user.student }
+      expect(response.status).to be(302)
+    end
+
+    it "doesn't allow a student to add a student" do
+      sign_in(@student)
+      expect{ subject }.to_not change{ @user.student }
       expect(response.status).to be(302)
     end
   end
