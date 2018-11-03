@@ -15,7 +15,7 @@ RSpec.feature "Links", type: :feature do
       expect(page).to have_link("Sign in", href: new_user_session_path)
       expect(page).to have_link("Sign up", href: new_user_registration_path)
       expect(page).to_not have_link("Sign out", href: destroy_user_session_path)
-      expect(page).to_not have_link("Dashboard", href: user_path(@user))
+      expect(page).to_not have_link("Dashboard", href: dashboard_path)
     end 
   end
 
@@ -28,7 +28,7 @@ RSpec.feature "Links", type: :feature do
       expect(page).to_not have_link("Sign in", href: new_user_session_path)
       expect(page).to_not have_link("Sign up", href: new_user_registration_path)
       expect(page).to have_link("Sign out", href: destroy_user_session_path)
-      expect(page).to have_link("Dashboard", href: user_path(@user))
+      expect(page).to have_link("Dashboard", href: dashboard_path)
     end
   end
 end

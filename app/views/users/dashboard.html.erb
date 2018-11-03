@@ -1,0 +1,7 @@
+<% if @user.teacher? %>
+  <%= render 'users/dashboard/teacher' %>
+<% elsif @user.student? %>
+  <%= render 'users/dashboard/student' %>
+<% else %>
+  <%= render 'users/dashboard/non_student' %>
+<% end %>
