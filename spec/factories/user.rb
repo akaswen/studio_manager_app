@@ -7,14 +7,39 @@ FactoryBot.define do
     password_confirmation { "Password1" }
 
     after(:build) do |user|
-      if user.phone_numbers.empty?
-        phone_number = build(:phone_number)
-        user.phone_numbers << phone_number
-      end
-      if user.addresses.empty?
-        address = build(:address)
-        user.addresses << address
-      end
+      user.phone_numbers << build(:phone_number) if user.phone_numbers.empty?
+      user.addresses << build(:address) if user.addresses.empty?
     end
   end
+
+  factory :teacher, class: User do
+    first_name { "Jeff" }
+    last_name { "Wienand" }
+    email { "jeff@example.com" }
+    password { "Password1" }
+    password_confirmation { "Password1" }
+    teacher { true }
+
+    after(:build) do |user|
+      user.phone_numbers << build(:cell_number) if user.phone_numbers.empty?
+      user.addresses << build(:home) if user.addresses.empty?
+      user.confirm
+    end
+  end
+
+  factory :student, class: User do
+    first_name { Faker::ElderScrolls.first_name }
+    last_name { Faker::ElderScrolls.last_name }
+    email { Faker::Internet.email }
+    password { "Password1" }
+    password_confirmation { "Password1" }
+    student { true }
+
+    after(:build) do |user|
+      user.phone_numbers << build(:cell_number) if user.phone_numbers.empty?
+      user.addresses << build(:home) if user.addresses.empty?
+      user.confirm
+    end
+  end
+
 end

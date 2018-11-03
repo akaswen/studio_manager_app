@@ -5,4 +5,8 @@ module SessionsHelper
     fill_in 'Password', with: user.password
     click_button 'Log in'
   end
+
+  def sign_out(user)
+    click_link 'Sign out'
+  end
 end
