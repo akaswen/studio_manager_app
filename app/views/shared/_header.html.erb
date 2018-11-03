@@ -1,4 +1,4 @@
-<div id="header" class="row bg-dark pb-3">
+<div id="header" class="row bg-dark pb-3 align-items-end pr-5">
   <div class='col-1'>
     <div id="icon" class="bg-light text-dark"></div>
   </div>
@@ -7,7 +7,9 @@
   </div>
   <div class='col-1'>
     <% if user_signed_in? %>
-      <%= link_to 'Dashboard', dashboard_path %>
+      <%= link_to dashboard_path do %>
+        <i class="fas fa-tachometer-alt"><em>Dashboard</em></i>
+      <% end %>
     <% end %>
   </div>
 </div>

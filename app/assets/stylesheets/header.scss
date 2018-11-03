@@ -1,0 +1,14 @@
+#header {
+  i {
+    font-size: 2em;
+    text-align: center;
+    color: white;
+    &:hover {
+      color: blue;
+    }
+    em {
+      font-size: 0.4em;
+      display: block;
+    }
+  }
+}
