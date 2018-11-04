@@ -8,6 +8,10 @@ RSpec.feature "WaitListings", type: :feature do
     ActionController::Base.allow_forgery_protection = true
   end
 
+  after(:each) do
+    ActionMailer::Base.deliveries.clear
+  end
+
   xit('allows teacher to wait-list non-students', js: true) do
     sign_in(@user)
     expect(page).to have_content("Pending")

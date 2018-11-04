@@ -1,3 +1,15 @@
-<% @users.each do |u| %>
-  <%= u.full_name %>
-<% end %>
+<div class="row mt-5">
+  <div class="col-12">
+    <h1 class="text-center"><%= @title %></h1> 
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-3"></div>
+  <div class="col-9 border-left">
+    <ul>
+      <% @users.each do |u| %>
+        <li><%= u.full_name %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

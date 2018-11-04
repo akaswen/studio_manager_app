@@ -47,6 +47,10 @@ RSpec.describe UsersController, type: :controller do
       @student = create(:student)
     end
 
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+
     subject { 
       patch :wait_list, body: { id: @user.id }.to_json
       @user.reload
@@ -59,7 +63,7 @@ RSpec.describe UsersController, type: :controller do
     
     it "allows a teacher to update a student's status" do
       sign_in(@teacher)
-      expect{ subject }.to change{ @user.status }.from('Pending').to('Wait Listed')
+      expect{ subject }.to change{ @user.status }.from('Pending').to('Wait Listed').and change{ ActionMailer::Base.deliveries.count }.by(1)
     end
 
     it "doesn't allow a non-student to update a student's status" do

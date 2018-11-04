@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.where("status = ? OR student = ?", params[:status], params[:student])
+    @title = params[:status] ? "Wait List": "Studio List"
   end
 
   def dashboard
