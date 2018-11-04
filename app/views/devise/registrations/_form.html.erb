@@ -1,0 +1,93 @@
+<%= devise_error_messages! %>
+
+<div class="field row my-5">
+  <%= f.label :email, class: "col-3" %>
+  <div class="col-9">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "col-9", required: true %>
+    <span></span>
+  </div>
+</div>
+
+<div class="field row my-5">
+  <%= f.label :first_name, "First name", class: "col-3" %>
+  <div class="col-9">
+    <%= f.text_field :first_name, class: "col-9", required: true %>
+    <span></span>
+
+  </div>
+</div>
+
+<div class="field row my-5">
+  <%= f.label :last_name, "Last name", class: "col-3" %>
+  <div class="col-9">
+    <%= f.text_field :last_name, class: "col-9", required: true %>
+    <span></span>
+
+  </div>
+</div>
+
+<h4 class="text-center">Address</h4>
+
+<%= f.fields_for(:addresses) do |address| %>
+  <div class="field row my-5">
+    <%= address.label :street_address, "Street address", class: "col-3" %>
+    <div class="col-9">
+      <%= address.text_field :street_address, class: "col-9", required: true %>
+    <span></span>
+
+    </div>
+  </div>
+
+  <div class="field row my-5">
+    <%= address.label :city, "City", class: "col-3" %>
+    <div class="col-9">
+      <%= address.text_field :city, class: "col-9", required: true %>
+    <span></span>
+
+    </div>
+  </div>
+
+  <div class="field row my-5">
+    <%= address.label :state, "State", class: "col-3" %>
+    <div class="col-9">
+      <%= address.select :state, options_for_select(us_states) %>
+    <span></span>
+
+    </div>
+  </div>
+
+  <div class="field row my-5">
+    <%= address.label :zip_code, "Zip code", class: "col-3" %>
+    <div class="col-9">
+      <%= address.text_field :zip_code, class: "col-9", required: true, pattern: '\d{5}' %>
+    <span></span>
+
+    </div>
+  </div>
+<% end %>
+
+<h4 class="text-center">Phone Number</h4>
+
+<%= f.fields_for(:phone_numbers) do |phone| %>
+  <div class="field row my-5">
+    <%= phone.label :number, "Phone number", class: "col-3" %>
+    <div class="col-9">
+      <%= phone.text_field :number, class: "col-9", required: true, pattern: '^(\D*\d\D*){10}$' %>
+    <span></span>
+
+    </div>
+  </div>
+
+  <div class="field row my-5">
+    <%= phone.label :kind, "Kind", class: "col-3" %>
+    <div class="col-9">
+      <%= phone.select :kind, options_for_select([['mobile', 'mobile'], ['Home', 'home'], ['Work', 'work']]) %>
+    <span></span>
+
+    </div>
+  </div>
+
+<% end %>
+
+<h4 class="text-center">Password</h4>
+

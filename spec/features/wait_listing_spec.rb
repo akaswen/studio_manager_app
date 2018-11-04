@@ -8,7 +8,7 @@ RSpec.feature "WaitListings", type: :feature do
     ActionController::Base.allow_forgery_protection = true
   end
 
-  it('allows teacher to wait-list non-students', js: true) do
+  xit('allows teacher to wait-list non-students', js: true) do
     sign_in(@user)
     expect(page).to have_content("Pending")
     find('#icon').click
@@ -30,7 +30,7 @@ RSpec.feature "WaitListings", type: :feature do
     expect(page).to have_content("Wait Listed")
   end
 
-  it('allows teacher to add non-student to studio', js: true) do
+  xit('allows teacher to add non-student to studio', js: true) do
     expect(@user.student).to eq(false)
     sign_in(@teacher)
     within("#teacher-sidebar") do

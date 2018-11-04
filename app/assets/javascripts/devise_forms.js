@@ -55,8 +55,8 @@ function addValid(input) {
 }
 
 document.addEventListener('turbolinks:load', () => {
-  let inputs = document.querySelectorAll('#create_new_user input');
-  let form = document.getElementById('create_new_user');
+  let inputs = document.querySelectorAll('#user_form input');
+  let form = document.getElementById('user_form');
   if (inputs.length > 0) {
     [...inputs].forEach(input => {
       input.addEventListener('focusout', e => {
