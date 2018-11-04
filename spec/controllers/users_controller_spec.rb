@@ -4,6 +4,8 @@ RSpec.describe UsersController, type: :controller do
   before(:each) do
     @user = create(:user)
     @user.confirm
+    @teacher = create(:teacher)
+    @student = create(:student)
   end
 
   describe "GET #dashboard" do
@@ -23,8 +25,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it "Renders a view for students" do
-      @user.update_attribute(:student, true)
-      sign_in(@user)
+      sign_in(@student)
       get :dashboard
       expect(response).to render_template(partial: '_student')
       expect(response).to_not render_template(partial: '_non_student')
@@ -32,21 +33,22 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it "renders a view for teacher" do
-      @user.update_attribute(:teacher, true)
-      sign_in(@user)
+      sign_in(@teacher)
       get :dashboard
       expect(response).to render_template(partial: '_teacher')
       expect(response).to_not render_template(partial: '_non_student')
       expect(response).to_not render_template(partial: '_student')
     end
+
+    it "doesn't include non-confirmed users in teacher's new students" do
+      @other = create(:user, email: "aaron1@example.com")
+      sign_in(@teacher)
+      get :dashboard
+      expect(assigns(:new_students)).to_not include(@other)
+    end
   end
 
   describe "PATCH #wait_list" do
-    before(:each) do
-      @teacher = create(:teacher)
-      @student = create(:student)
-    end
-
     after(:each) do
       ActionMailer::Base.deliveries.clear
     end
@@ -80,11 +82,6 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "PATCH #add_student" do
-    before(:each) do
-      @teacher = create(:teacher)
-      @student = create(:student)
-    end
-
     after(:each) do
       ActionMailer::Base.deliveries.clear
     end
@@ -120,11 +117,6 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET #index" do
-    before(:each) do
-      @teacher = create(:teacher)
-      @student = create(:student)
-    end
-
     render_views
 
     it("redirects without a parameter") do

@@ -16,6 +16,9 @@ class User < ApplicationRecord
 
   before_save :lower_case
 
+  def self.confirmed
+    where('confirmed_at IS NOT NULL')
+  end
 
   def full_name
     first_name.capitalize + " " + last_name.capitalize

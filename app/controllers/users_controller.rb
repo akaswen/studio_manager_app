@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def dashboard
     @user = current_user
-    @new_students = User.where(status: 'Pending').all if current_user.teacher
+    @new_students = User.confirmed.where(status: 'Pending').all if current_user.teacher
   end
 
   def wait_list
