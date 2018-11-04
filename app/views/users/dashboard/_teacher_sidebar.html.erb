@@ -6,7 +6,7 @@
         <li class="list-group-item" id="<%= s.id %>">
           <div class="row align-items-center">
             <div class="col-7">
-              <%= s.full_name %>
+              <%= link_to s.full_name, s %>
             </div>
             <div class="col-5">
               <button class="btn btn-link" data-decision="add"><span class="badge badge-pill badge-success" data-decision="add">&#10004;</span>Studio</button>

@@ -167,4 +167,33 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to redirect_to(root_path)
     end
   end
+
+  describe('GET #show') do
+    subject { get :show, params: { id: @user.id } }
+
+    it("Doesn't allow a non-user to see a student's profile") do
+      subject
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it("Allows a teacher to see a student's profile") do
+      sign_in(@teacher)
+      subject
+      expect(assigns(:user)).to eq(@user)
+      expect(response).to render_template('show')
+    end
+
+    it("Doesn't allow a non-student to see a student's profile") do
+      sign_in(@user)
+      subject
+      expect(response).to redirect_to(root_path)
+    end
+
+    it("Doesn't allow a student to see a student's profile") do
+      sign_in(@student)
+      subject
+      expect(response).to redirect_to(root_path)
+
+    end
+  end
 end

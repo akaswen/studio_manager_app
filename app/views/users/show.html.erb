@@ -1,0 +1,10 @@
+Name: <%= @user.full_name %>
+Email: <%= @user.email %>
+
+Address: <%= @user.addresses.first.street_address %>
+City: <%= @user.addresses.first.city %>
+State: <%= @user.addresses.first.state %>
+Zip: <%= @user.addresses.first.zip_code %>
+
+Phone Number: <%= @user.phone_numbers.first.pretty_number %>
+Kind: <%= @user.phone_numbers.first.kind %>

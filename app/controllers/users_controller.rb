@@ -1,12 +1,16 @@
 class UsersController < ApplicationController
   before_action :redirect_from_dashboard, only: [:dashboard]
   before_action :authenticate_user!, except: [:dashboard]
-  before_action :authenticate_teacher, only: [:wait_list, :add_student, :index]
+  before_action :authenticate_teacher, only: [:wait_list, :add_student, :index, :show]
   before_action :param_check, only: [:index]
 
   def index
     @users = User.where("status = ? OR student = ?", params[:status], params[:student])
     @title = params[:status] ? "Wait List": "Studio List"
+  end
+
+  def show
+    @user = User.find(params[:id])
   end
 
   def dashboard
