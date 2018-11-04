@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     id = r["id"]
     @user = User.find(id)
     @user.update_attribute(:status, "Wait Listed")
+    UserMailer.with(user: @user).wait_list_email.deliver_now
   end
 
   def add_student
@@ -27,6 +28,7 @@ class UsersController < ApplicationController
     @user = User.find(id)
     @user.update_attribute(:student, true)
     @user.update_attribute(:status, nil)
+    UserMailer.with(user: @user).add_to_studio_email.deliver_now
   end
 
   private

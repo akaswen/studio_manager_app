@@ -85,6 +85,10 @@ RSpec.describe UsersController, type: :controller do
       @student = create(:student)
     end
 
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+
     subject { 
       patch :add_student, body: { id: @user.id }.to_json
       @user.reload
@@ -97,7 +101,7 @@ RSpec.describe UsersController, type: :controller do
 
     it "allows a teacher to add a new student" do
       sign_in(@teacher)
-      expect{ subject }.to change{ @user.student }.from(false).to(true)
+      expect{ subject }.to change{ @user.student }.from(false).to(true).and change{ ActionMailer::Base.deliveries.count }.by(1)
       @user.reload
       expect(@user.status).to be_nil
     end
@@ -138,7 +142,7 @@ RSpec.describe UsersController, type: :controller do
     it('allows teacher to see studio') do
       sign_in(@teacher)
       get :index, params: { student: true }
-      expect(response.body).to match(@student.full_name)
+      expect(response.body).to include(@student.full_name)
     end
 
     it('allows teacher to see wait list') do
