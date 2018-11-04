@@ -1,7 +1,12 @@
 class UsersController < ApplicationController
   before_action :redirect_from_dashboard, only: [:dashboard]
   before_action :authenticate_user!, except: [:dashboard]
-  before_action :authenticate_teacher, only: [:wait_list, :add_student]
+  before_action :authenticate_teacher, only: [:wait_list, :add_student, :index]
+  before_action :param_check, only: [:index]
+
+  def index
+    @users = User.where("status = ? OR student = ?", params[:status], params[:student])
+  end
 
   def dashboard
     @user = current_user
@@ -30,6 +35,12 @@ class UsersController < ApplicationController
   end
 
   def authenticate_teacher
-    redirect_to home_path unless current_user.teacher
+    redirect_to root_path unless current_user.teacher
+  end
+
+  def param_check
+    unless params[:student] == 'true' || params[:status] == 'Wait Listed'
+      redirect_to root_path
+    end
   end
 end

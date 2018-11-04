@@ -51,3 +51,8 @@
 #Random Thoughts
 - babel gem
 - autoprefixer
+
+#left to do
+- send email to new users after being wait listed or put in studio
+- only show new requests for students who have confirmed account
+- names on new students, wait lists, and studio, should each link to show page

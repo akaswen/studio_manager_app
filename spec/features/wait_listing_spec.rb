@@ -23,6 +23,8 @@ RSpec.feature "WaitListings", type: :feature do
       end
     expect(page).to_not have_content(@user.full_name)
     end
+    click_link('Wait List')
+    expect(page).to have_content(@user.full_name)
     find('#icon').click
     sign_out(@teacher)
     sign_in(@user)
@@ -42,7 +44,7 @@ RSpec.feature "WaitListings", type: :feature do
       end
     expect(page).to_not have_content(@user.full_name)
     end
-    @user.reload
-    expect(@user.student).to eq(true)
+    click_link('Studio')
+    expect(page).to have_content(@user.full_name)
   end
 end
