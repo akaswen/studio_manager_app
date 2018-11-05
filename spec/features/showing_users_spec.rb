@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "ShowingUsers", type: :feature, focus: true do
+RSpec.feature "ShowingUsers", type: :feature do
   before(:each) do
     @user = create(:user)
     @user.confirm

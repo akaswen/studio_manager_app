@@ -1,10 +1,49 @@
-Name: <%= @user.full_name %>
-Email: <%= @user.email %>
+<div class="m-5" id="user-show">
 
-Address: <%= @user.addresses.first.street_address %>
-City: <%= @user.addresses.first.city %>
-State: <%= @user.addresses.first.state %>
-Zip: <%= @user.addresses.first.zip_code %>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <h2 class="text-center mb-3"><%= @user.full_name %></h2>
+      <h4 class="text-center">Basic Info:</h4>
+      <ul class="list-group px-5">
+        <li class="list-group-item">First Name: <span><%= @user.first_name.capitalize %></span></li>
+        <li class="list-group-item">Last Name: <span><%= @user.last_name.capitalize %></span></li>
+        <li class="list-group-item">Email: <span><%= @user.email %></span></li>
+      </ul>
+    </div>
+  </div>
 
-Phone Number: <%= @user.phone_numbers.first.pretty_number %>
-Kind: <%= @user.phone_numbers.first.kind %>
+  <div class="row">
+    <div class="col-12">
+      <h4 class="mt-5 text-center">Address:</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-5">
+      <ul class="list-group px-5">
+        <li class="list-group-item">Address: <span><%= @address.street_address %></span></li>
+        <li class="list-group-item">City: <span><%= @address.city %></span></li>
+        <li class="list-group-item">State: <span><%= @address.state %></span></li>
+        <li class="list-group-item">Zip: <span><%= @address.zip_code %></span></li>
+      </ul>
+    </div>
+    <div class="col-5">
+      <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?markers=size:mid|color:purple|label:T|#{@teacher_address.street_address},#{@teacher_address.city},+#{@teacher_address.state}&markers=size:mid|color:red|label:S|#{@address.street_address},#{@address.city},#{@address.state}&size=300x200&key=#{ENV["GOOGLE_MAPS_KEY"]}" %>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <h4 class="mt-5 text-center">Phone Number:</h4>
+      <ul class="list-group px-5">
+        <li class="list-group-item">Number: <span><%= @phone_number.pretty_number %></span></li>
+        <li class="list-group-item">Kind: <span><%= @phone_number.kind %></span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+

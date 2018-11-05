@@ -11,6 +11,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @address = @user.addresses.first
+    @phone_number = @user.phone_numbers.first
+    @teacher_address = current_user.addresses.first
   end
 
   def dashboard

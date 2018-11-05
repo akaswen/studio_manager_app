@@ -53,9 +53,15 @@
 - autoprefixer
 
 #left to do
-<!--- send email to new users after being wait listed or put in studio-->
-<!--- only show new requests for students who have confirmed account-->
-- names on new students, wait lists, and studio, should each link to show page
 - show page should also allow for deletion or adding to studio if applicable
-- each link on wait list should allow for deletiong and add to studio
+- each link on wait list should allow for deleting and add to studio
 - each link on studio should allow for deletion
+- style show page
+- style index page
+- make whole website responsive
+- style the buttons on the forms
+- allow user to enter multiple phone numbers
+
+#left to figure out
+- lesson functionality
+- payment functionality
