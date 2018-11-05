@@ -196,4 +196,66 @@ RSpec.describe UsersController, type: :controller do
 
     end
   end
+
+  describe('DELETE #delete') do
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+
+    subject { delete :destroy, params: { id: @user.id } }
+
+    it("doesn't allow a non-user to deactivate a student") do
+      subject
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it("Allows a teacher to deactivate a student or non-student") do
+      sign_in(@teacher)
+      subject
+      expect{ @user.reload }.to change { @user.active }.from(true).to(false)
+    end
+
+    it("sends a deactivation email") do
+      sign_in(@teacher)
+      expect{ subject }.to change{ ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it("allows a student to deactivate their own account") do
+      sign_in(@student)
+      delete :destroy, params: { id: @student.id }
+      expect{ @student.reload }.to change{ @student.active }.from(true).to(false)
+    end
+
+    it("allows a non-student to deactivate their own account") do
+      sign_in(@user)
+      subject
+      expect{ @user.reload }.to change { @user.active }.from(true).to(false)
+    end
+
+    it("doesn't allow a non-teacher user to deactivate another user's account") do
+      sign_in(@student)
+      subject
+      expect(response).to redirect_to(root_path)
+    end
+    
+    it("Doesn't allow a non-active user to do any signed-in actions") do
+      subject { 
+        sign_in(@teacher)
+        @teacher.update_attribute(:active, false)
+      }
+
+      subject
+      get :index
+      expect(response).to redirect_to(new_user_session_path)
+      subject
+      get :show, params: { id: @user.id }
+      expect(response).to redirect_to(new_user_session_path)
+      subject
+      delete :destroy, params: { id: @user.id }
+      expect(response).to redirect_to(new_user_session_path)
+      subject
+      get :dashboard
+      expect(response).to redirect_to(home_path)
+    end
+  end
 end

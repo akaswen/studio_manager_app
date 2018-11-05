@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   patch '/add_student', to: 'users#add_student'
   put '/add_student', to: 'users#add_student'
 
-  resources :users, only: [:index, :show]
+  resources :users, only: [:index, :show, :destroy]
 end

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :redirect_from_dashboard, only: [:dashboard]
   before_action :authenticate_user!, except: [:dashboard]
+  before_action :authenticate_active_user
   before_action :authenticate_teacher, only: [:wait_list, :add_student, :index, :show]
   before_action :param_check, only: [:index]
 
@@ -14,6 +15,16 @@ class UsersController < ApplicationController
     @address = @user.addresses.first
     @phone_number = @user.phone_numbers.first
     @teacher_address = current_user.addresses.first
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    if current_user == @user || current_user.teacher
+      @user.update_attribute(:active, false)
+      UserMailer.with(user: @user).deactivation_email.deliver_now
+    else 
+      redirect_to root_path
+    end
   end
 
   def dashboard
@@ -51,6 +62,12 @@ class UsersController < ApplicationController
   def param_check
     unless params[:student] == 'true' || params[:status] == 'Wait Listed'
       redirect_to root_path
+    end
+  end
+
+  def authenticate_active_user
+    unless current_user.active?
+      redirect_to new_user_session_path
     end
   end
 end

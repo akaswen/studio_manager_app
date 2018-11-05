@@ -10,4 +10,9 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     mail(to: @user.email, subject: "Status Change")
   end
+
+  def deactivation_email
+    @user = params[:user]
+    mail(to: @user.email, subject: "Account deactivated")
+  end
 end
