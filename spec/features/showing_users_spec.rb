@@ -56,16 +56,25 @@ RSpec.feature "ShowingUsers", type: :feature do
     expect(page).to have_content(@phone.kind)
   end
 
-  xit("allows a teacher to deactivate a new account or add to wait list or studio") do
+  it("allows a teacher to deactivate a new account or add to wait list or studio") do
     visit user_path(@user)
-    expect(page).to have_link('Deactivate Student', href: delete_user(@user))
-    expect(page).to have_link('Add to studio', href: add_student)
-    expect(page).to have_link('Wait List', href: wait_list)
+    expect(page).to have_button('Deactivate Student')
+    expect(page).to have_button('Add to Studio')
+    expect(page).to have_button('Wait List')
   end
 
   it('allows a teacher to deactivate or add to studio a wait listed student') do
+    @user.update_attribute(:status, "Wait Listed")
+    visit user_path(@user)
+    expect(page).to have_button('Deactivate Student')
+    expect(page).to have_button('Add to Studio')
+    expect(page).to_not have_button('Wait List')
   end
 
   it('allows a teacher to deactivate a current student') do
+    visit user_path(@student) 
+    expect(page).to have_button('Deactivate Student')
+    expect(page).to_not have_button('Add to Studio')
+    expect(page).to_not have_button('Wait List')
   end
 end

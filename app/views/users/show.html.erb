@@ -31,7 +31,6 @@
     <div class="col-5">
       <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?markers=size:mid|color:purple|label:T|#{@teacher_address.street_address},#{@teacher_address.city},+#{@teacher_address.state}&markers=size:mid|color:red|label:S|#{@address.street_address},#{@address.city},#{@address.state}&size=300x200&key=#{ENV["GOOGLE_MAPS_KEY"]}" %>
     </div>
-
   </div>
 
   <div class="row">
@@ -44,6 +43,17 @@
       </ul>
     </div>
   </div>
+
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <button class="btn btn-outline-danger">Deactivate Student</button>
+      <% unless @user.student %>
+        <button class="btn btn-outline-success">Add to Studio</button>
+      <% end %>
+      <% if @user.status == "Pending" %>
+        <button class="btn btn-outline-warning">Wait List</button>
+      <% end %>
+    </div>
+  </div>
 </div>
 
-<%= link_to 'delete', user_path(@user), method: :delete %>

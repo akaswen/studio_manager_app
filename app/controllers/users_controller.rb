@@ -12,9 +12,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @address = @user.addresses.first
-    @phone_number = @user.phone_numbers.first
-    @teacher_address = current_user.addresses.first
+    if @user.teacher
+      redirect_to root_path
+    else
+      @address = @user.addresses.first
+      @phone_number = @user.phone_numbers.first
+      @teacher_address = current_user.addresses.first
+    end
   end
 
   def destroy

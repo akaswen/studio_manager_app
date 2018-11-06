@@ -195,6 +195,12 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to redirect_to(root_path)
 
     end
+
+    it("redirects a show of teahcer's account") do
+      sign_in(@teacher)
+      get :show, params: { id: @teacher.id }
+      expect(response).to redirect_to(root_path)
+    end
   end
 
   describe('DELETE #delete') do

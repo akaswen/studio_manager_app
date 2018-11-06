@@ -61,6 +61,8 @@
 - make whole website responsive
 - style the buttons on the forms
 - allow user to enter multiple phone numbers
+- autoprefixer
+- test on different browsers
 
 #left to figure out
 - lesson functionality
