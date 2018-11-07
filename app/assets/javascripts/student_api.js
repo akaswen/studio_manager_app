@@ -1,9 +1,9 @@
 const studentApi = (() => {
-  function fetchPath(path, id) {
+  function studentFetch(path, id, method) {
     let metaTag = document.querySelector('meta[name="csrf-token"]');
     let token = metaTag.getAttribute('content');
     fetch(path, {
-      method: 'PATCH', 
+      method: method, 
       headers: {
         'X-CSRF-TOKEN': token
       },
@@ -15,13 +15,18 @@ const studentApi = (() => {
 
   function addStudent(id) {
     let path = '/add_student';
-    fetchPath(path, id);
+    studentFetch(path, id, 'PATCH');
   }
 
   function waitListStudent(id) {
     let path = '/wait_list';
-    fetchPath(path, id);
+    studentFetch(path, id, 'PATCH');
   }
 
-  return {addStudent, waitListStudent};
+  function deactivateStudent(id) {
+    let path = `/users/${id}`;
+    studentFetch(path, id, 'DELETE');
+  }
+
+  return {addStudent, waitListStudent, deactivateStudent};
 })();

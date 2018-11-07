@@ -8,6 +8,11 @@ RSpec.feature "DeactivatingAccounts", type: :feature do
     @wait_listed.confirm
     @student = create(:student)
     @teacher = create(:teacher)
+    ActionController::Base.allow_forgery_protection = true
+  end
+
+  after(:each) do
+    ActionController::Base.allow_forgery_protection = false
   end
 
   it("allows a user to deactivate their account from the edit profile page") do
@@ -64,13 +69,16 @@ RSpec.feature "DeactivatingAccounts", type: :feature do
     expect(page).to_not have_content(@teacher.full_name)
   end
 
-  fit("allows javascript deactivation for teacher", js: true) do
+  xit("allows javascript deactivation for teacher", js: true) do
     sign_in(@teacher)
     click_link('Studio')
     within("li[id='#{@student.id}']") do
       click_button('Deactivate')
     end
     expect(page).to have_content('Studio List')
+    expect(page).to_not have_link(@student.full_name)
+    click_link('Wait List')
+    click_link('Studio')
     expect(page).to_not have_link(@student.full_name)
   end
 end

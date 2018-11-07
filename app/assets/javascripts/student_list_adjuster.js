@@ -20,6 +20,9 @@ const studentListAdjuster = (() => {
     } else if (decision === 'wait-list') {
       removeElement(e.currentTarget);
       studentApi.waitListStudent(userId);
+    } else if (decision === 'deactivate') {
+      removeElement(e.currentTarget);
+      studentApi.deactivateStudent(userId);
     }
   }
 

@@ -218,7 +218,6 @@ RSpec.describe UsersController, type: :controller do
     it("Allows a teacher to deactivate a student or non-student") do
       sign_in(@teacher)
       subject
-      expect(response).to redirect_to(root_path)
       expect{ @user.reload }.to change { @user.active }.from(true).to(false)
     end
 
@@ -230,14 +229,14 @@ RSpec.describe UsersController, type: :controller do
     it("allows a student to deactivate their own account") do
       sign_in(@student)
       delete :destroy, params: { id: @student.id }
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(home_path)
       expect{ @student.reload }.to change{ @student.active }.from(true).to(false)
     end
 
     it("allows a non-student to deactivate their own account") do
       sign_in(@user)
       subject
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(home_path)
       expect{ @user.reload }.to change { @user.active }.from(true).to(false)
     end
 

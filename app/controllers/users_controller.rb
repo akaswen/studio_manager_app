@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :authenticate_active_user
   before_action :authenticate_teacher, only: [:wait_list, :add_student, :index, :show]
   before_action :param_check, only: [:index]
+  before_action :authenticate_teacher_or_self, only: [:destroy]
 
   def index
     @users = User.active.where("status = ? OR student = ?", params[:status], params[:student])
@@ -24,15 +25,13 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    if current_user == @user || current_user.teacher
-      @user.update_attribute(:active, false)
-      UserMailer.with(user: @user).deactivation_email.deliver_now
-      sign_out(@user) if current_user == @user
-    end
-    if params[:redirect]
+    @user.update_attribute(:active, false)
+    UserMailer.with(user: @user).deactivation_email.deliver_now
+    if current_user == @user
+      sign_out(@user)
+      redirect_to home_path
+    elsif params[:redirect]
       redirect_to params[:redirect]
-    else 
-      redirect_to root_path
     end
   end
 
@@ -77,6 +76,13 @@ class UsersController < ApplicationController
   def authenticate_active_user
     unless current_user.active?
       redirect_to new_user_session_path
+    end
+  end
+
+  def authenticate_teacher_or_self
+    @user = User.find(params[:id])
+    unless @user == current_user || current_user.teacher
+      redirect_to root_path
     end
   end
 end

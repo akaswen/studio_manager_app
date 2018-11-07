@@ -10,6 +10,7 @@ RSpec.feature "WaitListings", type: :feature do
 
   after(:each) do
     ActionMailer::Base.deliveries.clear
+    ActionController::Base.allow_forgery_protection = false
   end
 
   xit('allows teacher to wait-list non-students', js: true) do

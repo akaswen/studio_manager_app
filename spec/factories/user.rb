@@ -29,8 +29,8 @@ FactoryBot.define do
   end
 
   factory :student, class: User do
-    first_name { Faker::ElderScrolls.first_name }
-    last_name { Faker::ElderScrolls.last_name }
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
     email { Faker::Internet.email }
     password { "Password1" }
     password_confirmation { "Password1" }
