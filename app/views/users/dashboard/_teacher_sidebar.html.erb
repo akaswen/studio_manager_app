@@ -1,16 +1,16 @@
 <button id="new_student_toggle" class="btn" data-toggle="collapse" data-target="#new_students"><h6>New Student Requests <em id="student_count">(<%= @new_students.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6></button>
 <div class="row collapse" id="new_students">
   <% if @new_students %>
-    <ul class="list-group ml-5">
+    <ul class="list-group ml-5 student_list">
       <% @new_students.each do |s| %>
         <li class="list-group-item" id="<%= s.id %>">
           <div class="row align-items-center">
             <div class="col-7">
               <%= link_to s.full_name, s %>
             </div>
-            <div class="col-5">
-              <button class="btn btn-link" data-decision="add"><span class="badge badge-pill badge-success" data-decision="add">&#10004;</span>Studio</button>
-              <button class="btn btn-link" data-decision="wait-list"><span data-decision="wait-list" class="badge badge-pill badge-danger">&#10006;</span>Wait List</button>
+            <div class="col-5 text-right">
+              <button class="btn btn-link" data-decision="add"><i class="fas fa-check-circle text-success"></i>Studio</button>
+              <button class="btn btn-link" data-decision="wait-list"><i class="fas fa-clock text-warning"></i>Wait List</button>
             </div>
           </div>
         </li>

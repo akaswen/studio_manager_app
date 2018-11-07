@@ -1,14 +1,25 @@
 <h1 class="text-center"><%= @title %> <em id="student_count">(<%= @users.count%>)</em></h1> 
   </div>
 </div>
-<div class="row mt-5">
+<div class="row mt-5" id="student_index">
   <div class="col-3"></div>
-  <div class="col-9 border-left">
-    <ul>
+  <div class="col-6">
+    <ul class="list-group student_list">
       <% @users.each do |u| %>
-        <li id="<%= u.id %>">
-          <%= link_to u.full_name, u %>
-          <button>Deactivate</button>
+        <li id="<%= u.id %>" class="list-group-item">
+          <div class="row text-center">
+            <div class="col-6">
+              <%= link_to u.full_name, u %>
+            </div>
+
+            <div class="col-6">
+              <% unless u.student %>
+                <button class="btn btn-link" data-decision="add"><i class="fas fa-check-circle text-success"></i>Studio</button>
+              <% end %>
+
+              <button class="btn btn-link" data-decision="deactivate"><i class="fas fa-ban text-danger"></i>Deactivate</button>
+            </div>
+          </div>
         </li>
       <% end %>
     </ul>

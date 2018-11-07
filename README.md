@@ -65,6 +65,7 @@
 - test on different browsers
 - add a static page with contact and location
 - show pages organize students by either date wait listed or name
+- add functionality to buttons on bottom of show page
 
 #left to figure out
 - lesson functionality
