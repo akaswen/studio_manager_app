@@ -53,19 +53,13 @@
 - autoprefixer
 
 #left to do
-- show page should also allow for deletion or adding to studio if applicable
-- each link on wait list should allow for deleting and add to studio
-- each link on studio should allow for deletion
-- style show page
-- style index page
 - make whole website responsive
 - style the buttons on the forms
 - allow user to enter multiple phone numbers
 - autoprefixer
 - test on different browsers
 - add a static page with contact and location
-- show pages organize students by either date wait listed or name
-- add functionality to buttons on bottom of show page
+- fix zoom for map on show page
 
 #left to figure out
 - lesson functionality

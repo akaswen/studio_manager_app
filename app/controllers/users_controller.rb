@@ -8,7 +8,13 @@ class UsersController < ApplicationController
 
   def index
     @users = User.active.where("status = ? OR student = ?", params[:status], params[:student])
-    @title = params[:status] ? "Wait List": "Studio List"
+    if params[:status]
+      @title = "Wait List"
+      @users = User.active.where("status = ? OR student = ?", params[:status], params[:student]).order(:created_at)
+    else
+      @title = "Studio List"
+      @users = User.active.where("status = ? OR student = ?", params[:status], params[:student]).order(:first_name)
+    end
   end
 
   def show

@@ -80,6 +80,38 @@ end
   user.confirm
 end
 
+5.times do |n|
+  first_name = Faker::ElderScrolls.first_name
+  last_name = Faker::ElderScrolls.last_name
+  email = Faker::Internet.unique.email
+  password = "Password1"
+  password_confirmation = "Password1"
+
+  number = "555 555 5555"
+  kind = "Mobile"
+
+  street_address = Faker::Address.street_address
+  city = Faker::Address.city
+  state = Faker::Address.state_abbr
+  zip_code = Faker::Address.zip[0..4]
+
+  user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
+  user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
+  user.phone_numbers.build(number: number, kind: kind)
+  user.status = "Wait Listed"
+
+  unless user.valid? 
+    puts user.inspect
+    puts user.addresses.first.inspect
+    puts user.phone_numbers.first.inspect
+  end
+  user.save!
+
+  user.update_attribute(:created_at, Time.now - n.days)
+  user.confirm
+
+end
+
 # students
 50.times do
   first_name = Faker::ElderScrolls.first_name
