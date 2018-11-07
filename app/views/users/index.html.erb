@@ -1,4 +1,4 @@
-    <h1 class="text-center"><%= @title %></h1> 
+<h1 class="text-center"><%= @title %> <em id="student_count">(<%= @users.count%>)</em></h1> 
   </div>
 </div>
 <div class="row mt-5">
@@ -6,8 +6,9 @@
   <div class="col-9 border-left">
     <ul>
       <% @users.each do |u| %>
-        <li>
+        <li id="<%= u.id %>">
           <%= link_to u.full_name, u %>
+          <button>Deactivate</button>
         </li>
       <% end %>
     </ul>

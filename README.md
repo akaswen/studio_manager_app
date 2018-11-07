@@ -63,6 +63,8 @@
 - allow user to enter multiple phone numbers
 - autoprefixer
 - test on different browsers
+- add a static page with contact and location
+- show pages organize students by either date wait listed or name
 
 #left to figure out
 - lesson functionality

@@ -9,9 +9,13 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  #
+  def create
+    super
+    if current_user
+      current_user.update_attribute(:active, true) unless current_user.active?
+    end
+  end
 
   # DELETE /resource/sign_out
   # def destroy

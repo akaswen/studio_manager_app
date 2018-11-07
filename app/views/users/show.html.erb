@@ -46,7 +46,7 @@
 
   <div class="row mt-4">
     <div class="col-12 text-center">
-      <button class="btn btn-outline-danger">Deactivate Student</button>
+      <%= button_to "Deactivate Student", user_path(@user, redirect: @location), data: { confirm: "Are you sure?" }, method: :delete %>
       <% unless @user.student %>
         <button class="btn btn-outline-success">Add to Studio</button>
       <% end %>

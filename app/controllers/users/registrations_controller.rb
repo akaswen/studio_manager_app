@@ -18,11 +18,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # GET /resource/edit
-   #def edit
-    #@user = current_user
-    #@user.addresses.length.times { @address = @user.addresses.build }
-    #@user.phone_numbers.length.times { @phone_number = @user.phone_numbers.build }
-   #end
+   #
+  def edit
+    super
+    @user = current_user
+  end
 
   # PUT /resource
   # def update

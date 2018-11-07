@@ -16,6 +16,10 @@ class User < ApplicationRecord
 
   before_save :lower_case
 
+  def self.active 
+    where(active: true)
+  end
+
   def self.confirmed
     where('confirmed_at IS NOT NULL')
   end

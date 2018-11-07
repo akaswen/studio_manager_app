@@ -6,11 +6,12 @@ class UsersController < ApplicationController
   before_action :param_check, only: [:index]
 
   def index
-    @users = User.where("status = ? OR student = ?", params[:status], params[:student])
+    @users = User.active.where("status = ? OR student = ?", params[:status], params[:student])
     @title = params[:status] ? "Wait List": "Studio List"
   end
 
   def show
+    @location = request.env["HTTP_REFERER"]
     @user = User.find(params[:id])
     if @user.teacher
       redirect_to root_path
@@ -26,6 +27,10 @@ class UsersController < ApplicationController
     if current_user == @user || current_user.teacher
       @user.update_attribute(:active, false)
       UserMailer.with(user: @user).deactivation_email.deliver_now
+      sign_out(@user) if current_user == @user
+    end
+    if params[:redirect]
+      redirect_to params[:redirect]
     else 
       redirect_to root_path
     end
@@ -33,7 +38,7 @@ class UsersController < ApplicationController
 
   def dashboard
     @user = current_user
-    @new_students = User.confirmed.where(status: 'Pending').all if current_user.teacher
+    @new_students = User.confirmed.active.where(status: 'Pending').all if current_user.teacher
   end
 
   def wait_list

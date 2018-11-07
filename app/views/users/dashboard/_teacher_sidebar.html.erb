@@ -1,4 +1,4 @@
-<button id="new_student_toggle" class="btn" data-toggle="collapse" data-target="#new_students"><h6>New Student Requests <em>(<%= @new_students.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6></button>
+<button id="new_student_toggle" class="btn" data-toggle="collapse" data-target="#new_students"><h6>New Student Requests <em id="student_count">(<%= @new_students.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6></button>
 <div class="row collapse" id="new_students">
   <% if @new_students %>
     <ul class="list-group ml-5">
