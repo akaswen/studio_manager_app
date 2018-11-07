@@ -2,6 +2,7 @@
 //= require devise_forms
 //= require teacher_sidebar
 //= require index
+//= require show
 
 window.addEventListener('turbolinks:load', () => {
   // load dropdown menu
@@ -12,10 +13,9 @@ window.addEventListener('turbolinks:load', () => {
 
 
   let studentToggle = document.getElementById('new_student_toggle'); //for teacher sidebar
-
   let indexDiv = document.getElementById('student_index'); //for index
-
   let inputs = document.querySelectorAll('#user_form input'); //for devise forms
+  let showDiv = document.getElementById('user-show'); //for show page
 
   if (inputs.length > 0) {
     deviseForms.load(inputs);
@@ -23,6 +23,8 @@ window.addEventListener('turbolinks:load', () => {
     teacherSidebar.load(studentToggle);
   } else if (indexDiv) {
     index.load(indexDiv);
+  } else if (showDiv) {
+    show.load(showDiv)
   }
 
 });

@@ -1,9 +1,99 @@
 @import "bootstrap";
 
 #header {
+  ul {
+    min-width: 350px;
+  }
+  i {
+    font-size: 2em;
+    text-align: center;
+    color: white;
+    &:hover {
+      color: blue;
+    }
+    em {
+      font-size: 0.4em;
+      display: block;
+    }
+  }
   a {
     &:hover {
       text-decoration: none;
+    }
+  }
+}
+
+/* flashes */
+
+.alert {
+  color: red;
+  text-align: center;
+}
+
+.notice {
+  color: green;
+  text-align: center;
+}
+
+/* devise_forms */
+
+#error_explanation {
+  color: red;
+}
+
+.invalid {
+  color: red;
+  input {
+    border: 2px solid red;
+  }
+  span {
+    font-size: 0.6em;
+  }
+}
+
+.valid {
+  color: green;
+  input {
+    border: 2px solid green;
+  }
+}
+
+/* dashboard */
+
+/* non-student users */
+
+.Pending {
+  color: #c68a35
+}
+
+/* home */
+
+.home {
+  .card-img-overlay {
+    top: 65%;
+  }
+}
+
+/* student lists (index views and on teacher-sidebar) */
+
+.student_list {
+  button {
+    font-size: 0.7em;
+    i {
+      display: block;
+      font-size: 1.7em;
+    }
+  }
+}
+
+/* user-show */
+
+#user-show {
+  li {
+    position: relative;
+    span {
+      position: absolute;
+      left: 45%;
     }
   }
 }

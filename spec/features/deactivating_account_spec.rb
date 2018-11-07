@@ -69,7 +69,7 @@ RSpec.feature "DeactivatingAccounts", type: :feature do
     expect(page).to_not have_content(@teacher.full_name)
   end
 
-  xit("allows javascript deactivation for teacher", js: true) do
+  it("allows javascript deactivation for teacher", js: true) do
     sign_in(@teacher)
     click_link('Studio')
     within("li[id='#{@student.id}']") do

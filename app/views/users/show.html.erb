@@ -1,4 +1,4 @@
-<div class="m-5" id="user-show">
+<div class="m-5" id="user-show" data-id="<%= @user.id %>">
 
   <div class="row">
     <div class="col-3"></div>
@@ -46,13 +46,13 @@
 
   <div class="row mt-4">
     <div class="col-12 text-center">
-      <%= button_to "Deactivate Student", user_path(@user, redirect: @location), data: { confirm: "Are you sure?" }, method: :delete %>
       <% unless @user.student %>
         <button class="btn btn-outline-success">Add to Studio</button>
       <% end %>
       <% if @user.status == "Pending" %>
         <button class="btn btn-outline-warning">Wait List</button>
       <% end %>
+      <%= button_to "Deactivate Student", user_path(@user, redirect: @location), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger m-2" %>
     </div>
   </div>
 </div>

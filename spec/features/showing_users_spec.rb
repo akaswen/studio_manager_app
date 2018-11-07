@@ -7,6 +7,11 @@ RSpec.feature "ShowingUsers", type: :feature do
     @student = create(:student)
     @teacher = create(:teacher)
     sign_in(@teacher)
+    ActionController::Base.allow_forgery_protection = true
+  end
+
+  after(:each) do
+    ActionController::Base.allow_forgery_protection = false
   end
 
   it("allows a teacher to see a user's profile from the dashboard") do
@@ -58,7 +63,7 @@ RSpec.feature "ShowingUsers", type: :feature do
 
   it("allows a teacher to deactivate a new account or add to wait list or studio") do
     visit user_path(@user)
-    expect(page).to have_button('Deactivate Student')
+    expect(page).to have_button('Deactivate Student') #test for this is in deactivating account feature spec
     expect(page).to have_button('Add to Studio')
     expect(page).to have_button('Wait List')
   end
@@ -69,6 +74,20 @@ RSpec.feature "ShowingUsers", type: :feature do
     expect(page).to have_button('Deactivate Student')
     expect(page).to have_button('Add to Studio')
     expect(page).to_not have_button('Wait List')
+  end
+
+  it('can add a student to studio', js: true) do
+    visit user_path(@user)
+    click_button('Add to Studio')
+    expect(page).to have_content('Studio List')
+    expect(page).to have_link(@user.full_name)
+  end
+
+  it('can add a student to the wait list', js: true) do
+    visit user_path(@user)
+    click_button('Wait List')
+    expect(page).to have_text('Wait List')
+    expect(page).to have_link(@user.full_name)
   end
 
   it('allows a teacher to deactivate a current student') do

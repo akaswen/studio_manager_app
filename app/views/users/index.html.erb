@@ -10,6 +10,9 @@
           <div class="row text-center">
             <div class="col-6">
               <%= link_to u.full_name, u %>
+              <% if @title == "Wait List" %>
+                (<%= distance_of_time_in_words(Time.now - u.created_at) %> ago)
+              <% end %>
             </div>
 
             <div class="col-6">
