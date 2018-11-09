@@ -57,9 +57,11 @@ class UsersController < ApplicationController
   def add_student
     r = JSON.load(request.body)
     id = r["id"]
+    rate = r["rate"]
     @user = User.find(id)
     @user.update_attribute(:student, true)
     @user.update_attribute(:status, nil)
+    @user.update_attribute(:rate_per_hour, rate)
     UserMailer.with(user: @user).add_to_studio_email.deliver_now
   end
 

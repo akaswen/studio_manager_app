@@ -52,4 +52,8 @@ RSpec.feature "WaitListings", type: :feature do
     click_link('Studio')
     expect(page).to have_content(@user.full_name)
   end
+
+  it("allows tecaher to set a rate_per_hour when adding a non-student to studio", js: true) do
+    #expect email to have rate per hour included
+  end
 end
