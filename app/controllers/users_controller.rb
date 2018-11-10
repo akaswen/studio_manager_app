@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     else
       @user.update_attribute(:student, true)
       @user.update_attribute(:status, nil)
-      UserMailer.with(user: @user).add_to_studio_email.deliver_now
+      UserMailer.with(user: @user, rate: rate).add_to_studio_email.deliver_now
     end
     @user.update_attribute(:rate_per_hour, rate)
   end

@@ -16,8 +16,14 @@ class Lesson < ApplicationRecord
     end
   end
 
+  def duration_in_hours
+    return (((self.end_time - self.start_time)/60)/60)
+  end
+
   def price
-    return 45
+    rate = self.student.rate_per_hour
+    time = self.duration_in_hours
+    return (((time * rate) * 100).round) / 100.0
   end
 
   private

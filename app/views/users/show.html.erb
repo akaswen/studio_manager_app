@@ -2,11 +2,13 @@
 
   <div class="row">
     <div class="col-5">
-      <div class="bg-light rate">
-        <span>Rate per Hour</span>
-        <h2 class="text-success" id="rate"><%= @user.rate %></h2>
-        <button class="btn btn-outline-info">Adjust</button>
-      </div>
+      <% if @user.rate %>
+        <div class="bg-light rate">
+          <span>Rate per Hour</span>
+          <h2 class="text-success" id="rate"><%= @user.rate %></h2>
+          <button class="btn btn-outline-info">Adjust</button>
+        </div>
+      <% end %>
     </div>
     <div class="col-7">
       <h2 class="mb-3"><%= @user.full_name %></h2>

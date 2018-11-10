@@ -76,13 +76,6 @@ RSpec.feature "ShowingUsers", type: :feature do
     expect(page).to_not have_button('Wait List')
   end
 
-  it('can add a student to studio', js: true) do
-    visit user_path(@user)
-    click_button('Add to Studio')
-    expect(page).to have_content('Studio List')
-    expect(page).to have_link(@user.full_name)
-  end
-
   it('can add a student to the wait list', js: true) do
     visit user_path(@user)
     click_button('Wait List')
@@ -97,17 +90,19 @@ RSpec.feature "ShowingUsers", type: :feature do
     expect(page).to_not have_button('Wait List')
   end
 
-  fit('allows a teacher to set rates for students', js:true) do
+  it('allows a teacher to add a student and set rates for students', js:true) do
     visit user_path(@student)
     expect(page).to have_content(@student.rate)
     click_button('Adjust')
-    fill_in('Rate per Hour', with: 50)
-    click_button('change')
+    find('.faded-out input').set('50');
+    click_button('Set')
     expect(page).to have_content('$50/h')
     visit user_path(@student)
     expect(page).to have_content('$50/h')
   end
 
   it("doesn't display a rate for a non-student") do
+    visit user_path(@user)
+    expect(page).to_not have_button('Adjust');
   end
 end

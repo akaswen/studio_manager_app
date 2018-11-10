@@ -1,4 +1,5 @@
 //= require student_api
+//= require add_rate
 
 const studentListAdjuster = (() => {
   let studentListItems;
@@ -16,7 +17,7 @@ const studentListAdjuster = (() => {
     let decision = e.target.getAttribute('data-decision');
     if (decision === 'add') {
       removeElement(e.currentTarget);
-      studentApi.addStudent(userId);
+      adjustRate.addMenu(userId);
     } else if (decision === 'wait-list') {
       removeElement(e.currentTarget);
       studentApi.waitListStudent(userId);

@@ -47,13 +47,12 @@ RSpec.feature "WaitListings", type: :feature do
       within("li[id='#{@user.id}']") do
         click_button('Studio')
       end
-    expect(page).to_not have_content(@user.full_name)
     end
+    find('.faded-out input').set('50');
+    click_button('Set')
+    expect(page).to_not have_content(@user.full_name)
     click_link('Studio')
-    expect(page).to have_content(@user.full_name)
-  end
-
-  it("allows tecaher to set a rate_per_hour when adding a non-student to studio", js: true) do
-    #expect email to have rate per hour included
+    click_link(@user.full_name)
+    expect(page).to have_content('$50/h')
   end
 end

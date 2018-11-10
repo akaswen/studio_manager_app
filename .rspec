@@ -1,2 +1,2 @@
 --require spec_helper
-/*--tag ~js:true*/
+--tag ~js:true

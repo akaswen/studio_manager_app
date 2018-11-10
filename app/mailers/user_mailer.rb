@@ -8,6 +8,7 @@ class UserMailer < ApplicationMailer
 
   def add_to_studio_email
     @user = params[:user]
+    @rate = params[:rate]
     mail(to: @user.email, subject: "Status Change")
   end
 

@@ -64,6 +64,8 @@ RSpec.describe Lesson, type: :model do
       end
 
       it('returns different prices for different lengths of lessons') do
+        @lesson.end_time = Time.now + 5.days + 30.minutes
+        expect(@lesson.price).to eq(22.5)
       end
     end
   end
