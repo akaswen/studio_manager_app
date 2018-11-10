@@ -37,6 +37,9 @@ const adjustRate = (() => {
   }
 
   function addForm(rateInput) {
+    let title = document.createElement('h4');
+    title.textContent = "Rate Per Hour to Charge";
+
     let textDiv = document.createElement('DIV');
 
     let dollarSign = document.createElement('SPAN');
@@ -71,6 +74,7 @@ const adjustRate = (() => {
       validateForm(textDiv, input, errorMessage);
     });
 
+    rateInput.appendChild(title);
     rateInput.appendChild(textDiv);
     rateInput.appendChild(errorMessage);
     rateInput.appendChild(button);
