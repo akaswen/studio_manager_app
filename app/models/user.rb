@@ -30,6 +30,10 @@ class User < ApplicationRecord
     first_name.capitalize + " " + last_name.capitalize
   end
 
+  def rate
+    "$#{self.rate_per_hour}/h" if self.rate_per_hour
+  end
+
   private
 
   def lower_case

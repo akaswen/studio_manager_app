@@ -119,6 +119,13 @@ RSpec.describe UsersController, type: :controller do
       subject
       expect(@user.rate_per_hour).to eq(45)
     end
+
+    it("requires a student's rate to be set") do
+      sign_in(@teacher)
+      expect{
+        patch :add_student, body: { id: @user.id }.to_json
+      }.to raise_error("requires a rate per hour")
+    end
   end
 
   describe "GET #index" do

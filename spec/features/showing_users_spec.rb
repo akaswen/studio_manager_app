@@ -96,4 +96,18 @@ RSpec.feature "ShowingUsers", type: :feature do
     expect(page).to_not have_button('Add to Studio')
     expect(page).to_not have_button('Wait List')
   end
+
+  fit('allows a teacher to set rates for students', js:true) do
+    visit user_path(@student)
+    expect(page).to have_content(@student.rate)
+    click_button('Adjust')
+    fill_in('Rate per Hour', with: 50)
+    click_button('change')
+    expect(page).to have_content('$50/h')
+    visit user_path(@student)
+    expect(page).to have_content('$50/h')
+  end
+
+  it("doesn't display a rate for a non-student") do
+  end
 end

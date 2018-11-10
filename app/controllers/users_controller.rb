@@ -58,6 +58,7 @@ class UsersController < ApplicationController
     r = JSON.load(request.body)
     id = r["id"]
     rate = r["rate"]
+    raise "requires a rate per hour" unless rate
     @user = User.find(id)
     @user.update_attribute(:student, true)
     @user.update_attribute(:status, nil)

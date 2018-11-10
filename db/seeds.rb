@@ -80,6 +80,7 @@ end
   user.confirm
 end
 
+# wait list of different sign up times
 5.times do |n|
   first_name = Faker::ElderScrolls.first_name
   last_name = Faker::ElderScrolls.last_name
@@ -119,6 +120,7 @@ end
   email = Faker::Internet.unique.email
   password = "Password1"
   password_confirmation = "Password1"
+  rate_per_hour = 45
 
   number = "555 555 5555"
   kind = "Mobile"
@@ -128,7 +130,7 @@ end
   state = Faker::Address.state_abbr
   zip_code = Faker::Address.zip[0..4]
 
-  user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
+  user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation, rate_per_hour: rate_per_hour)
   user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
   user.phone_numbers.build(number: number, kind: kind)
   user.student = true
