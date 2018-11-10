@@ -1,5 +1,5 @@
 const studentApi = (() => {
-  function studentFetch(path, id, method) {
+  function studentFetch(path, id, method, rate) {
     let metaTag = document.querySelector('meta[name="csrf-token"]');
     let token = metaTag.getAttribute('content');
     return fetch(path, {
@@ -8,14 +8,15 @@ const studentApi = (() => {
         'X-CSRF-TOKEN': token
       },
       body: JSON.stringify({
-        id: id
+        id: id,
+        rate: rate
       })
     });
   }
 
-  function addStudent(id) {
+  function addStudent(id, rate) {
     let path = '/add_student';
-    return studentFetch(path, id, 'PATCH');
+    return studentFetch(path, id, 'PATCH', rate);
   }
 
   function waitListStudent(id) {

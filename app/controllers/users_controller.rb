@@ -60,10 +60,15 @@ class UsersController < ApplicationController
     rate = r["rate"]
     raise "requires a rate per hour" unless rate
     @user = User.find(id)
-    @user.update_attribute(:student, true)
-    @user.update_attribute(:status, nil)
+    if @user.student
+      old_rate = @user.rate_per_hour
+      UserMailer.with(user: @user, old_rate: old_rate, new_rate: rate).update_rate_email.deliver_now
+    else
+      @user.update_attribute(:student, true)
+      @user.update_attribute(:status, nil)
+      UserMailer.with(user: @user).add_to_studio_email.deliver_now
+    end
     @user.update_attribute(:rate_per_hour, rate)
-    UserMailer.with(user: @user).add_to_studio_email.deliver_now
   end
 
   private

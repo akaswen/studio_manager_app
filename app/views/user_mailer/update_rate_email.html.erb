@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Dear, <%= @user.full_name %></h1>
+    <p>
+    This email is to inform your that your rate has changed from $<%= @old_rate %> per hour to $<%= @new_rate %> per hour. 
+    </p>
+    <p> 
+    This will apply to all upcoming lessons.
+    </p>
+  </body>
+</html>

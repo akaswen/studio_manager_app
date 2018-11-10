@@ -3,6 +3,14 @@
 const adjustRate = (() => {
   let menu;
 
+  function setRate(rate) {
+    let id = document.getElementById('user-show').getAttribute('data-id');
+    studentApi.addStudent(id, rate);
+    let rateInfo = document.getElementById('rate');
+    rateInfo.textContent = `$${rate}/h`;
+    menu.remove();
+  }
+
   function resetValidations(div, error) {
     div.classList.remove('invalid');
     error.textContent = '';
@@ -13,8 +21,15 @@ const adjustRate = (() => {
       resetValidations(div, error);
       error.textContent = "Please enter a value";
       div.classList.add('invalid');
+      return false;
+    } else if(input.value.match(/\D/)) {
+      resetValidations(div, error);
+      error.textContent = "Please only enter a whole number";
+      return false;
+      div.classList.add('invalid');
     } else {
       resetValidations(div, error);
+      return true;
     }
   }
 
@@ -25,7 +40,6 @@ const adjustRate = (() => {
     dollarSign.textContent = '$';
 
     let input = document.createElement('INPUT');
-
 
     let perHour = document.createElement('SPAN');
     perHour.textContent = '/h';
@@ -41,7 +55,10 @@ const adjustRate = (() => {
     button.textContent = 'Set';
 
     button.addEventListener('click', () => {
-      validateForm(textDiv, input, errorMessage);
+      let result = validateForm(textDiv, input, errorMessage);
+      if (result) {
+        setRate(input.value);
+      }
     });
 
     input.addEventListener('input', () => {

@@ -15,4 +15,11 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     mail(to: @user.email, subject: "Account deactivated")
   end
+
+  def update_rate_email
+    @user = params[:user]
+    @old_rate = params[:old_rate]
+    @new_rate = params[:new_rate]
+    mail(to: @user.email, subject: "Rate Changed")
+  end
 end
