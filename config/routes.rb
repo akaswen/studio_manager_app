@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations'
   }
   
-  get '/home', to: 'static_pages#home'
+  get '/welcome', to: 'static_pages#home', as: 'home'
   get '/about', to: 'static_pages#about'
 
   get '/dashboard', to: 'users#dashboard'
