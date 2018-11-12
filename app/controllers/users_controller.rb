@@ -77,19 +77,9 @@ class UsersController < ApplicationController
     redirect_to home_path unless user_signed_in?
   end
 
-  def authenticate_teacher
-    redirect_to root_path unless current_user.teacher
-  end
-
   def param_check
     unless params[:student] == 'true' || params[:status] == 'Wait Listed'
       redirect_to root_path
-    end
-  end
-
-  def authenticate_active_user
-    unless current_user.active?
-      redirect_to new_user_session_path
     end
   end
 

@@ -4,6 +4,7 @@ RSpec.feature "EditProfiles", type: :feature do
   before(:each) do
     @user = create(:user)
     @user.confirm
+    @teacher = create(:teacher)
   end
   
   it("allows a user to edit their own profile") do

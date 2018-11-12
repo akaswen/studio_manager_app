@@ -11,7 +11,7 @@ RSpec.feature "Links", type: :feature do
   describe "links not logged in" do
     it "has correct links not logged in" do
       visit home_path
-      expect(page).to have_link("Home", href: home_path)
+      expect(page).to have_link("Welcome", href: home_path)
       expect(page).to have_link("About", href: about_path)
       expect(page).to have_link("Sign in", href: new_user_session_path)
       expect(page).to have_link("Sign up", href: new_user_registration_path)
@@ -27,7 +27,7 @@ RSpec.feature "Links", type: :feature do
     it('has correct links logged in') do
       sign_in(@user)
       visit root_path
-      expect(page).to have_link('Home', href: home_path)
+      expect(page).to have_link('Welcome', href: home_path)
       expect(page).to have_link('About', href: about_path)
       expect(page).to_not have_link("Sign in", href: new_user_session_path)
       expect(page).to_not have_link("Sign up", href: new_user_registration_path)

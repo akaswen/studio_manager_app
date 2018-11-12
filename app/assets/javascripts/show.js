@@ -7,9 +7,7 @@ const show = (() => {
     showDiv.addEventListener('click', e => {
       switch (e.target.textContent) {
         case "Add to Studio":
-          studentApi.addStudent(id).then(() => { 
-            document.location.href = '/users?student=true';
-          });
+          adjustRate.addMenu(id, rateDiv, '/users?student=true');
           break;
         case "Wait List":
           studentApi.waitListStudent(id).then(() => {

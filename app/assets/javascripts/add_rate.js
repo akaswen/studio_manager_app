@@ -4,10 +4,16 @@ const adjustRate = (() => {
   let menu;
   let userId;
   let rateDiv;
+  let forwardPath;
 
   function setRate(rate) {
-    studentApi.addStudent(userId, rate);
-    menu.remove();
+    studentApi.addStudent(userId, rate).then(() => {
+      if (forwardPath) {
+        document.location.href = forwardPath;
+      } else {
+        menu.remove();
+      }
+    });
   }
 
   function changeRateDiv(rate) {
@@ -87,13 +93,14 @@ const adjustRate = (() => {
     addForm(rateInput);
   }
 
-  function addMenu(id, rate) {
+  function addMenu(id, rate, path) {
     let body = document.querySelector('body');
     menu = document.createElement('DIV');
     menu.classList.add('faded-out');
 
     userId = id;
     rateDiv = rate;
+    forwardPath = path
 
     body.appendChild(menu);
 

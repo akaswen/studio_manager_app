@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   put '/add_student', to: 'users#add_student'
 
   resources :users, only: [:index, :show, :destroy]
+  resource :lessons, only: [:new]
 end
