@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe TimeSlot, type: :model do
   before(:each) do
-    @time_slot = build(:time_slot)
+    @schedule = create(:schedule)
+    @time_slot = @schedule.time_slots.first
   end
 
   it('is valid') do
