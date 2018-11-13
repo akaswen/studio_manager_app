@@ -8,12 +8,12 @@
         <li class="list-group-item list-group-item-danger">Unavailable</li>
       </ul>
     </div>
-    <div class="col">
+    <div class="col sunday">
       <h3 class="text-center">Sunday</h3>
       <ul class="list-group">
         <div class="day-buttons mb-3">
           <span class="btn btn-outline-danger">block day</span>
-          <span class="btn btn-outline-success">free day</span>
+          <span class="btn btn-outline-success">unblock day</span>
         </div>
         <% @schedule.time_slots.sunday_slots.each do |ts| %>
           <button id="<%= ts.id %>" class="list-group-item list-group-item-action btn
@@ -27,12 +27,12 @@
       </ul>
     </div>
 
-    <div class="col">
+    <div class="col monday">
       <h3 class="text-center">Monday</h3>
       <ul class="list-group">
         <div class="day-buttons mb-3">
           <span class="btn btn-outline-danger">block day</span>
-          <span class="btn btn-outline-success">free day</span>
+          <span class="btn btn-outline-success">unblock day</span>
         </div>
 
         <% @schedule.time_slots.monday_slots.each do |ts| %>
@@ -48,12 +48,12 @@
       </ul>
     </div>
 
-    <div class="col">
+    <div class="col tuesday">
       <h3 class="text-center">Tuesday</h3>
       <ul class="list-group">
         <div class="day-buttons mb-3">
           <span class="btn btn-outline-danger">block day</span>
-          <span class="btn btn-outline-success">free day</span>
+          <span class="btn btn-outline-success">unblock day</span>
         </div>
 
         <% @schedule.time_slots.tuesday_slots.each do |ts| %>
@@ -69,12 +69,12 @@
       </ul>
     </div>
 
-    <div class="col">
+    <div class="col wednesday">
       <h3 class="text-center">Wednesday</h3>
       <ul class="list-group">
         <div class="day-buttons mb-3">
           <span class="btn btn-outline-danger">block day</span>
-          <span class="btn btn-outline-success">free day</span>
+          <span class="btn btn-outline-success">unblock day</span>
         </div>
 
         <% @schedule.time_slots.wednesday_slots.each do |ts| %>
@@ -90,13 +90,13 @@
       </ul>
     </div>
 
-    <div class="col">
+    <div class="col thursday">
       <h3 class="text-center">Thursday</h3>
 
       <ul class="list-group">
         <div class="day-buttons mb-3">
           <span class="btn btn-outline-danger">block day</span>
-          <span class="btn btn-outline-success">free day</span>
+          <span class="btn btn-outline-success">unblock day</span>
         </div>
 
         <% @schedule.time_slots.thursday_slots.each do |ts| %>
@@ -112,13 +112,13 @@
       </ul>
     </div>
 
-    <div class="col">
+    <div class="col friday">
       <h3 class="text-center">Friday</h3>
 
       <ul class="list-group">
         <div class="day-buttons mb-3">
           <span class="btn btn-outline-danger">block day</span>
-          <span class="btn btn-outline-success">free day</span>
+          <span class="btn btn-outline-success">unblock day</span>
         </div>
 
         <% @schedule.time_slots.friday_slots.each do |ts| %>
@@ -134,13 +134,13 @@
       </ul>
     </div>
 
-    <div class="col">
+    <div class="col saturday">
       <h3 class="text-center">Saturday</h3>
 
       <ul class="list-group">
         <div class="day-buttons mb-3">
           <span class="btn btn-outline-danger">block day</span>
-          <span class="btn btn-outline-success">free day</span>
+          <span class="btn btn-outline-success">unblock day</span>
         </div>
 
         <% @schedule.time_slots.saturday_slots.each do |ts| %>
