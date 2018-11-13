@@ -23,6 +23,11 @@
 
         <% if current_user.teacher? %>
           <li class="nav-item">
+            <%= link_to schedule_path, class: "nav-link" do %>
+              <i class="fas fa-calendar-alt"><em>Schedule</em></i>
+            <% end %>
+          </li>
+          <li class="nav-item">
             <%= link_to users_path(student: true), class: "nav-link" do %>
               <i class="fas fa-user-friends"><em>Studio</em></i>
             <% end %>

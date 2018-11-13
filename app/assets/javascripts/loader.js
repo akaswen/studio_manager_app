@@ -3,6 +3,7 @@
 //= require teacher_sidebar
 //= require index
 //= require show
+//= require edit_schedule
 
 window.addEventListener('turbolinks:load', () => {
   // load dropdown menu
@@ -16,6 +17,7 @@ window.addEventListener('turbolinks:load', () => {
   let indexDiv = document.getElementById('student_index'); //for index
   let inputs = document.querySelectorAll('#user_form input'); //for devise forms
   let showDiv = document.getElementById('user-show'); //for show page
+  let calendar = document.getElementById('schedule-calendar'); //for edit schedule page
 
   if (inputs.length > 0) {
     deviseForms.load(inputs);
@@ -24,7 +26,9 @@ window.addEventListener('turbolinks:load', () => {
   } else if (indexDiv) {
     index.load(indexDiv);
   } else if (showDiv) {
-    show.load(showDiv)
+    show.load(showDiv);
+  } else if (calendar) {
+    schedule.load(calendar);
   }
 
 });

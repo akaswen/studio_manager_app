@@ -152,3 +152,19 @@
     }
   }
 }
+
+/* edit schedule */
+
+#edit-schedule {
+  #schedule-calendar {
+    min-width: 1120px;
+    .day-buttons {
+      span {
+        width: 50%;
+        display: inline-block;
+        float: left;
+        font-size: 0.7em;
+      }
+    }
+  }
+}

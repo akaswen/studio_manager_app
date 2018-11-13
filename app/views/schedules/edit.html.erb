@@ -1,0 +1,145 @@
+<div id="edit-schedule">
+  <h1 class="text-center">Weekly Schedule</h1>
+
+  <div class="row mb-5" id="schedule-calendar">
+    <div class="col">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-success">Available</li>
+        <li class="list-group-item list-group-item-danger">Unavailable</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3 class="text-center">Sunday</h3>
+      <ul class="list-group">
+        <div class="day-buttons mb-3">
+          <span class="btn btn-outline-danger">block day</span>
+          <span class="btn btn-outline-success">free day</span>
+        </div>
+        <% @schedule.time_slots.sunday_slots.each do |ts| %>
+          <% if ts.available %>
+            <button class="list-group-item list-group-item-action btn list-group-item-success"><%= ts.time %></button>
+          <% else %>
+            <button class="list-group-item"><%= ts.time %></button>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3 class="text-center">Monday</h3>
+      <ul class="list-group">
+        <div class="day-buttons mb-3">
+          <span class="btn btn-outline-danger">block day</span>
+          <span class="btn btn-outline-success">free day</span>
+        </div>
+
+        <% @schedule.time_slots.monday_slots.each do |ts| %>
+          <% if ts.available %>
+            <button class="list-group-item list-group-item-action btn list-group-item-success"><%= ts.time %></button>
+          <% else %>
+            <button class="list-group-item"><%= ts.time %></button>
+          <% end %>
+
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3 class="text-center">Tuesday</h3>
+      <ul class="list-group">
+        <div class="day-buttons mb-3">
+          <span class="btn btn-outline-danger">block day</span>
+          <span class="btn btn-outline-success">free day</span>
+        </div>
+
+        <% @schedule.time_slots.tuesday_slots.each do |ts| %>
+          <% if ts.available %>
+            <button class="list-group-item list-group-item-action btn list-group-item-success"><%= ts.time %></button>
+          <% else %>
+            <button class="list-group-item"><%= ts.time %></button>
+          <% end %>
+
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3 class="text-center">Wednesday</h3>
+      <ul class="list-group">
+        <div class="day-buttons mb-3">
+          <span class="btn btn-outline-danger">block day</span>
+          <span class="btn btn-outline-success">free day</span>
+        </div>
+
+        <% @schedule.time_slots.wednesday_slots.each do |ts| %>
+          <% if ts.available %>
+            <button class="list-group-item list-group-item-action btn list-group-item-success"><%= ts.time %></button>
+          <% else %>
+            <button class="list-group-item"><%= ts.time %></button>
+          <% end %>
+
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3 class="text-center">Thursday</h3>
+
+      <ul class="list-group">
+        <div class="day-buttons mb-3">
+          <span class="btn btn-outline-danger">block day</span>
+          <span class="btn btn-outline-success">free day</span>
+        </div>
+
+        <% @schedule.time_slots.thursday_slots.each do |ts| %>
+          <% if ts.available %>
+            <button class="list-group-item list-group-item-action btn list-group-item-success"><%= ts.time %></button>
+          <% else %>
+            <button class="list-group-item"><%= ts.time %></button>
+          <% end %>
+
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3 class="text-center">Friday</h3>
+
+      <ul class="list-group">
+        <div class="day-buttons mb-3">
+          <span class="btn btn-outline-danger">block day</span>
+          <span class="btn btn-outline-success">free day</span>
+        </div>
+
+        <% @schedule.time_slots.friday_slots.each do |ts| %>
+           <% if ts.available %>
+            <button class="list-group-item list-group-item-action btn list-group-item-success"><%= ts.time %></button>
+          <% else %>
+            <button class="list-group-item"><%= ts.time %></button>
+          <% end %>
+         
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3 class="text-center">Saturday</h3>
+
+      <ul class="list-group">
+        <div class="day-buttons mb-3">
+          <span class="btn btn-outline-danger">block day</span>
+          <span class="btn btn-outline-success">free day</span>
+        </div>
+
+        <% @schedule.time_slots.saturday_slots.each do |ts| %>
+          <% if ts.available %>
+            <button class="list-group-item list-group-item-action btn list-group-item-success"><%= ts.time %></button>
+          <% else %>
+            <button class="list-group-item"><%= ts.time %></button>
+          <% end %>
+
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -20,4 +20,6 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :destroy]
   resource :lessons, only: [:new]
+
+  get 'schedule', to: 'schedules#edit'
 end

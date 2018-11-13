@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :teaching_lessons, foreign_key: :teacher_id, class_name: "Lesson"
   has_many :learning_lessons, foreign_key: :student_id, class_name: "Lesson"
 
+  has_one :schedule
+
   accepts_nested_attributes_for :addresses, :phone_numbers
 
   validates_presence_of :first_name, :last_name, :addresses, :phone_numbers

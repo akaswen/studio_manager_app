@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_09_150841) do
+ActiveRecord::Schema.define(version: 2018_11_13_112900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,23 @@ ActiveRecord::Schema.define(version: 2018_11_09_150841) do
     t.index ["user_id"], name: "index_phone_numbers_on_user_id"
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_schedules_on_user_id"
+  end
+
+  create_table "time_slots", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "day"
+    t.string "time"
+    t.boolean "available", default: true
+    t.bigint "schedule_id"
+    t.index ["schedule_id"], name: "index_time_slots_on_schedule_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -74,4 +91,6 @@ ActiveRecord::Schema.define(version: 2018_11_09_150841) do
 
   add_foreign_key "addresses", "users"
   add_foreign_key "phone_numbers", "users"
+  add_foreign_key "schedules", "users"
+  add_foreign_key "time_slots", "schedules"
 end
