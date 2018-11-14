@@ -6,7 +6,7 @@
     </div>
   <% end %>
   <% time_slots.each do |ts| %>
-    <button id="<%= ts.id %>" class="list-group-item list-group-item-action btn
+    <button id="<%= ts.id %>" data-time="<%= ts.time %>" data-day="<%= Date::DAYNAMES[ts.day] %>"  class="list-group-item list-group-item-action btn
     <% if ts.available %>
       list-group-item-success
     <% else %>

@@ -150,7 +150,7 @@
         border-radius: 10px;
       }
     }
-    span.loader {
+    span.loader { /* for the loader in edit schedule */
       border: 10px solid gray;
       border-top: 10px solid blue;
       border-radius: 100%;
@@ -159,6 +159,24 @@
       height: 80px;
       margin: 0 auto;
       animation: spin 0.5s linear infinite;
+    }
+    form { /* for form in new lesson */
+      width: 250px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      span {
+        display: inline-block;
+        width: 50%;
+        font-size: 0.8em;
+        &:last-child {
+          width: 80%;
+          input, label {
+            margin-right: 10px;
+          }
+        }
+      }
     }
   }
 }
