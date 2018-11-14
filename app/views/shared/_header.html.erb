@@ -21,10 +21,16 @@
           <% end %>
         </li>
 
+        <li class="nav-item">
+          <%= link_to new_lesson_path, class: "nav-link" do %>
+            <i class="fas fa-chalkboard-teacher"><em>New Lesson</em></i>
+          <% end %>
+        </li>
+
         <% if current_user.teacher? %>
           <li class="nav-item">
             <%= link_to schedule_path, class: "nav-link" do %>
-              <i class="fas fa-calendar-alt"><em>Schedule</em></i>
+              <i class="fas fa-calendar-alt"><em>Set Schedule</em></i>
             <% end %>
           </li>
           <li class="nav-item">

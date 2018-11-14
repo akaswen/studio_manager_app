@@ -28,6 +28,10 @@ class User < ApplicationRecord
     where('confirmed_at IS NOT NULL')
   end
 
+  def self.teacher
+    where(teacher: true).first
+  end
+
   def full_name
     first_name.capitalize + " " + last_name.capitalize
   end

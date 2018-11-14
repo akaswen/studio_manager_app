@@ -115,8 +115,8 @@
   .inner-menu {
     background-color: white;
     position: fixed;
-    height: 20vw;
-    width: 20vw;
+    height: 275px;
+    width: 275px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -188,3 +188,10 @@
   }
 }
 
+/* new lesson */
+
+#new-lesson {
+  .btn {
+    z-index: 0;
+  }
+}

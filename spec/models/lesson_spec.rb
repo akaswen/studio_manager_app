@@ -69,4 +69,8 @@ RSpec.describe Lesson, type: :model do
       end
     end
   end
+
+  it('has default value of false for confirmed') do
+    expect(@lesson.confirmed).to eq(false)
+  end
 end

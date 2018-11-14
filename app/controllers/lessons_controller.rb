@@ -5,6 +5,7 @@ class LessonsController < ApplicationController
   before_action :redirect_non_student_teacher 
 
   def new
+    @schedule = User.teacher.schedule
   end
 
   private

@@ -1,0 +1,17 @@
+<ul class="list-group">
+  <% if edit %>
+    <div class="day-buttons mb-3">
+      <span class="btn btn-outline-danger">block day</span>
+      <span class="btn btn-outline-success">unblock day</span>
+    </div>
+  <% end %>
+  <% time_slots.each do |ts| %>
+    <button id="<%= ts.id %>" class="list-group-item list-group-item-action btn
+    <% if ts.available %>
+      list-group-item-success
+    <% else %>
+      list-group-item-danger
+    <% end %>
+    "><%= ts.time %></button>
+  <% end %>
+</ul>

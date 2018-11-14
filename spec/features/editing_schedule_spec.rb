@@ -13,7 +13,7 @@ RSpec.feature "EditingSchedules", type: :feature do
       expect(s.available).to eq(true)
     end
     sign_in(@teacher)
-    click_link('Schedule')
+    click_link('Set Schedule')
     within('.sunday') do
       find('.btn-outline-danger').click
     end
