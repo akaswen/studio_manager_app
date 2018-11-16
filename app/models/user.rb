@@ -7,10 +7,10 @@ class User < ApplicationRecord
 
   has_many :addresses, dependent: :destroy
   has_many :phone_numbers, dependent: :destroy
-  has_many :teaching_lessons, foreign_key: :teacher_id, class_name: "Lesson"
-  has_many :learning_lessons, foreign_key: :student_id, class_name: "Lesson"
+  has_many :teaching_lessons, foreign_key: :teacher_id, class_name: "Lesson", dependent: :destroy
+  has_many :learning_lessons, foreign_key: :student_id, class_name: "Lesson", dependent: :destroy
 
-  has_one :schedule
+  has_one :schedule, dependent: :destroy
 
   accepts_nested_attributes_for :addresses, :phone_numbers
 

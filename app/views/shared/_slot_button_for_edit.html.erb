@@ -1,0 +1,7 @@
+    <button id="<%= time_slot.id %>" data-time="<%= time_slot.time %>" data-day="<%= Date::DAYNAMES[time_slot.day] %>"  class="list-group-item list-group-item-action btn
+    <% if time_slot.available  %>
+      list-group-item-success
+    <% else %>
+      list-group-item-danger
+    <% end %>
+    "><%= time_slot.time %></button>

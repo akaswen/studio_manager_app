@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show, :destroy]
   resources :lessons, only: [:new]
 
+  post '/lesson', to: 'lessons#create'
+
   patch '/update_time_slot', to: 'time_slots#update'
   put '/update_time_slot', to: 'time_slots#update'
 

@@ -1,17 +1,39 @@
 User.destroy_all
 
 # teacher seed data
-u = User.new(first_name: "Aaron", last_name: "Kaswen", email: "aaron@example.com", password: "Password1", password_confirmation: "Password1", teacher: true, status: nil)
+teacher = User.new(first_name: "Aaron", last_name: "Kaswen", email: "aaron@example.com", password: "Password1", password_confirmation: "Password1", teacher: true, status: nil)
 
-u.addresses.build(street_address: Faker::Address.street_address, city: Faker::Address.city, state: Faker::Address.state_abbr, zip_code: Faker::Address.zip[0..4])
+teacher.addresses.build(street_address: "425 Encinal St", city: "Santa Cruz", state: "CA", zip_code: "95060")
 
-u.phone_numbers.build(number: "555 555 5555", kind: "Mobile")
+teacher.phone_numbers.build(number: "555 555 5555", kind: "Mobile")
 
-u.build_schedule
+teacher.build_schedule
 
-u.save!
+teacher.save!
 
-u.confirm
+teacher.confirm
+
+# sample student
+student = User.new(first_name: "Student", last_name: "McStudington", email: "student@example.com", password: "Password1", password_confirmation: "Password1", student: true, status: nil)
+
+student.addresses.build(street_address: "130 Emmett St", city: "Santa Cruz", state: "CA", zip_code: "95060")
+
+student.phone_numbers.build(number: "555 555 5555", kind: "Mobile")
+
+student.save!
+
+student.confirm
+
+# some lessons
+
+4.times do |n|
+  start_time = Time.now.beginning_of_day + 10.hours + (1 + n).days
+  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true)
+  lesson.student = student
+  lesson.teacher = teacher
+  lesson.repeat = true if n == 3
+  lesson.save!
+end
 
 # new student requests
 5.times do

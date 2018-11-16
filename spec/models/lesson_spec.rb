@@ -5,6 +5,8 @@ RSpec.describe Lesson, type: :model do
     @lesson = build(:lesson)
     @student = @lesson.student
     @teacher = @lesson.teacher
+    @user = create(:user)
+    @user.confirm
   end
 
   describe('validations') do
@@ -38,6 +40,11 @@ RSpec.describe Lesson, type: :model do
       expect(@lesson.student).to eq(@student)
     end
 
+    it('validates that the student is a student') do
+      @lesson.student = @user
+      expect(@lesson).to_not be_valid
+    end
+
     it('has one teacher') do
       expect(@lesson.teacher).to eq(@teacher)
     end
@@ -64,13 +71,87 @@ RSpec.describe Lesson, type: :model do
       end
 
       it('returns different prices for different lengths of lessons') do
-        @lesson.end_time = Time.now + 5.days + 30.minutes
+        @lesson.end_time = Time.now.beginning_of_day + 5.days + 10.hours + 30.minutes
         expect(@lesson.price).to eq(22.5)
+      end
+    end
+
+
+    describe('time slot validations') do
+      before(:each) do
+        @schedule = @teacher.create_schedule
+      end
+
+      it("doesn't allow a student to create a lesson when there is another lesson in the same time slot") do
+        @lesson.save
+        @new_lesson = Lesson.new(attributes_for(:lesson))
+        @new_lesson.teacher = @teacher
+        @new_lesson.student = @student
+        3.times do |n|
+          @new_lesson.start_time = @lesson.start_time - (15 + n * 15).minutes
+          @new_lesson.end_time = @lesson.end_time - (15 + n * 15).minutes
+          expect(@new_lesson).to_not be_valid
+          @new_lesson.start_time = @lesson.start_time + (15 + n * 15).minutes
+          @new_lesson.end_time = @lesson.end_time + (15 + n * 15).minutes
+        end
+        @new_lesson.start_time = @lesson.start_time - 1.hour
+        @new_lesson.end_time = @lesson.end_time - 1.hour
+        expect(@new_lesson).to be_valid
+        @new_lesson.start_time = @lesson.start_time + 1.hour
+        @new_lesson.end_time = @lesson.end_time + 1.hour
+        expect(@new_lesson).to be_valid
+      end
+
+      it("doesn't allow a student to create a lesson when the time slot is unavailable") do
+        time_slots = TimeSlot.where("time >= ? AND time < ? AND day = ?", @lesson.start_time.getlocal.strftime("%H:%M"), @lesson.end_time.getlocal.strftime("%H:%M"), @lesson.start_time.wday)
+        time_slots.each do |ts|
+          ts.update_attribute(:available, false)
+          expect(@lesson).to_not be_valid
+          ts.update_attribute(:available, true)
+          expect(@lesson).to be_valid
+        end
       end
     end
   end
 
   it('has default value of false for confirmed') do
     expect(@lesson.confirmed).to eq(false)
+  end
+
+  describe('self.add_new_week_of_lessons') do
+    it('can duplicate a lesson that is set to repeat') do
+      @lesson.repeat = true
+      @lesson.save
+      expect{ Lesson.add_new_week_of_lessons }.to change{ Lesson.count }.by(1)
+      @lesson.reload
+      expect(@lesson.repeat).to eq(false)
+      new_lesson = Lesson.last
+      expect(new_lesson.repeat).to be(true)
+      expect(new_lesson.start_time).to eq(@lesson.start_time + 1.week)
+      expect(new_lesson.end_time).to eq(@lesson.end_time + 1.week)
+      expect(new_lesson.location).to eq(@lesson.location)
+      expect(new_lesson.teacher).to eq(@lesson.teacher)
+      expect(new_lesson.student).to eq(@lesson.student)
+    end
+
+    it('duplicates all lessons set to repeat') do
+      @lesson.repeat = true
+      lesson2 = Lesson.new(start_time: @lesson.start_time + 1.hour, end_time: @lesson.end_time + 1.hours, location: @lesson.location, repeat: true)
+      lesson2.student = @lesson.student
+      lesson2.teacher = @lesson.teacher
+      lesson3 = Lesson.new(start_time: @lesson.start_time + 2.hours, end_time: @lesson.end_time + 2.hours, location: @lesson.location, repeat: true)
+      lesson3.student = @lesson.student
+      lesson3.teacher = @lesson.teacher
+
+      lesson4 = Lesson.new(start_time: @lesson.start_time + 3.hour, end_time: @lesson.end_time + 3.hours, location: @lesson.location, repeat: true)
+      lesson4.student = @lesson.student
+      lesson4.teacher = @lesson.teacher
+
+      @lesson.save
+      lesson2.save
+      lesson3.save
+      lesson4.save
+      expect{ Lesson.add_new_week_of_lessons }.to change{ Lesson.count }.by(4)
+    end
   end
 end

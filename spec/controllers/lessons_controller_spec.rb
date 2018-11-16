@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe LessonsController, type: :controller do
   before(:each) do
-    @teacher = create(:teacher)
+    @schedule = create(:schedule)
+    @teacher = @schedule.user
     @student = create(:student)
     @user = create(:user)
     @user.confirm
@@ -33,8 +34,99 @@ RSpec.describe LessonsController, type: :controller do
       subject
       expect(response).to redirect_to(root_path)
     end
+
+    describe('getting lessons') do
+      before(:each) do
+        4.times do |w|
+          (w + 1).times do |h|
+            start_time = Time.now + 1.hour + (1 * h).hours + (1 * w).weeks
+            lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher")
+            lesson.student = @student
+            lesson.teacher = @teacher
+
+            lesson.save!
+          end
+        end
+        sign_in(@student)
+      end
+
+      it('gets this weeks lessons with no parameters') do
+        subject
+        expect(assigns(:weeks_lessons).length).to eq(1)
+      end
+
+      it('gets next weeks lessons') do
+        get :new, params: { week: 2 }
+        expect(assigns(:weeks_lessons).length).to eq(2)
+
+      end
+
+      it('gets lessons three weeks away') do
+        get :new, params: { week: 3 }
+        expect(assigns(:weeks_lessons).length).to eq(3)
+
+      end
+
+      it('gets lessons four weeks away') do
+        get :new, params: { week: 4 }
+        expect(assigns(:weeks_lessons).length).to eq(4)
+
+      end
+
+      it('does not get lessons more than four weeks away') do
+        get :new, params: { week: 5 }
+        expect(assigns(:weeks_lessons).length).to eq(1)
+      end
+    end
   end
 
   describe("POST #create") do
+    subject { 
+      time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
+      post :create, params: {
+      time: time,
+      location: "teacher",
+      length: "60",
+      occurence: "single"
+    } }
+
+    it('creates a new lesson') do
+      sign_in(@student)
+      expect{ subject }.to change{Lesson.count}.by(1)
+      @lesson = Lesson.last
+      expect(@lesson.start_time.to_datetime.hour).to eq(8)
+      expect(@lesson.start_time.to_datetime.minute).to eq(0)
+      expect(@lesson.location).to eq("teacher")
+      expect(@lesson.end_time).to eq(@lesson.start_time + 1.hour)
+    end
+
+    it('creates 4 lessons for weekly') do
+      time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
+
+      sign_in(@student)
+      expect{
+        post :create, params: {
+          time: time,
+          location: "teacher",
+          length: "60",
+          occurence: "weekly"
+        }
+      }.to change{Lesson.count}.by(4)
+      expect(Lesson.last.repeat).to eq(true)
+    end
+
+    it("doesn't allow a non-student to create a lesson") do
+      sign_in(@user)
+      subject
+      expect(response).to redirect_to(root_path)
+    end
+
+    it("doesn't allow a non-user to create a lesson") do
+      subject
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    xit('sends an email to the teacher') do
+    end
   end
 end

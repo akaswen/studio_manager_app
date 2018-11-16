@@ -33,6 +33,8 @@ const newLesson = (() => {
     label.textContent = 'Duration';
 
     let select = document.createElement('SELECT');
+    select.id = 'length';
+    select.name = 'duration';
     let option1 = document.createElement('OPTION');
     option1.textContent = '30 minutes';
     option1.value = 30;
@@ -66,6 +68,8 @@ const newLesson = (() => {
     label.textContent = 'Location';
 
     let select = document.createElement('SELECT');
+    select.id = 'location';
+    select.name = 'location';
     let option1 = document.createElement('OPTION');
     let option2 = document.createElement('OPTION');
     let option3 = document.createElement('OPTION');
@@ -83,6 +87,26 @@ const newLesson = (() => {
     return selectSpan;
   }
 
+  function submitForm() {
+    let time = document.querySelector('form h3').textContent;
+    let day = document.querySelector('form h4').textContent;
+    let location = document.getElementById('location').value;
+    let length = document.getElementById('length').value;
+    let radios = document.querySelectorAll('input');
+    let occurence = [...radios].filter(radio => radio.checked)[0].value;
+
+    let metaTag = document.querySelector('meta[name="csrf-token"]');
+    let token = metaTag.getAttribute('content');
+    fetch(`/lesson?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}`, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': token
+      }
+    }).then(() => {
+      window.location.reload(true)
+    });
+  }
+
   function addForm(button, innerMenu) {
     let startTime = button.getAttribute('data-time');
     let weekDay = button.getAttribute('data-day');
@@ -90,7 +114,7 @@ const newLesson = (() => {
     let form = document.createElement('FORM');
     let header = document.createElement('H5');
     let time = document.createElement('H3');
-    let day = document.createElement('h4');
+    let day = document.createElement('H4');
     let selectLocation = createSelectLocation();
     let selectLength = createSelectLength(button);
     let radioOccuring = createRadioOccuring();
@@ -126,13 +150,15 @@ const newLesson = (() => {
     let innerMenu = document.createElement('DIV');
     innerMenu.className = 'inner-menu';
 
+    let submit = document.createElement('BUTTON');
+
     if (message) {
       addMessage(message, innerMenu);
     } else {
       addForm(button, innerMenu);
+      submit.addEventListener('click', submitForm);
     }
 
-    let submit = document.createElement('BUTTON');
     submit.className = 'btn btn-outline-primary';
     submit.textContent = 'Okay';
     submit.addEventListener('click', () => {

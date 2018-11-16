@@ -27,4 +27,7 @@ RSpec.feature "EditingSchedules", type: :feature do
     find('.fa-calendar-alt').click
     expect(@schedule.time_slots.sunday_slots.last.available).to eq(true)
   end
+
+  xit("it doesn't allow making unavailable a slot that has lessons in it without deleting the lessons") do
+  end
 end
