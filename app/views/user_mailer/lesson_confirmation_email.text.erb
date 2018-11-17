@@ -6,13 +6,12 @@ Dear, <%= @user.full_name %>
 <% else %>
   Ongoing Lessons:
 <% end %>
-<%= @lessons[0].start_time.strftime("%A, %B %e, %Y %H:%M") %>
-  at
+<%= @lessons[0].start_time.strftime("%A, %B %e, %Y %H:%M") %> at:
 <% if @lessons[0].location == "teacher" %>
   the teacher's studio.
 <% else %>
   the student's house.
 <% end %>
 
-Please visit your <%= link_to 'Dashboard', root_url %> to confirm or delete this lesson request.
+Please visit your dashboard: <%= root_url %> to confirm or delete this lesson request.
 
