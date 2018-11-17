@@ -49,17 +49,15 @@ class LessonsController < ApplicationController
   end
 
   def update
-    updated = true
-    params["id"].each do |id|
-      updated = false unless lesson = Lesson.find(id)
-      lesson.update_attribute(:confirmed, true)               
+    lesson = Lesson.find(params["id"])
+    lesson.update_attribute(:confirmed, true)
+
+    if params["occurence"] == "weekly"
+      3.times do |n|
+        other_lesson = Lesson.find_by(start_time: lesson.start_time - (n + 1).weeks)
+        other_lesson.update_attribute(:confirmed, true)
+      end
     end
-    if updated
-    flash["notice"] = "successfully confirmed lesson/s"
-    else
-      flash["alert"] = "Could not confirm lesson/s"
-    end
-    redirect_to root_path
   end
 
   private

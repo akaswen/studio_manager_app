@@ -76,9 +76,17 @@
 
 /* student lists (index views and on teacher-sidebar) */
 
-.student_list {
+#teacher-sidebar {
   button {
     font-size: 0.7em;
+    margin: 5px;
+    min-width: 70px;
+    h6 {
+      i {
+        display: inline-block;
+        font-size: 1em;
+      }
+    }
     i {
       display: block;
       font-size: 1.7em;

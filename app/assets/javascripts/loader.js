@@ -14,7 +14,7 @@ window.addEventListener('turbolinks:load', () => {
   dropDownMaker.addDropDown(icon, menu, container);
 
 
-  let studentToggle = document.getElementById('new_student_toggle'); //for teacher sidebar
+  let sidebar = document.getElementById('teacher-sidebar'); //for teacher sidebar
   let indexDiv = document.getElementById('student_index'); //for index
   let inputs = document.querySelectorAll('#user_form input'); //for devise forms
   let showDiv = document.getElementById('user-show'); //for show page
@@ -23,8 +23,8 @@ window.addEventListener('turbolinks:load', () => {
 
   if (inputs.length > 0) {
     deviseForms.load(inputs);
-  } else if (studentToggle) {
-    teacherSidebar.load(studentToggle);
+  } else if (sidebar) {
+    teacherSidebar.load(sidebar);
   } else if (indexDiv) {
     index.load(indexDiv);
   } else if (showDiv) {

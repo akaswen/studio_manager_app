@@ -12,6 +12,7 @@ RSpec.feature "MakingLessons", type: :feature do
   after(:each) do
     ActionController::Base.allow_forgery_protection = false
     ActionMailer::Base.deliveries.clear
+    Lesson.destroy_all
   end
 
   subject { 
@@ -97,7 +98,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  xit("allows a teacher to confirm new lessons", js: true) do
+  it("allows a teacher to confirm a single lesson", js: true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -109,7 +110,32 @@ RSpec.feature "MakingLessons", type: :feature do
     find("#icon").click
     sign_out(@student)
     sign_in(@teacher)
-    # rest of test for confirming lessons
+    within('#teacher-sidebar') do
+      click_button('New Lesson Requests')
+      click_button('Confirm')
+    end
+    expect(Lesson.last.confirmed).to eq(true)
+  end
+
+  it("allows a teacher to confirm weekly lessons", js: true) do
+    subject
+    within('.inner-menu') do
+      expect(page).to have_content('Lesson Request')
+      expect(page).to have_content('12:00')
+      select('60 minutes', from: 'duration')
+      choose('occurence', option: 'weekly')
+      expect{ click_button('Okay') }.to change{ Lesson.count }.by(4)
+    end
+    find("#icon").click
+    sign_out(@student)
+    sign_in(@teacher)
+    within('#teacher-sidebar') do
+      click_button('New Lesson Requests')
+      click_button('Confirm')
+    end
+    Lesson.all.each do |lesson|
+      expect(lesson.confirmed).to eq(true)
+    end
   end
 
   xit("allows a teacher to delete new lessons") do

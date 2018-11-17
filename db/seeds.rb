@@ -24,7 +24,7 @@ student.save!
 
 student.confirm
 
-# some lessons
+# some confirmed lessons
 
 4.times do |n|
   start_time = Time.now.beginning_of_day + 10.hours + (1 + n).days

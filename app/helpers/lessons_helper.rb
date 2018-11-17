@@ -18,7 +18,7 @@ module LessonsHelper
     end
   end
 
-  def get_start_time(day, time, start_time=Time.now)
+  def get_start_time(day, time, start_time=Time.now.utc)
     wday = wday_number(day)
     if (start_time.wday != wday || start_time.strftime("%H:%M") >= time) 
       start_time = start_time.beginning_of_day
@@ -36,7 +36,7 @@ module LessonsHelper
   end
 
   def beginning_of_week
-    today = Time.now.beginning_of_day
+    today = Time.now.utc.beginning_of_day
     until today.wday == 0
       today -= 1.day
     end

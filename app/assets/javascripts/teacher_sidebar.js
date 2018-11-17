@@ -2,14 +2,19 @@
 
 const teacherSidebar = (() => {
 
-  function load (studentToggle) {
-    let studentNodes = document.querySelectorAll('#new_students li');
-    studentToggle.addEventListener('click', toggleArrow)
-    studentListAdjuster.enableAdjusting(studentNodes);
+  function load (sidebar) {
+    let toggleButtons = document.querySelectorAll('button[data-toggle="collapse"]')
+    let students = document.querySelectorAll('#new_students li');
+    let lessons = document.querySelectorAll('#new_lessons li');
+
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', toggleArrow)
+    });
+    studentListAdjuster.enableAdjusting(students, lessons);
   }
 
-  function toggleArrow() {
-    let icon = document.querySelector('#new_student_toggle i');
+  function toggleArrow(e) {
+    let icon = e.currentTarget.firstElementChild.lastElementChild;
     icon.classList.toggle('fa-sort-up');
     icon.classList.toggle('fa-sort-down');
   }

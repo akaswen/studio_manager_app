@@ -39,7 +39,7 @@ class Lesson < ApplicationRecord
 
   def self.week(start_time)
     end_time = start_time + 1.week
-    lessons = Lesson.where("start_time >= ? AND end_time < ?", start_time, end_time).all
+    lessons = Lesson.where("start_time >= ? AND end_time < ?", start_time, end_time)
   end
 
   private
