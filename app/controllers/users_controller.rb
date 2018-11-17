@@ -54,28 +54,23 @@ class UsersController < ApplicationController
   end
 
   def wait_list
-    r = JSON.load(request.body)
-    id = r["id"]
-    @user = User.find(id)
+    @user = User.find(params["id"])
     @user.update_attribute(:status, "Wait Listed")
     UserMailer.with(user: @user).wait_list_email.deliver_now
   end
 
   def add_student
-    r = JSON.load(request.body)
-    id = r["id"]
-    rate = r["rate"]
-    raise "requires a rate per hour" unless rate
-    @user = User.find(id)
+    raise "requires a rate per hour" unless params["rate"]
+    @user = User.find(params["id"])
     if @user.student
       old_rate = @user.rate_per_hour
-      UserMailer.with(user: @user, old_rate: old_rate, new_rate: rate).update_rate_email.deliver_now
+      UserMailer.with(user: @user, old_rate: old_rate, new_rate: params["rate"]).update_rate_email.deliver_now
     else
       @user.update_attribute(:student, true)
       @user.update_attribute(:status, nil)
-      UserMailer.with(user: @user, rate: rate).add_to_studio_email.deliver_now
+      UserMailer.with(user: @user, rate: params["rate"]).add_to_studio_email.deliver_now
     end
-    @user.update_attribute(:rate_per_hour, rate)
+    @user.update_attribute(:rate_per_hour, params["rate"])
   end
 
   private

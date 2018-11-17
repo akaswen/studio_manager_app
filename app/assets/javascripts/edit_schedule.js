@@ -39,15 +39,11 @@ const schedule = (() => {
       addLoadingMenu();
       let metaTag = document.querySelector('meta[name="csrf-token"]');
       let token = metaTag.getAttribute('content');
-    fetch('/update_time_slot', {
+    fetch(`/time_slots?ids=${JSON.stringify(ids)}&available=true`, {
         method: 'PATCH', 
         headers: {
           'X-CSRF-TOKEN': token
-        },
-        body: JSON.stringify({
-          ids: ids,
-          available: true
-        })
+        }
       }).then(() => removeLoadingMenu());
     } 
   }
@@ -57,15 +53,11 @@ const schedule = (() => {
       addLoadingMenu();
       let metaTag = document.querySelector('meta[name="csrf-token"]');
       let token = metaTag.getAttribute('content');
-    fetch('/update_time_slot', {
+    fetch(`/time_slots?ids=${JSON.stringify(ids)}&available=false`, {
         method: 'PATCH', 
         headers: {
           'X-CSRF-TOKEN': token
         },
-        body: JSON.stringify({
-          ids: ids,
-          available: false
-        })
       }).then(() => removeLoadingMenu());
     } 
   }

@@ -8,6 +8,10 @@ RSpec.feature "EditingSchedules", type: :feature do
     ActionController::Base.allow_forgery_protection = true
   end
 
+  after(:each) do
+    ActionController::Base.allow_forgery_protection = false
+  end
+
   it('allows a teacher to change availability of time slots', js: true) do
     @schedule.time_slots.sunday_slots.each do |s|
       expect(s.available).to eq(true)

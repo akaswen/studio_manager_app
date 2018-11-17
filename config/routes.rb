@@ -22,7 +22,9 @@ Rails.application.routes.draw do
 
   resources :lessons, only: [:new, :create, :update]
 
-  resources :time_slots, only: [:update]
+  patch '/time_slots', to: 'time_slots#update'
+  put '/time_slots', to: 'time_slots#update'
+
 
   get 'schedule', to: 'schedules#edit'
 end

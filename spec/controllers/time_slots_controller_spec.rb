@@ -12,23 +12,23 @@ RSpec.describe TimeSlotsController, type: :controller do
   
   it('updates a single time slot via json request') do
     sign_in(@teacher)
-    post :update, body: {ids: [@time_slot.id], available: false }.to_json
+    post :update, params: {ids: [@time_slot.id].to_json, available: false }
     @time_slot.reload
     expect(@time_slot.available).to eq(false)
-    post :update, body: {ids: [@time_slot.id], available: true }.to_json
+    post :update, params: {ids: [@time_slot.id].to_json, available: true }
     @time_slot.reload
     expect(@time_slot.available).to eq(true)
   end
 
   it("doesn't let a non-user update time slots") do
-    post :update, body: {ids: [@time_slot.id], available: false }.to_json
+    post :update, params: {ids: [@time_slot.id].to_json, available: false }
     @time_slot.reload
     expect(@time_slot.available).to eq(true)
   end
 
   it("doesn't let a non-student update time slots") do
     sign_in(@user)
-    post :update, body: {ids: [@time_slot.id], available: false }.to_json
+    post :update, params: {ids: [@time_slot.id].to_json, available: false }
     @time_slot.reload
     expect(@time_slot.available).to eq(true)
 
@@ -36,7 +36,7 @@ RSpec.describe TimeSlotsController, type: :controller do
 
   it("doesn't let a student update time slots") do
     sign_in(@student)
-    post :update, body: {ids: [@time_slot.id], available: false }.to_json
+    post :update, params: {ids: [@time_slot.id].to_json, available: false }
     @time_slot.reload
     expect(@time_slot.available).to eq(true)
 

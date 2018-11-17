@@ -54,7 +54,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     subject { 
-      patch :wait_list, body: { id: @user.id }.to_json
+      patch :wait_list, params: { id: @user.id }
       @user.reload
     }
 
@@ -87,7 +87,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     subject { 
-      patch :add_student, body: { id: @user.id, rate: "45" }.to_json
+      patch :add_student, params: { id: @user.id, rate: "45" }
       @user.reload
     }
 
@@ -123,7 +123,7 @@ RSpec.describe UsersController, type: :controller do
     it("requires a student's rate to be set") do
       sign_in(@teacher)
       expect{
-        patch :add_student, body: { id: @user.id }.to_json
+        patch :add_student, params: { id: @user.id }
       }.to raise_error("requires a rate per hour")
     end
   end

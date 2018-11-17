@@ -7,20 +7,16 @@ const studentApi = (() => {
       headers: {
         'X-CSRF-TOKEN': token
       },
-      body: JSON.stringify({
-        id: id,
-        rate: rate
-      })
     });
   }
 
   function addStudent(id, rate) {
-    let path = '/add_student';
+    let path = `/add_student?id=${id}&rate=${rate}`;
     return studentFetch(path, id, 'PATCH', rate);
   }
 
   function waitListStudent(id) {
-    let path = '/wait_list';
+    let path = `/wait_list?id=${id}`;
     return studentFetch(path, id, 'PATCH');
   }
 
