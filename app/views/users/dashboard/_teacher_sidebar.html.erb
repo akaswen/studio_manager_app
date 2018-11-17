@@ -1,20 +1,13 @@
-<button id="new_student_toggle" class="btn" data-toggle="collapse" data-target="#new_students"><h6>New Student Requests <em id="student_count">(<%= @new_students.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6></button>
+<button id="new_student_toggle" class="btn" data-toggle="collapse" data-target="#new_students">
+  <h6>New Student Requests <em id="student_count">(<%= @new_students.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6>
+</button>
 <div class="row collapse" id="new_students">
-  <% if @new_students %>
-    <ul class="list-group ml-5 student_list">
-      <% @new_students.each do |s| %>
-        <li class="list-group-item" id="<%= s.id %>">
-          <div class="row align-items-center">
-            <div class="col-7">
-              <%= link_to s.full_name, s %>
-            </div>
-            <div class="col-5 text-right">
-              <button class="btn btn-light" data-decision="add"><i data-decision="add" class="fas fa-check-circle text-success"></i>Studio</button>
-              <button class="btn btn-light" data-decision="wait-list"><i data-decision="wait-list" class="fas fa-clock text-warning"></i>Wait List</button>
-            </div>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
+  <%= render 'users/dashboard/new_students' %>
+</div>
+
+<button id="new_student_toggle" class="btn" data-toggle="collapse" data-target="#new_lessons">
+  <h6>New Lesson Requests <em id="student_count">(<%= @new_lessons.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6>
+</button>
+<div class="row collapse" id="new_lessons">
+  <%= render 'users/dashboard/new_lessons' %>
 </div>

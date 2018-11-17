@@ -81,6 +81,11 @@ RSpec.describe LessonsController, type: :controller do
   end
 
   describe("POST #create") do
+
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+
     subject { 
       time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
       post :create, params: {
@@ -126,7 +131,53 @@ RSpec.describe LessonsController, type: :controller do
       expect(response).to redirect_to(new_user_session_path)
     end
 
-    xit('sends an email to the teacher') do
+    it('sends an email to the teacher') do
+      sign_in(@student)
+      expect{ subject }.to change{ ActionMailer::Base.deliveries.length }.by(1)
+    end
+  end
+
+  describe('POST #update') do
+    before(:each) do
+      @lesson = Lesson.new(attributes_for(:lesson))
+      @lesson.student = @student
+      @lesson.teacher = @teacher
+      @lesson.save
+    end
+
+    subject { patch :update, params: { id: [@lesson.id] } }
+
+    it("confirms a lesson") do
+      sign_in(@teacher)
+      subject
+      expect{ @lesson.reload }.to change{ @lesson.confirmed }.from(false).to(true)
+      expect(response).to redirect_to(root_path)
+    end
+
+    it("doesn't let a student confirm a lesson") do
+      sign_in(@student)
+      expect{ subject }.to_not change{ @lesson.confirmed }
+    end
+
+    it("doesn't let a non-student confirm a lesson") do
+      sign_in(@user)
+      expect{ subject }.to_not change{ @lesson.confirmed }
+    end
+
+    it("doesn't let a non-user confirm a lesson") do
+      expect{ subject }.to_not change{ @lesson.confirmed }
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it("can confirm multiple lessons") do
+      @lesson2 = Lesson.new(start_time: @lesson.start_time + 1.day, end_time: @lesson.end_time + 1.day, location: 'teacher')
+      @lesson2.teacher = @teacher
+      @lesson2.student = @student
+      @lesson2.save
+      sign_in(@teacher)
+      patch :update, params: { id: [@lesson.id, @lesson2.id] } 
+      expect{ @lesson.reload }.to change{ @lesson.confirmed }.from(false).to(true)
+      expect{ @lesson2.reload }.to change{ @lesson2.confirmed }.from(false).to(true)
     end
   end
 end

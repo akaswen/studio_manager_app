@@ -19,13 +19,10 @@ Rails.application.routes.draw do
   put '/add_student', to: 'users#add_student'
 
   resources :users, only: [:index, :show, :destroy]
-  resources :lessons, only: [:new]
 
-  post '/lesson', to: 'lessons#create'
+  resources :lessons, only: [:new, :create, :update]
 
-  patch '/update_time_slot', to: 'time_slots#update'
-  put '/update_time_slot', to: 'time_slots#update'
-
+  resources :time_slots, only: [:update]
 
   get 'schedule', to: 'schedules#edit'
 end

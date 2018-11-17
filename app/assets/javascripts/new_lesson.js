@@ -97,7 +97,7 @@ const newLesson = (() => {
 
     let metaTag = document.querySelector('meta[name="csrf-token"]');
     let token = metaTag.getAttribute('content');
-    fetch(`/lesson?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}`, {
+    fetch(`/lessons?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}`, {
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': token

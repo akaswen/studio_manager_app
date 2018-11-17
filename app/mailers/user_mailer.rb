@@ -23,4 +23,10 @@ class UserMailer < ApplicationMailer
     @new_rate = params[:new_rate]
     mail(to: @user.email, subject: "Rate Changed")
   end
+
+  def lesson_confirmation_email
+    @user = params[:user]
+    @lessons = params[:lessons]
+    mail(to: @user.email, subject: "New lesson request from #{@lessons[0].student.full_name}")
+  end
 end

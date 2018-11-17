@@ -11,6 +11,7 @@ RSpec.feature "MakingLessons", type: :feature do
 
   after(:each) do
     ActionController::Base.allow_forgery_protection = false
+    ActionMailer::Base.deliveries.clear
   end
 
   subject { 
@@ -94,5 +95,23 @@ RSpec.feature "MakingLessons", type: :feature do
       expect(page).to have_content('this slot is not available')
       click_button('Okay')
     end
+  end
+
+  xit("allows a teacher to confirm new lessons", js: true) do
+    subject
+    within('.inner-menu') do
+      expect(page).to have_content('Lesson Request')
+      expect(page).to have_content('12:00')
+      select('60 minutes', from: 'duration')
+      choose('occurence', option: 'single')
+      expect{ click_button('Okay') }.to change{ Lesson.count }.by(1)
+    end
+    find("#icon").click
+    sign_out(@student)
+    sign_in(@teacher)
+    # rest of test for confirming lessons
+  end
+
+  xit("allows a teacher to delete new lessons") do
   end
 end

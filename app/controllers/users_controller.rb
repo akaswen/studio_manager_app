@@ -44,6 +44,13 @@ class UsersController < ApplicationController
   def dashboard
     @user = current_user
     @new_students = User.confirmed.active.where(status: 'Pending').all if current_user.teacher
+    weekly_lesson_requests = Lesson.where(repeat: true, confirmed: false)
+    query_params = []
+    4.times do |n|
+      weekly_lesson_requests.each { |l| query_params << l.start_time - n.weeks }
+    end
+    single_lesson_requests = Lesson.where("confirmed = ? AND start_time != ?", false, query_params)
+    @new_lessons = single_lesson_requests + weekly_lesson_requests
   end
 
   def wait_list

@@ -1,0 +1,18 @@
+<% if @new_lessons %>
+  <ul class="list-group ml-5 lesson_list">
+    <% @new_lessons.each do |l| %>
+      <%= l.inspect %>
+      <li class="list-group-item" id="<%= l.id %>">
+        <div class="row align-items-center">
+          <div class="col-7">
+            <%= l.student.full_name %>
+          </div>
+          <div class="col-5 text-right">
+            <button class="btn btn-light" data-decision="add"><i data-decision="add" class="fas fa-check-circle text-success"></i>Studio</button>
+            <button class="btn btn-light" data-decision="wait-list"><i data-decision="wait-list" class="fas fa-clock text-warning"></i>Wait List</button>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -30,6 +30,8 @@ class LessonsController < ApplicationController
 
     n = params["occurence"] == "weekly" ? 4 : 1
 
+    lessons = []
+    
     n.times do |i|
       lesson = Lesson.new(start_time: start_time, end_time: end_time, location: location)
       lesson.student = student
@@ -40,7 +42,24 @@ class LessonsController < ApplicationController
       lesson.repeat = true  if i == 3
 
       lesson.save
+      lessons << lesson
     end
+
+    UserMailer.with(user: User.teacher, lessons: lessons).lesson_confirmation_email.deliver_now
+  end
+
+  def update
+    updated = true
+    params["id"].each do |id|
+      updated = false unless lesson = Lesson.find(id)
+      lesson.update_attribute(:confirmed, true)               
+    end
+    if updated
+    flash["notice"] = "successfully confirmed lesson/s"
+    else
+      flash["alert"] = "Could not confirm lesson/s"
+    end
+    redirect_to root_path
   end
 
   private
