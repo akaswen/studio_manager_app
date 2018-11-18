@@ -123,8 +123,8 @@
   .inner-menu {
     background-color: white;
     position: fixed;
-    height: 275px;
-    width: 275px;
+    height: 325px;
+    width: 325px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -184,6 +184,9 @@
             margin-right: 10px;
           }
         }
+      }
+      .student-select {
+        width: 80%;
       }
     }
   }

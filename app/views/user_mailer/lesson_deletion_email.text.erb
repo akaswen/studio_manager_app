@@ -1,5 +1,5 @@
 <% if @destroy_all == "true" %>
-  Lessons for <%= @student.full_name %> on <%= @lesson.start_time.strftime("%a %I:%M %p") %> have been canceled from <%= @lesson.start_time.strftime("%A, %B %e") %> on.
+  All lessons for <%= @student.full_name %> on <%= @lesson.start_time.strftime("%a %I:%M %p") %> have been canceled from <%= @lesson.start_time.strftime("%A, %B %e") %> on.
 <% else %>
   <%= @student.full_name %>'s lesson on <%= @lesson.start_time.strftime("%A, %B %e %I:%M %p") %> has been canceled.
 <% end %>

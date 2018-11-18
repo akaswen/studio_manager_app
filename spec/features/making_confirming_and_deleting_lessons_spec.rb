@@ -24,7 +24,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   }
 
-  xit('allows a student to make a new single lesson', js:true) do
+  it('allows a student to make a new single lesson', js:true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -71,7 +71,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  xit("allows a student to make new weekly lessons that are visible over the next four weeks", js: true) do
+  it("allows a student to make new weekly lessons that are visible over the next four weeks", js: true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -98,7 +98,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  xit("allows a teacher to confirm a single lesson", js: true) do
+  it("allows a teacher to confirm a single lesson", js: true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -117,7 +117,7 @@ RSpec.feature "MakingLessons", type: :feature do
     expect(Lesson.last.confirmed).to eq(true)
   end
 
-  xit("allows a teacher to confirm weekly lessons", js: true) do
+  it("allows a teacher to confirm weekly lessons", js: true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -138,6 +138,58 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  xit("allows a teacher to delete new lessons") do
+  it("allows a teacher to delete a new single lesson", js: true) do
+    subject
+    within('.inner-menu') do
+      expect(page).to have_content('Lesson Request')
+      expect(page).to have_content('12:00')
+      select('60 minutes', from: 'duration')
+      choose('occurence', option: 'single')
+      expect{ click_button('Okay') }.to change{ Lesson.count }.by(1)
+    end
+    find("#icon").click
+    sign_out(@student)
+    sign_in(@teacher)
+    within('#teacher-sidebar') do
+      click_button('New Lesson Requests')
+      click_button('Delete')
+    end
+    expect(Lesson.count).to eq(0)
+  end
+
+  it("allows a teacher to delete new weekly lessons", js: true) do
+    subject
+    within('.inner-menu') do
+      expect(page).to have_content('Lesson Request')
+      expect(page).to have_content('12:00')
+      select('60 minutes', from: 'duration')
+      choose('occurence', option: 'weekly')
+      expect{ click_button('Okay') }.to change{ Lesson.count }.by(4)
+    end
+    find("#icon").click
+    sign_out(@student)
+    sign_in(@teacher)
+    within('#teacher-sidebar') do
+      click_button('New Lesson Requests')
+      click_button('Delete')
+    end
+    expect(Lesson.count).to eq(0)
+  end
+
+  it("allows a teacher to make a lesson for any student in their studio", js: true) do
+    sign_in(@teacher)
+    click_link('New Lesson')
+    find('i.fa-caret-right').click
+    within('.sunday') do
+      click_button('12:00')
+    end
+    within('.inner-menu') do
+      expect(page).to have_content('Choose Student')
+      expect(page).to have_content('12:00')
+      select(@student.full_name.downcase, from: 'student')
+      select('60 minutes', from: 'duration')
+      choose('occurence', option: 'weekly')
+      expect{ click_button('Okay') }.to change{ Lesson.count }.by(4)
+    end
   end
 end

@@ -1,5 +1,33 @@
+//= require my_fetch
+
 const newLesson = (() => {
   let lessons;
+  let path = `/users.json?student=true`;
+  let studentsDiv = document.createElement('SPAN');
+  studentsDiv.className = 'student-select';
+  
+  myFetch(path).then(response => {
+    return response.json();
+  }).then(response => {
+    let header = document.createElement('LABEL');
+    header.textContent = "Choose Student";
+
+    let select = document.createElement('SELECT');
+    select.id = 'student';
+    select.name = 'student';
+
+    response.forEach(student => {
+      let option = document.createElement('OPTION');
+      option.textContent = `${student.first_name} ${student.last_name}`;
+      option.value = student.id;
+
+      select.appendChild(option);
+    });
+    studentsDiv.appendChild(header);
+    studentsDiv.appendChild(select);
+  }).catch((err) => {
+    console.log(err);
+  });
 
   function createRadioOccuring() {
     let radioSpan = document.createElement('SPAN');
@@ -94,15 +122,14 @@ const newLesson = (() => {
     let length = document.getElementById('length').value;
     let radios = document.querySelectorAll('input');
     let occurence = [...radios].filter(radio => radio.checked)[0].value;
+    let studentId = document.querySelector('.student-select select');
 
-    let metaTag = document.querySelector('meta[name="csrf-token"]');
-    let token = metaTag.getAttribute('content');
-    fetch(`/lessons?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}`, {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': token
-      }
-    }).then(() => {
+    if (studentId) {
+      studentId = studentId.value
+    }
+
+    let path = `/lessons?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}&id=${studentId}`;
+    myFetch(path, 'POST').then(() => {
       window.location.reload(true)
     });
   }
@@ -124,6 +151,7 @@ const newLesson = (() => {
     day.textContent = `${weekDay}`;
 
     form.appendChild(header);
+    form.appendChild(studentsDiv);
     form.appendChild(time);
     form.appendChild(day);
     form.appendChild(selectLocation);

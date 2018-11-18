@@ -42,6 +42,13 @@ class Lesson < ApplicationRecord
     lessons = Lesson.where("start_time >= ? AND end_time < ?", start_time, end_time)
   end
 
+  def self.initial_of_repeating
+    repeating_lessons = Lesson.where(repeat: true)
+    query_params = []
+    repeating_lessons.each { |l| query_params << l.start_time - 3.weeks }
+    initial_lessons = Lesson.where(start_time: query_params)
+  end
+
   private
 
   def proper_start_time

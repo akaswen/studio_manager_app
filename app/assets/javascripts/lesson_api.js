@@ -1,19 +1,19 @@
-const lessonApi = (() => {
-  let metaTag = document.querySelector('meta[name="csrf-token"]');
-  let token = metaTag.getAttribute('content');
+//= require my_fetch
 
+const lessonApi = (() => {
   function confirmLesson(id, occurence) {
-    fetch(`/lessons/${id}?occurence=${occurence}`, 
-      {
-        method: 'PATCH',
-        headers: {
-          'X-CSRF-TOKEN': token
-        }
-      }
-    )
+    let path = `/lessons/${id}?occurence=${occurence}`;
+    myFetch(path, 'PATCH');
   }
 
   function deleteLesson(id, occurence) {
+    let path;
+    if (occurence === 'weekly') {
+      path = `/lessons/${id}?destroy_all=${true}`;
+    } else {
+      path = `/lessons/${id}`;
+    }
+    myFetch(path, 'DELETE');
   }
 
   return {confirmLesson, deleteLesson};

@@ -135,6 +135,37 @@ RSpec.describe LessonsController, type: :controller do
       sign_in(@student)
       expect{ subject }.to change{ ActionMailer::Base.deliveries.length }.by(1)
     end
+
+    it("allows a teacher to create a confirmed lesson") do
+      time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
+
+      sign_in(@teacher)
+      expect{
+        post :create, params: {
+          time: time,
+          location: "teacher",
+          length: "60",
+          occurence: "single",
+          id: @student.id
+        }
+      }.to change{ Lesson.count }.by(1).and change{ ActionMailer::Base.deliveries.length }.by(0)
+      expect(Lesson.last).to be_confirmed
+    end
+
+    it("doesn't allow a student to create a lesson for someone else") do
+      time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
+
+      sign_in(@student)
+      expect{
+        post :create, params: {
+          time: time,
+          location: "teacher",
+          length: "60",
+          occurence: "single",
+          id: @student.id
+        }
+      }.to change{ Lesson.count }.by(0)
+    end
   end
 
   describe('POST #update') do
@@ -170,20 +201,22 @@ RSpec.describe LessonsController, type: :controller do
 
     it("can confirm multiple lessons") do
       sign_in(@student)
-      time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
-      post :create, params: {
-        time: time,
-        location: "teacher",
-        length: "60",
-        occurence: "weekly"
-      }
+      time = (DateTime.now.utc + 7.days).strftime("%a %b %e") + " 08:00"
+      expect{ 
+        post :create, params: {
+          time: time,
+          location: "teacher",
+          length: "60",
+          occurence: "weekly"
+        }
+      }.to change{ Lesson.count }.by(4)
       sign_out(@student)
       sign_in(@teacher)
-      lesson = Lesson.last
+      lesson = Lesson.all.order(:start_time).second
       patch :update, params: { id: lesson.id, occurence: "weekly" } 
       expect{ lesson.reload }.to change{ lesson.confirmed }.from(false).to(true)
       3.times do 
-        lesson = Lesson.find_by(start_time: lesson.start_time - 1.week)
+        lesson = Lesson.find_by(start_time: lesson.start_time + 1.week)
         expect(lesson.confirmed).to eq(true)
       end
     end

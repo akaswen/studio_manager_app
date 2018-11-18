@@ -1,3 +1,5 @@
+//= require my_fetch
+
 const schedule = (() => {
   let calendar;
 
@@ -37,28 +39,16 @@ const schedule = (() => {
   function makeSlotsAvailable(ids) {
     if (ids.length > 0) {
       addLoadingMenu();
-      let metaTag = document.querySelector('meta[name="csrf-token"]');
-      let token = metaTag.getAttribute('content');
-    fetch(`/time_slots?ids=${JSON.stringify(ids)}&available=true`, {
-        method: 'PATCH', 
-        headers: {
-          'X-CSRF-TOKEN': token
-        }
-      }).then(() => removeLoadingMenu());
+      let path = `/time_slots?ids=${JSON.stringify(ids)}&available=true`;
+      myFetch(path, 'PATCH').then(() => removeLoadingMenu());
     } 
   }
 
   function makeSlotsUnavailable(ids) {
     if (ids.length > 0) {
       addLoadingMenu();
-      let metaTag = document.querySelector('meta[name="csrf-token"]');
-      let token = metaTag.getAttribute('content');
-    fetch(`/time_slots?ids=${JSON.stringify(ids)}&available=false`, {
-        method: 'PATCH', 
-        headers: {
-          'X-CSRF-TOKEN': token
-        },
-      }).then(() => removeLoadingMenu());
+      let path = `/time_slots?ids=${JSON.stringify(ids)}&available=false`;
+      myFetch(path, 'PATCH').then(() => removeLoadingMenu());
     } 
   }
 

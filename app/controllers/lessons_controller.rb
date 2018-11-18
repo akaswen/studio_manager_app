@@ -4,6 +4,7 @@ class LessonsController < ApplicationController
   before_action :authenticate_active_user
   before_action :redirect_non_student_teacher 
   before_action :day_before_check, only: [:destroy]
+  before_action :create_params_check, only: [:create]
 
   def new
     @schedule = User.teacher.schedule
@@ -25,7 +26,7 @@ class LessonsController < ApplicationController
     start_time = DateTime.parse(params["time"])
     end_time = start_time + params["length"].to_i.minutes
     location = params["location"]
-    student = current_user
+    student = User.find_by(id: params["id"]) || current_user
     teacher = User.teacher
 
     n = params["occurence"] == "weekly" ? 4 : 1
@@ -41,11 +42,13 @@ class LessonsController < ApplicationController
       end_time += 1.week
       lesson.repeat = true  if i == 3
 
+      lesson.confirmed = true if current_user.teacher
+
       lesson.save
       lessons << lesson
     end
 
-    UserMailer.with(user: User.teacher, lessons: lessons).lesson_request_email.deliver_now
+    UserMailer.with(user: User.teacher, lessons: lessons).lesson_request_email.deliver_now unless current_user.teacher
   end
 
   def update
@@ -54,7 +57,7 @@ class LessonsController < ApplicationController
 
     if params["occurence"] == "weekly"
       3.times do |n|
-        other_lesson = Lesson.find_by(start_time: lesson.start_time - (n + 1).weeks)
+        other_lesson = Lesson.find_by(start_time: lesson.start_time + (n + 1).weeks)
         other_lesson.update_attribute(:confirmed, true)
       end
     end
@@ -97,6 +100,12 @@ class LessonsController < ApplicationController
     unless lesson.start_time > Time.now + 24.hours || current_user.teacher
       redirect_to root_path
       flash["alert"] = "you cannot cancel a lesson within 24 hours"
+    end
+  end
+
+  def create_params_check
+    if params["id"] && params["id"] != "null"
+      redirect_to root_path unless current_user.teacher
     end
   end
 end

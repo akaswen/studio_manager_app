@@ -46,6 +46,21 @@ RSpec.describe UsersController, type: :controller do
       get :dashboard
       expect(assigns(:new_students)).to_not include(@other)
     end
+
+    it "gets the first of repeating lessons and not the last" do
+      @lesson = Lesson.new(attributes_for(:lesson))
+      @lesson.student = @student
+      @lesson.teacher = @teacher
+      @lesson.save
+      3.times do |n|
+        lesson = Lesson.new(start_time: @lesson.start_time + (1 + n).weeks, end_time: @lesson.end_time + (1 + n).weeks, location: @lesson.location, student_id: @lesson.student.id, teacher_id: @lesson.teacher.id)
+        lesson.repeat = true if n == 2
+        lesson.save
+      end
+      sign_in(@teacher)
+      get :dashboard
+      expect(assigns(:weekly_lesson_requests)[0]).to eq(@lesson)
+    end
   end
 
   describe "PATCH #wait_list" do
