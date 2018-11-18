@@ -24,7 +24,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   }
 
-  it('allows a student to make a new single lesson', js:true) do
+  xit('allows a student to make a new single lesson', js:true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -71,7 +71,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  it("allows a student to make new weekly lessons that are visible over the next four weeks", js: true) do
+  xit("allows a student to make new weekly lessons that are visible over the next four weeks", js: true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -98,7 +98,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  it("allows a teacher to confirm a single lesson", js: true) do
+  xit("allows a teacher to confirm a single lesson", js: true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')
@@ -117,7 +117,7 @@ RSpec.feature "MakingLessons", type: :feature do
     expect(Lesson.last.confirmed).to eq(true)
   end
 
-  it("allows a teacher to confirm weekly lessons", js: true) do
+  xit("allows a teacher to confirm weekly lessons", js: true) do
     subject
     within('.inner-menu') do
       expect(page).to have_content('Lesson Request')

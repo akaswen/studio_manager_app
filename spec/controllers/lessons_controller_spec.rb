@@ -9,6 +9,10 @@ RSpec.describe LessonsController, type: :controller do
     @user.confirm
   end
 
+  after(:each) do
+    ActionMailer::Base.deliveries.clear
+  end
+
   describe("GET #new") do
     subject { get :new }
 
@@ -50,30 +54,30 @@ RSpec.describe LessonsController, type: :controller do
         sign_in(@student)
       end
 
-      xit('gets this weeks lessons with no parameters') do
+      it('gets this weeks lessons with no parameters') do
         subject
         expect(assigns(:weeks_lessons).length).to eq(1)
       end
 
-      xit('gets next weeks lessons') do
+      it('gets next weeks lessons') do
         get :new, params: { week: 2 }
         expect(assigns(:weeks_lessons).length).to eq(2)
 
       end
 
-      xit('gets lessons three weeks away') do
+      it('gets lessons three weeks away') do
         get :new, params: { week: 3 }
         expect(assigns(:weeks_lessons).length).to eq(3)
 
       end
 
-      xit('gets lessons four weeks away') do
+      it('gets lessons four weeks away') do
         get :new, params: { week: 4 }
         expect(assigns(:weeks_lessons).length).to eq(4)
 
       end
 
-      xit('does not get lessons more than four weeks away') do
+      it('does not get lessons more than four weeks away') do
         get :new, params: { week: 5 }
         expect(assigns(:weeks_lessons).length).to eq(1)
       end
@@ -81,10 +85,6 @@ RSpec.describe LessonsController, type: :controller do
   end
 
   describe("POST #create") do
-
-    after(:each) do
-      ActionMailer::Base.deliveries.clear
-    end
 
     subject { 
       time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
@@ -149,7 +149,7 @@ RSpec.describe LessonsController, type: :controller do
 
     it("confirms a lesson") do
       sign_in(@teacher)
-      subject
+      expect{ subject }.to change{ ActionMailer::Base.deliveries.length }.by(1)
       expect{ @lesson.reload }.to change{ @lesson.confirmed }.from(false).to(true)
     end
 
@@ -185,6 +185,90 @@ RSpec.describe LessonsController, type: :controller do
       3.times do 
         lesson = Lesson.find_by(start_time: lesson.start_time - 1.week)
         expect(lesson.confirmed).to eq(true)
+      end
+    end
+  end
+
+  describe('DELETE #destroy') do
+    before(:each) do
+      @lesson = Lesson.new(attributes_for(:lesson))
+      @lesson.teacher = @teacher
+      @lesson.student = @student
+      @lesson.save!
+      @student2 = create(:student2)
+    end
+
+    subject { delete :destroy, params: { id: @lesson.id } }
+
+    it('allows a teacher to delete a lesson') do
+      sign_in(@teacher)
+      expect{ subject }.to change{ Lesson.count }.by(-1) 
+    end
+
+    it('allows a student to delete their own lesson') do
+      sign_in(@student)
+      expect{ subject }.to change{ Lesson.count }.by(-1) 
+    end
+
+    it("doesn't allow a non-student to delete a lesson") do
+      sign_in(@user)
+      expect{ subject }.to change{ Lesson.count }.by(0) 
+    end
+
+    it("doesn't allow a non-user to delete a lesson") do
+      expect{ subject }.to change{ Lesson.count }.by(0) 
+    end
+
+    it("doesn't allow a student to delete someone else's lesson") do
+      sign_in(@student2)
+      expect{ subject }.to change{ Lesson.count }.by(0) 
+    end
+
+    it("doesn't allow a student to delete a lesson within 24 hours of now") do
+      @lesson.update_attribute(:start_time, Time.now + 23.hours + 50.minutes)
+      sign_in(@student)
+      expect{ subject }.to change{ Lesson.count }.by(0)
+    end
+
+    it("does allow a teacher to delete a lesson within 24 hours of now") do
+      @lesson.update_attribute(:start_time, Time.now + 23.hours + 50.minutes)
+      sign_in(@teacher)
+      expect{ subject }.to change{ Lesson.count }.by(-1)
+    end
+
+    describe("deleting recurring lessons") do
+      before(:each) do
+        3.times do |n|
+          lesson = Lesson.new(start_time: @lesson.start_time + (n + 1).weeks, end_time: @lesson.end_time + (n + 1).weeks, location: "teacher")
+          lesson.student = @student
+          lesson.teacher = @teacher
+          lesson.repeat = true if n == 2
+          lesson.save!
+        end
+      end
+      
+      it("allows deleting all recurring lessons") do
+        expect(Lesson.count).to eq(4)
+        sign_in(@teacher)
+        expect{
+          delete :destroy, params: { id: @lesson.id, destroy_all: true }
+        }.to change{ Lesson.count }.by(-4)
+      end
+
+      it("doesn't delete all recurring lessons at single time if they are not with same student") do
+        Lesson.last.update_attribute(:student, @student2)
+        sign_in(@teacher)
+        expect{
+          delete :destroy, params: { id: @lesson.id, destroy_all: true }
+        }.to change{ Lesson.count }.by(-3)
+      end
+
+      it("if choosing a lesson that repeats but single lesson option, can delete only that one lesson but still have repeating lessons") do
+        sign_in(@teacher)
+        lesson = Lesson.where(repeat: true).first
+        expect{
+          delete :destroy, params: { id: lesson.id, }
+        }.to change{ Lesson.count }.by(0)
       end
     end
   end

@@ -5,25 +5,24 @@
   </head>
   <body>
     <h1>Dear, <%= @user.full_name %></h1>
-    <p>
-      <%= @lessons[0].student.full_name %> has requested 
-      <% if @lessons.length == 1 %>
-        One Lesson:
-      <% else %>
-        Ongoing Lessons:
-      <% end %>
-    </p>
-    <p>
-      <%= @lessons[0].start_time.strftime("%A, %B %e, %Y %H:%M") %>
+    <% if @occurence == "weekly" %>
+      <p>Your request for lessons on:</p>
+      <p>
+        <%= @lesson.start_time.strftime("%a %I:%M %p") %>
+        for <%= distance_of_time_in_words @lesson.start_time, @lesson.end_time, include_seconds: true %>
+      </p>
+    <% else %>
+      <p>Your request for a single lesson on:</p>
+      <p>
+        <%= @lesson.start_time.strftime("%b %e %a") %>
         at
-      <% if @lessons[0].location == "teacher" %>
-        the teacher's studio.
-      <% else %>
-        the student's house.
-      <% end %>
-    </p>
-    <p>
-      Please visit your <%= link_to 'Dashboard', root_url %> to confirm or delete this lesson request.
-    </p>
+        <%= @lesson.start_time.strftime("%I:%M %p") %>
+        for 
+        <%= distance_of_time_in_words @lesson.start_time, @lesson.end_time, include_seconds: true %>
+      </p>
+    <% end %>
+    <p>Has been approved!</p>
+    
+    <p>See you on <%= @lesson.start_time.strftime("%A") %>!</p>
   </body>
 </html>

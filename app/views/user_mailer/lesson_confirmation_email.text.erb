@@ -1,17 +1,15 @@
 Dear, <%= @user.full_name %>
 ===============================================
-<%= @lessons[0].student.full_name %> has requested 
-<% if @lessons.length == 1 %>
-  One Lesson:
-<% else %>
-  Ongoing Lessons:
-<% end %>
-<%= @lessons[0].start_time.strftime("%A, %B %e, %Y %H:%M") %> at:
-<% if @lessons[0].location == "teacher" %>
-  the teacher's studio.
-<% else %>
-  the student's house.
-<% end %>
+<% if @occurence == "weekly" %>
+  Your request for lessons on:
 
-Please visit your dashboard: <%= root_url %> to confirm or delete this lesson request.
+  <%= @lesson.start_time.strftime("%a %I:%M %p") %> for <%= distance_of_time_in_words @lesson.start_time, @lesson.end_time %>
+<% else %>
+  Your request for a single lesson on:
+
+  <%= @lesson.start_time.strftime("%b %e %a") %> at <%= @lesson.start_time.strftime("%I:%M %p") %> for <%= distance_of_time_in_words @lesson.start_time, @lesson.end_time %>
+<% end %>
+Has been approved!
+
+See you on <%= @lesson.start_time.strftime("%A") %>!
 

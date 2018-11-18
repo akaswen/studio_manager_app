@@ -1,0 +1,17 @@
+Dear, <%= @user.full_name %>
+===============================================
+<%= @lessons[0].student.full_name %> has requested 
+<% if @lessons.length == 1 %>
+  One Lesson:
+<% else %>
+  Ongoing Lessons:
+<% end %>
+<%= @lessons[0].start_time.strftime("%A, %B %e, %Y %H:%M") %> at:
+<% if @lessons[0].location == "teacher" %>
+  the teacher's studio.
+<% else %>
+  the student's house.
+<% end %>
+
+Please visit your dashboard: <%= root_url %> to confirm or delete this lesson request.
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Dear, <%= @user.full_name %></h1>
+    <p>
+      <%= @lessons[0].student.full_name %> has requested 
+      <% if @lessons.length == 1 %>
+        One Lesson:
+      <% else %>
+        Ongoing Lessons:
+      <% end %>
+    </p>
+    <p>
+      <%= @lessons[0].start_time.strftime("%A, %B %e, %Y %H:%M") %>
+        at
+      <% if @lessons[0].location == "teacher" %>
+        the teacher's studio.
+      <% else %>
+        the student's house.
+      <% end %>
+    </p>
+    <p>
+      Please visit your <%= link_to 'Dashboard', root_url %> to confirm or delete this lesson request.
+    </p>
+  </body>
+</html>

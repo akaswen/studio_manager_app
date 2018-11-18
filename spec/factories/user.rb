@@ -45,4 +45,21 @@ FactoryBot.define do
     end
   end
 
+  factory :student2, class: User do
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
+    email { Faker::Internet.email }
+    password { "Password1" }
+    password_confirmation { "Password1" }
+    student { true }
+    status { nil }
+    rate_per_hour { 45 }
+
+    after(:build) do |user|
+      user.phone_numbers << build(:cell_number) if user.phone_numbers.empty?
+      user.addresses << build(:home) if user.addresses.empty?
+      user.confirm
+    end
+  end
+
 end
