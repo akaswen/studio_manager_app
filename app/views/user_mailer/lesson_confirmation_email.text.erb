@@ -1,14 +1,15 @@
 Dear, <%= @user.full_name %>
 ===============================================
 <% if @occurence == "weekly" %>
-  Your request for lessons on:
+Your request for lessons on:
 
   <%= @lesson.start_time.strftime("%a %I:%M %p") %> for <%= distance_of_time_in_words @lesson.start_time, @lesson.end_time %>
 <% else %>
-  Your request for a single lesson on:
+Your request for a single lesson on:
 
-  <%= @lesson.start_time.strftime("%b %e %a") %> at <%= @lesson.start_time.strftime("%I:%M %p") %> for <%= distance_of_time_in_words @lesson.start_time, @lesson.end_time %>
+  <%= @lesson.start_time.strftime("%a %b %e") %> at <%= @lesson.start_time.strftime("%I:%M %p") %> for <%= distance_of_time_in_words @lesson.start_time, @lesson.end_time %>
 <% end %>
+
 Has been approved!
 
 See you on <%= @lesson.start_time.strftime("%A") %>!

@@ -14,7 +14,7 @@
     <% else %>
       <p>Your request for a single lesson on:</p>
       <p>
-        <%= @lesson.start_time.strftime("%b %e %a") %>
+        <%= @lesson.start_time.strftime("%a %b %e") %>
         at
         <%= @lesson.start_time.strftime("%I:%M %p") %>
         for 

@@ -6,7 +6,7 @@ Dear, <%= @user.full_name %>
 <% else %>
   Ongoing Lessons:
 <% end %>
-<%= @lessons[0].start_time.strftime("%A, %B %e, %Y %H:%M") %> at:
+<%= @lessons[0].start_time.strftime("%A, %B %e, %Y %I:%M %p") %> at:
 <% if @lessons[0].location == "teacher" %>
   the teacher's studio.
 <% else %>
