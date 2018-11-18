@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <% if @destroy_all == "true" %>
+      <p>Lessons for <%= @student.full_name %> on <%= @lesson.start_time.strftime("%a %I:%M %p") %> have been canceled from <%= @lesson.start_time.strftime("%A, %B %e") %> on.</p>
+    <% else %>
+      <p><%= @student.full_name %>'s lesson on <%= @lesson.start_time.strftime("%A, %B %e %I:%M %p") %> has been canceled.</p>
+    <% end %>
+  </body>
+</html>

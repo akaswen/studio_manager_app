@@ -82,6 +82,7 @@ class LessonsController < ApplicationController
           lesson.destroy
         end
       end
+      UserMailer.with(lesson: lesson, destroy_all: params["destroy_all"]).lesson_deletion_email.deliver_now
     end
   end
 

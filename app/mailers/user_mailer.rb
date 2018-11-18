@@ -36,4 +36,12 @@ class UserMailer < ApplicationMailer
     @occurence = params[:occurence]
     mail(to: @user.email, subject: "Lesson confirmed")
   end
+
+  def lesson_deletion_email
+    @lesson = params[:lesson]
+    @teacher = @lesson.teacher
+    @student = @lesson.student
+    @destroy_all = params[:destroy_all]
+    mail(to: @student.email, bcc: @teacher.email, subject: "lesson cancelation")
+  end
 end

@@ -202,7 +202,7 @@ RSpec.describe LessonsController, type: :controller do
 
     it('allows a teacher to delete a lesson') do
       sign_in(@teacher)
-      expect{ subject }.to change{ Lesson.count }.by(-1) 
+      expect{ subject }.to change{ Lesson.count }.by(-1).and change{ ActionMailer::Base.deliveries.length }.by(1)
     end
 
     it('allows a student to delete their own lesson') do
