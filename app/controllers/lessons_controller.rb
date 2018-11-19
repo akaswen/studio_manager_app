@@ -22,31 +22,27 @@ class LessonsController < ApplicationController
   end
 
   def create
-    # getting attributes for new lesson
-    start_time = DateTime.parse(params["time"])
-    end_time = start_time + params["length"].to_i.minutes
-    location = params["location"]
-    student = User.find_by(id: params["id"]) || current_user
-    teacher = User.teacher
-
     n = params["occurence"] == "weekly" ? 4 : 1
-
     lessons = []
     
     n.times do |i|
-      lesson = Lesson.new(start_time: start_time, end_time: end_time, location: location)
-      lesson.student = student
-      lesson.teacher = teacher
+      start_time = DateTime.parse(params["time"]) + i.weeks
+      end_time = start_time + params["length"].to_i.minutes
+      location = params["location"]
+      student = User.find_by(id: params["id"]) || current_user
+      teacher = User.teacher
 
-      start_time += 1.week
-      end_time += 1.week
+      lesson = Lesson.new(start_time: start_time, end_time: end_time, location: location, student_id: student.id, teacher_id: teacher.id)
+
       lesson.repeat = true  if i == 3
 
       lesson.confirmed = true if current_user.teacher
 
-      lesson.save
+      raise "Slot on #{start_time} is already taken" unless lesson.valid?
       lessons << lesson
     end
+
+    lessons.each { |l| l.save }
 
     UserMailer.with(user: User.teacher, lessons: lessons).lesson_request_email.deliver_now unless current_user.teacher
   end

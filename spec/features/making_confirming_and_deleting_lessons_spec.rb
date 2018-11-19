@@ -5,6 +5,7 @@ RSpec.feature "MakingLessons", type: :feature do
     @schedule = create(:schedule)
     @teacher = @schedule.user
     @student = create(:student)
+    @student2 = create(:student2)
     @time_slot = @schedule.time_slots.first
     ActionController::Base.allow_forgery_protection = true
   end

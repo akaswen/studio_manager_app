@@ -129,8 +129,12 @@ const newLesson = (() => {
     }
 
     let path = `/lessons?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}&id=${studentId}`;
-    myFetch(path, 'POST').then(() => {
-      window.location.reload(true)
+    myFetch(path, 'POST').then(response => {
+      if (response.ok) {
+        window.location.reload(true)
+      } else {
+        myAlert('', 'This time is not available for weekly lessons as it is occupied in a future week.');
+      }
     });
   }
 

@@ -154,6 +154,7 @@ RSpec.describe LessonsController, type: :controller do
 
     it("doesn't allow a student to create a lesson for someone else") do
       time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
+      @student2 = create(:student2)
 
       sign_in(@student)
       expect{
@@ -162,9 +163,23 @@ RSpec.describe LessonsController, type: :controller do
           location: "teacher",
           length: "60",
           occurence: "single",
-          id: @student.id
+          id: @student2.id
         }
       }.to change{ Lesson.count }.by(0)
+    end
+
+    it("doesn't allow the creation of any lessons for recurring if a time slot in the future isn't available") do
+      time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
+      @lesson = Lesson.create!(start_time: DateTime.now.utc.beginning_of_day + 31.days + 8.hours, end_time: DateTime.now.utc.beginning_of_day + 31.days + 9.hours, location: "teacher", student_id: @student.id, teacher_id: @teacher.id)
+      sign_in(@student)
+      expect{
+        post :create, params: {
+          time: time,
+          location: "teacher",
+          length: "60",
+          occurence: "weekly",
+        }
+      }.to change{ Lesson.count }.by(0).and raise_error
     end
   end
 
