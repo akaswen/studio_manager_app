@@ -5,6 +5,7 @@ RSpec.feature "EditingSchedules", type: :feature do
     @schedule = create(:schedule)
     @time_slot = @schedule.time_slots.first
     @teacher = @schedule.user
+    @student = create(:student)
     ActionController::Base.allow_forgery_protection = true
   end
 
@@ -30,8 +31,5 @@ RSpec.feature "EditingSchedules", type: :feature do
     end
     find('.fa-calendar-alt').click
     expect(@schedule.time_slots.sunday_slots.last.available).to eq(true)
-  end
-
-  xit("it doesn't allow making unavailable a slot that has lessons in it without deleting the lessons") do
   end
 end
