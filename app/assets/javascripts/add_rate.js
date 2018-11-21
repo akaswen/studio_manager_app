@@ -1,17 +1,20 @@
 //= require student_api.js
+//= require my_alert
 
 const adjustRate = (() => {
-  let menu;
+  let fadedScreen;
   let userId;
   let rateDiv;
   let forwardPath;
 
   function setRate(rate) {
+    fadedScreen.remove();
+    let loading = myAlert.loadingMenu();
     studentApi.addStudent(userId, rate).then(() => {
       if (forwardPath) {
         document.location.href = forwardPath;
       } else {
-        menu.remove();
+        loading.remove();
       }
     });
   }
@@ -34,8 +37,8 @@ const adjustRate = (() => {
     } else if(input.value.match(/\D/)) {
       resetValidations(div, error);
       error.textContent = "Please only enter a whole number";
-      return false;
       div.classList.add('invalid');
+      return false;
     } else {
       resetValidations(div, error);
       return true;
@@ -86,29 +89,16 @@ const adjustRate = (() => {
     rateInput.appendChild(button);
   }
 
-  function addRateInput() {
-    let rateInput = document.createElement('DIV');
-    rateInput.classList.add('inner-menu');
-    menu.appendChild(rateInput);
-    addForm(rateInput);
-  }
-
   function addMenu(id, rate, path) {
     let body = document.querySelector('body');
-    menu = document.createElement('DIV');
-    menu.classList.add('faded-out');
+    fadedScreen = myAlert.newMenu(false);
+    let innerMenu = fadedScreen.firstElementChild;
 
     userId = id;
     rateDiv = rate;
     forwardPath = path
 
-    body.appendChild(menu);
-
-    menu.addEventListener('click', e => {
-      e.stopPropagation();
-    });
-
-    addRateInput();
+    addForm(innerMenu);
   }
   return {addMenu};
 })();

@@ -1,54 +1,31 @@
 //= require my_fetch
+//= require my_alert
 
 const schedule = (() => {
   let calendar;
 
-  function addLoadingMenu() {
-    let body = document.querySelector('body');
-    let fadedMenu = document.createElement('DIV');
-    fadedMenu.className = 'faded-out';
-
-    fadedMenu.addEventListener('click', e => {
-      e.stopPropagation();
-    });
-
-    let innerMenu = document.createElement('DIV');
-    innerMenu.className = 'inner-menu';
-
-    let loadingDiv = document.createElement('DIV');
-
-    let loadingTitle = document.createElement('H4');
-    loadingTitle.textContent = "loading";
-
-    let loader = document.createElement('SPAN');
-    loader.className = 'loader';
-
-    loadingDiv.appendChild(loadingTitle);
-    loadingDiv.appendChild(loader);
-    innerMenu.appendChild(loadingDiv);
-    fadedMenu.appendChild(innerMenu);
-    body.appendChild(fadedMenu);
-  }
-  
-  function removeLoadingMenu() {
-    let fadedMenu = document.querySelector('.faded-out');
-
-    fadedMenu.remove();
-  }
-
   function makeSlotsAvailable(ids) {
     if (ids.length > 0) {
-      addLoadingMenu();
+      let menu = myAlert.loadingMenu();
       let path = `/time_slots?ids=${JSON.stringify(ids)}&available=true`;
-      myFetch(path, 'PATCH').then(() => removeLoadingMenu());
+      myFetch(path, 'PATCH').then(() => menu.remove());
     } 
   }
 
   function makeSlotsUnavailable(ids) {
     if (ids.length > 0) {
-      addLoadingMenu();
+      let menu = myAlert.loadingMenu();
       let path = `/time_slots?ids=${JSON.stringify(ids)}&available=false`;
-      myFetch(path, 'PATCH').then(() => removeLoadingMenu());
+      myFetch(path, 'PATCH').then(response => {
+        menu.remove();
+        if (!response.ok) {
+          ids.forEach(id => {
+            let button = document.getElementById(id);
+            toggleButton(button);
+          });
+          myAlert.message("Can't make a time slot unavailable when there are already lessons in it. Please cancel all lessons in time slots and then try again");
+        }
+      });
     } 
   }
 
@@ -63,18 +40,22 @@ const schedule = (() => {
     }
   }
 
-  function toggleButton(button) {
+  function toggleAvailability(button) {
     if (button.className.includes('success')) {
       makeSlotsUnavailable([button.id]);
     } else {
       makeSlotsAvailable([button.id]);
     }
+  }
+
+  function toggleButton(button) {
     button.classList.toggle('list-group-item-success');
     button.classList.toggle('list-group-item-danger');
   }
 
   function enableChanging(e) {
     if (e.target.nodeName === 'BUTTON') {
+      toggleAvailability(e.target);
       toggleButton(e.target);
     } else if (e.target.nodeName === 'SPAN') {
       let dayList = e.target.parentNode.parentNode;

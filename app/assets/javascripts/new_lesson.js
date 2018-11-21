@@ -1,4 +1,6 @@
 //= require my_fetch
+//= require my_alert
+
 
 const newLesson = (() => {
   let lessons;
@@ -115,33 +117,24 @@ const newLesson = (() => {
     return selectSpan;
   }
 
-  function submitForm() {
-    let time = document.querySelector('form h3').textContent;
-    let day = document.querySelector('form h4').textContent;
-    let location = document.getElementById('location').value;
-    let length = document.getElementById('length').value;
-    let radios = document.querySelectorAll('input');
-    let occurence = [...radios].filter(radio => radio.checked)[0].value;
-    let studentId = document.querySelector('.student-select select');
-
-    if (studentId) {
-      studentId = studentId.value
-    }
-
+  function submitForm(time, day, location, length, occurence, studentId) {
+    let loading = myAlert.loadingMenu();
     let path = `/lessons?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}&id=${studentId}`;
     myFetch(path, 'POST').then(response => {
       if (response.ok) {
         window.location.reload(true)
       } else {
-        myAlert('', 'This time is not available for weekly lessons as it is occupied in a future week.');
+        loading.remove();
+        myAlert.message('This time is not available for weekly lessons as it is occupied in a future week.');
       }
     });
   }
 
-  function addForm(button, innerMenu) {
+  function addForm(button) {
+    let innerMenu = myAlert.newMenu();
+    let submitButton = innerMenu.lastElementChild;
     let startTime = button.getAttribute('data-time');
     let weekDay = button.getAttribute('data-day');
-
     let form = document.createElement('FORM');
     let header = document.createElement('H5');
     let time = document.createElement('H3');
@@ -154,6 +147,17 @@ const newLesson = (() => {
     time.textContent = `${startTime}`;
     day.textContent = `${weekDay}`;
 
+    submitButton.addEventListener('click', e => {
+      let location = selectLocation.lastElementChild.value;
+      let length = selectLength.lastElementChild.value;
+      let radios = document.querySelectorAll('input');
+      let occurenceNode = ([...radioOccuring.children].filter(node => node.checked === true));
+      let occurence = occurenceNode[0].value
+      let studentId = studentsDiv.lastElementChild ? studentsDiv.lastElementChild.value : null
+
+      submitForm(startTime, weekDay, location, length, occurence, studentId);
+    });
+
     form.appendChild(header);
     form.appendChild(studentsDiv);
     form.appendChild(time);
@@ -164,57 +168,21 @@ const newLesson = (() => {
     innerMenu.appendChild(form);
   }
 
-  function addMessage(message, innerMenu) {
-    let contentDiv = document.createElement('DIV');
-
-    let header = document.createElement('H4');
-    header.textContent = message;
-
-    contentDiv.appendChild(header);
-    innerMenu.appendChild(contentDiv);
-  }
-
-  function myAlert(button, message) {
-    let body = document.querySelector('body');
-    let fadedScreen = document.createElement('DIV');
-    fadedScreen.className = 'faded-out';
-
-    let innerMenu = document.createElement('DIV');
-    innerMenu.className = 'inner-menu';
-
-    let submit = document.createElement('BUTTON');
-
-    if (message) {
-      addMessage(message, innerMenu);
-    } else {
-      addForm(button, innerMenu);
-      submit.addEventListener('click', submitForm);
-    }
-
-    submit.className = 'btn btn-outline-primary';
-    submit.textContent = 'Okay';
-    submit.addEventListener('click', () => {
-      fadedScreen.remove();
-    });
-
-    innerMenu.appendChild(submit);
-    fadedScreen.appendChild(innerMenu);
-    body.appendChild(fadedScreen);
-  }
-
   function enableRequesting(e) {
+
     if (e.target.nodeName === "BUTTON") {
       if (!e.target.className.includes('success')) {
-        myAlert(e.target, 'this slot is not available', false);
+        myAlert.message('this slot is not available');
       } else if (!e.target.nextElementSibling.className.includes('success')) {
-        myAlert(e.target, 'must have at least 30 minutes of available time', false);
+        myAlert.message('must have at least 30 minutes of available time');
       } else {
-        myAlert(e.target);
+        addForm(e.target);
       }
     }
   }
 
   function load (lessonRequestDiv) {
+
     lessons = lessonRequestDiv;
     lessonRequestDiv.addEventListener('click', enableRequesting);
   }

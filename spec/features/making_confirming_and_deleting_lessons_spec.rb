@@ -153,9 +153,8 @@ RSpec.feature "MakingLessons", type: :feature do
     sign_in(@teacher)
     within('#teacher-sidebar') do
       click_button('New Lesson Requests')
-      click_button('Delete')
+      expect{ click_button('Delete') }.to change{ Lesson.count }.by(-1)
     end
-    expect(Lesson.count).to eq(0)
   end
 
   it("allows a teacher to delete new weekly lessons", js: true) do

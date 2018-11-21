@@ -33,7 +33,6 @@ const studentListAdjuster = (() => {
       removeElement(e.currentTarget);
       adjustRate.addMenu(id);
     } else if (decision === 'wait-list') {
-      console.log('wait listing');
       removeElement(e.currentTarget);
       studentApi.waitListStudent(id);
     } else if (decision === 'deactivate') {
