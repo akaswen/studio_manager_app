@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :destroy]
 
-  resources :lessons, only: [:new, :create, :update, :destroy]
+  resources :lessons, only: [:new, :create, :update, :destroy, :show]
 
   patch '/time_slots', to: 'time_slots#update'
   put '/time_slots', to: 'time_slots#update'

@@ -171,11 +171,11 @@ const newLesson = (() => {
   function enableRequesting(e) {
 
     if (e.target.nodeName === "BUTTON") {
-      if (!e.target.className.includes('success')) {
+      if (e.target.className.includes('danger')) {
         myAlert.message('this slot is not available');
-      } else if (!e.target.nextElementSibling.className.includes('success')) {
+      } else if (e.target.nextElementSibling.className.includes('danger')) {
         myAlert.message('must have at least 30 minutes of available time');
-      } else {
+      } else if (e.target.className.includes('success')) {
         addForm(e.target);
       }
     }

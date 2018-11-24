@@ -4,9 +4,15 @@
       <li class="list-group-item" id="<%= l.id %>">
         <div class="row align-items-center">
           <div class="col-7">
-            <h6><%= l.student.full_name %>:</h6>
-            <p>Every Week</p>
-            <p><%= l.start_time.strftime("%a %H:%M") %>-<%= l.end_time.strftime("%I:%M %p") %></p>
+            <h6><%= link_to l.student.full_name, l.student %>:</h6>
+            <p>Every Week at 
+              <% if l.location == "teacher" %>
+                the Teacher's Studio.
+              <% else %>
+                the Student's House.
+              <% end %>
+            </p>
+            <%= link_to "#{l.start_time.strftime("%a %H:%M")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
           </div>
           <div class="col-5 text-right">
             <button class="btn btn-light" data-decision="confirm" data-occurence="weekly"><i data-decision="confirm" data-occurence="weekly" class="fas fa-check-circle text-success"></i>Confirm</button>
@@ -19,9 +25,15 @@
       <li class="list-group-item" id="<%= l.id %>">
         <div class="row align-items-center">
           <div class="col-7">
-            <h6><%= l.student.full_name %>:</h6>
-            <p>Single</p>
-            <p><%= l.start_time.strftime("%a %b %e %H:%M") %>-<%= l.end_time.strftime("%I:%M %p") %></p>
+            <h6><%= link_to l.student.full_name, l.student %>:</h6>
+            <p>Single at
+              <% if l.location == "teacher" %>
+                the Teacher's Studio.
+              <% else %>
+                the Student's House.
+              <% end %>
+           </p>
+           <%= link_to "#{l.start_time.strftime("%a %H:%M")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
           </div>
           <div class="col-5 text-right">
             <button class="btn btn-light" data-decision="confirm" data-occurence="single"><i data-decision="confirm" data-occurence="single" class="fas fa-check-circle text-success"></i>Confirm</button>

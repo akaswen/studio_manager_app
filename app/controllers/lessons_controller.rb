@@ -6,6 +6,15 @@ class LessonsController < ApplicationController
   before_action :day_before_check, only: [:destroy]
   before_action :create_params_check, only: [:create]
 
+  def show
+    begin
+      @lesson = Lesson.find(params[:id])
+      redirect_to root_path unless (current_user == @lesson.student && @lesson.confirmed) || current_user.teacher
+    rescue
+      redirect_to root_path
+    end
+  end
+
   def new
     @schedule = User.teacher.schedule
     case params["week"]
@@ -44,7 +53,10 @@ class LessonsController < ApplicationController
 
     lessons.each { |l| l.save }
 
-    UserMailer.with(user: User.teacher, lessons: lessons).lesson_request_email.deliver_now unless current_user.teacher
+    unless current_user.teacher
+      UserMailer.with(user: User.teacher, lessons: lessons).lesson_request_email.deliver_now
+      flash["notice"] = "A lesson request has been sent to the teacher.  You will be able to see it on the schedule when confirmed and will receive an email whether confirmed or deleted."
+    end
   end
 
   def update
@@ -81,6 +93,7 @@ class LessonsController < ApplicationController
           lesson.destroy
         end
       end
+      redirect_to root_path
       UserMailer.with(lesson: lesson, destroy_all: params["destroy_all"]).lesson_deletion_email.deliver_now
     end
   end

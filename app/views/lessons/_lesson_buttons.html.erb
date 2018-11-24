@@ -1,0 +1,6 @@
+<div class="row my-3">
+  <div class="col-12 text-center">
+    <%= link_to 'Delete all lessons at this time', lesson_path(@lesson, destroy_all: true), method: :delete, class: "btn btn-outline-danger" %>
+    <%= link_to 'Delete this lesson', lesson_path(@lesson), method: :delete, class: "btn btn-outline-danger" %>
+  </div>
+</div>

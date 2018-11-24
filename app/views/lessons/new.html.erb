@@ -23,7 +23,7 @@
     <% end %>
   <% end %>
 </h1>
-<h3 class="text-center text-info">Click one of the available time slots to request a lesson</h3>
+<h3 class="text-center text-info">Click one of the available time slots to <%= current_user.teacher ? "create" : "request" %> a lesson</h3>
 <h5 class="text-center text-secondary">Please keep in mind that a lesson must be at least 30 minutes</h5>
 <div class="row" id="new-lesson">
   <%= render 'shared/schedule', edit: false %>

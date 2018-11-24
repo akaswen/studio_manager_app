@@ -251,11 +251,25 @@ RSpec.describe LessonsController, type: :controller do
     it('allows a teacher to delete a lesson') do
       sign_in(@teacher)
       expect{ subject }.to change{ Lesson.count }.by(-1).and change{ ActionMailer::Base.deliveries.length }.by(1)
+      expect(response).to redirect_to root_path
     end
 
     it('allows a student to delete their own lesson') do
       sign_in(@student)
       expect{ subject }.to change{ Lesson.count }.by(-1) 
+      expect(response).to redirect_to root_path
+    end
+
+    it('allows deletion of repeated lessons') do
+      3.times do |n|
+        lesson = Lesson.new(start_time: @lesson.start_time + (1 + n).weeks, end_time: @lesson.end_time + (1 + n).weeks, location: @lesson.location, student_id: @student.id, teacher_id: @teacher.id, confirmed: true)
+        lesson.repeat = true if n == 2
+        lesson.save!
+      end
+      sign_in(@teacher)
+      expect{
+        delete :destroy, params: { id: @lesson.id, destroy_all: true }
+      }.to change{ Lesson.count }.by(-4)
     end
 
     it("doesn't allow a non-student to delete a lesson") do
@@ -318,6 +332,62 @@ RSpec.describe LessonsController, type: :controller do
           delete :destroy, params: { id: lesson.id, }
         }.to change{ Lesson.count }.by(0)
       end
+    end
+  end
+
+  describe("GET #show") do
+    before(:each) do
+      @lesson = Lesson.new(attributes_for(:lesson))
+      @lesson.student = @student
+      @lesson.teacher = @teacher
+      @lesson.confirmed = true
+      @lesson.save
+    end
+
+    subject { get :show, params: { id: @lesson.id } }
+
+    it('gets a lesson for the teacher') do
+      sign_in(@teacher)
+      subject
+      expect(response).to be_ok
+    end
+
+    it('gets a lesson for the student') do
+      sign_in(@student)
+      subject
+      expect(response).to be_ok
+    end
+
+    it("Doesn't get a lesson for a student from another student") do
+      @student2 = create(:student2)
+      sign_in(@student2)
+      subject
+      expect(response).to redirect_to(root_path)
+    end
+
+    it("doesn't get an unconfirmed lesson for a student") do
+      @lesson.update_attribute(:confirmed, false)
+      sign_in(@student)
+      subject
+      expect(response).to redirect_to(root_path)
+    end
+
+    it('does get an unconfirmed lesson for a teacher') do
+      @lesson.update_attribute(:confirmed, false)
+      sign_in(@teacher)
+      subject
+      expect(response).to be_ok
+    end
+
+    it("doesn't allow a non-student to get a lesson") do
+      sign_in(@user)
+      subject
+      expect(response).to redirect_to(root_path)
+   end
+
+    it("doesn't allow a non-user to get a lesson") do
+      subject
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 end
