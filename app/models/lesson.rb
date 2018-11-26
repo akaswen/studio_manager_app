@@ -43,10 +43,27 @@ class Lesson < ApplicationRecord
   end
 
   def self.initial_of_repeating
-    repeating_lessons = Lesson.where(repeat: true)
+    repeating_lessons = Lesson.where(repeat: true, confirmed: false)
     query_params = []
-    repeating_lessons.each { |l| query_params << l.start_time - 3.weeks }
-    initial_lessons = Lesson.where(start_time: query_params)
+    repeating_lessons.each do |l| 
+      i = 3
+      initial_lesson = nil
+      until !initial_lesson.nil?
+        initial_lesson = Lesson.where(start_time: l.start_time - i.weeks, confirmed: false).first
+        i -= 1
+      end
+      query_params << initial_lesson.start_time
+    end
+    Lesson.where(start_time: query_params)
+  end
+
+  def recurring?
+    future_weeks = []
+    6.times do |n|
+      future_weeks << self.start_time + (1 + n).weeks
+    end
+    other_lessons = Lesson.where(student_id: self.student.id, repeat: true, start_time: future_weeks)
+    !other_lessons.empty?
   end
 
   private

@@ -183,7 +183,7 @@ RSpec.describe LessonsController, type: :controller do
     end
   end
 
-  describe('POST #update') do
+  describe('PATCH #update') do
     before(:each) do
       @lesson = Lesson.new(attributes_for(:lesson))
       @lesson.student = @student
@@ -191,49 +191,71 @@ RSpec.describe LessonsController, type: :controller do
       @lesson.save
     end
 
-    subject { patch :update, params: { id: @lesson.id, occurence: "single" } }
-
-    it("confirms a lesson") do
-      sign_in(@teacher)
-      expect{ subject }.to change{ ActionMailer::Base.deliveries.length }.by(1)
-      expect{ @lesson.reload }.to change{ @lesson.confirmed }.from(false).to(true)
-    end
-
-    it("doesn't let a student confirm a lesson") do
+    it("doesn't let a student update a lesson") do
       sign_in(@student)
-      expect{ subject }.to_not change{ @lesson.confirmed }
+      patch :update, params: { id: @lesson.id }
+      expect(response).to redirect_to(root_path)
     end
 
-    it("doesn't let a non-student confirm a lesson") do
+    it("doesn't let a non-student update a lesson") do
       sign_in(@user)
-      expect{ subject }.to_not change{ @lesson.confirmed }
-    end
+      patch :update, params: { id: @lesson.id }
+      expect(response).to redirect_to(root_path)
+   end
 
-    it("doesn't let a non-user confirm a lesson") do
-      expect{ subject }.to_not change{ @lesson.confirmed }
+    it("doesn't let a non-user update a lesson") do
+      patch :update, params: { id: @lesson.id }
       expect(response).to redirect_to(new_user_session_path)
+   end
+
+    describe('confirming a lesson') do
+      before(:each) do
+        sign_in(@teacher)
+      end
+
+      subject { patch :update, params: { id: @lesson.id, attribute: "confirmed", value: "true", occurence: "single" } }
+
+      it("confirms a lesson") do
+        expect{ subject }.to change{ ActionMailer::Base.deliveries.length }.by(1)
+        expect{ @lesson.reload }.to change{ @lesson.confirmed }.from(false).to(true)
+      end
+
+      it("can confirm multiple lessons") do
+        make_recurring(@lesson, false)
+        sign_in(@teacher)
+        patch :update, params: { id: @lesson.id, attribute: "confirmed", value: "true", occurence: "weekly" } 
+        expect{ @lesson.reload }.to change{ @lesson.confirmed }.from(false).to(true)
+        3.times do |n|
+          lesson = Lesson.find_by(start_time: @lesson.start_time + (1 + n).weeks)
+          expect(lesson.confirmed).to eq(true)
+        end
+      end
     end
 
-    it("can confirm multiple lessons") do
-      sign_in(@student)
-      time = (DateTime.now.utc + 7.days).strftime("%a %b %e") + " 08:00"
-      expect{ 
-        post :create, params: {
-          time: time,
-          location: "teacher",
-          length: "60",
-          occurence: "weekly"
-        }
-      }.to change{ Lesson.count }.by(4)
-      sign_out(@student)
-      sign_in(@teacher)
-      lesson = Lesson.all.order(:start_time).second
-      patch :update, params: { id: lesson.id, occurence: "weekly" } 
-      expect{ lesson.reload }.to change{ lesson.confirmed }.from(false).to(true)
-      3.times do 
-        lesson = Lesson.find_by(start_time: lesson.start_time + 1.week)
-        expect(lesson.confirmed).to eq(true)
+    describe ('marking a lesson as paid') do
+      before(:each) do
+        sign_in(@teacher)
       end
+
+      it('can mark a lesson as paid and unpaid') do
+        patch :update, params: { id: @lesson.id, attribute: "paid", value: "true" }
+        expect{ @lesson.reload }.to change{ @lesson.paid }.from(false).to(true)
+        patch :update, params: { id: @lesson.id, attribute: "paid", value: "false" }
+        expect{ @lesson.reload }.to change{ @lesson.paid }.from(true).to(false)
+     end
+    end
+
+    describe('marking a lesson as taught') do
+      before(:each) do
+        sign_in(@teacher)
+      end
+
+      it('can mark a lesson as taught and untaught') do
+        patch :update, params: { id: @lesson.id, attribute: "taught", value: "true" }
+        expect{ @lesson.reload }.to change{ @lesson.taught }.from(false).to(true)
+        patch :update, params: { id: @lesson.id, attribute: "taught", value: "false" }
+        expect{ @lesson.reload }.to change{ @lesson.taught }.from(true).to(false)
+     end
     end
   end
 
@@ -261,11 +283,7 @@ RSpec.describe LessonsController, type: :controller do
     end
 
     it('allows deletion of repeated lessons') do
-      3.times do |n|
-        lesson = Lesson.new(start_time: @lesson.start_time + (1 + n).weeks, end_time: @lesson.end_time + (1 + n).weeks, location: @lesson.location, student_id: @student.id, teacher_id: @teacher.id, confirmed: true)
-        lesson.repeat = true if n == 2
-        lesson.save!
-      end
+      make_recurring(@lesson)
       sign_in(@teacher)
       expect{
         delete :destroy, params: { id: @lesson.id, destroy_all: true }
@@ -300,13 +318,7 @@ RSpec.describe LessonsController, type: :controller do
 
     describe("deleting recurring lessons") do
       before(:each) do
-        3.times do |n|
-          lesson = Lesson.new(start_time: @lesson.start_time + (n + 1).weeks, end_time: @lesson.end_time + (n + 1).weeks, location: "teacher")
-          lesson.student = @student
-          lesson.teacher = @teacher
-          lesson.repeat = true if n == 2
-          lesson.save!
-        end
+        make_recurring(@lesson)      
       end
       
       it("allows deleting all recurring lessons") do

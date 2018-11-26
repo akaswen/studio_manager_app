@@ -7,7 +7,8 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'database_cleaner'
-require 'helpers/sessions_helper'
+require 'sessions_helper'
+require 'lesson_helper'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -44,18 +45,29 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
+  config.before( :suite ) do
+    DatabaseCleaner.clean_with :truncation
+    DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
+  config.around( :each ) do |spec|
+    if spec.metadata[:js]
+      # JS => doesn't share connections => can't use transactions
+      spec.run
+      DatabaseCleaner.clean_with :deletion
+    else
+      # No JS/Devise => run with Rack::Test => transactions are ok
+      DatabaseCleaner.start
+      spec.run
+      DatabaseCleaner.clean
 
-  config.after(:each) do
-    DatabaseCleaner.clean
+      # see https://github.com/bmabey/database_cleaner/issues/99
+      begin
+        ActiveRecord::Base.connection.send :rollback_transaction_records, true
+      rescue
+      end
+    end
   end
-
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
@@ -78,4 +90,5 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include SessionsHelper
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include LessonsSpecHelper
 end

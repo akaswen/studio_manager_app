@@ -52,11 +52,7 @@ RSpec.describe UsersController, type: :controller do
       @lesson.student = @student
       @lesson.teacher = @teacher
       @lesson.save
-      3.times do |n|
-        lesson = Lesson.new(start_time: @lesson.start_time + (1 + n).weeks, end_time: @lesson.end_time + (1 + n).weeks, location: @lesson.location, student_id: @lesson.student.id, teacher_id: @lesson.teacher.id)
-        lesson.repeat = true if n == 2
-        lesson.save
-      end
+      make_recurring(@lesson, false)
       sign_in(@teacher)
       get :dashboard
       expect(assigns(:weekly_lesson_requests)[0]).to eq(@lesson)

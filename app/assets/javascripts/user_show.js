@@ -1,6 +1,6 @@
 //= require add_rate
 
-const show = (() => {
+const userShow = (() => {
   function load (showDiv) {
     let rateDiv = document.getElementById('rate');
     id = showDiv.getAttribute('data-id');

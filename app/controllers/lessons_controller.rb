@@ -2,6 +2,7 @@ class LessonsController < ApplicationController
   include LessonsHelper
   before_action :authenticate_user!
   before_action :authenticate_active_user
+  before_action :authenticate_teacher, only: [:update]
   before_action :redirect_non_student_teacher 
   before_action :day_before_check, only: [:destroy]
   before_action :create_params_check, only: [:create]
@@ -61,7 +62,7 @@ class LessonsController < ApplicationController
 
   def update
     lesson = Lesson.find(params["id"])
-    lesson.update_attribute(:confirmed, true)
+    lesson.update_attribute(params[:attribute], params[:value])
 
     if params["occurence"] == "weekly"
       3.times do |n|

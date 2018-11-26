@@ -1,6 +1,17 @@
-<div class="row my-3">
-  <div class="col-12 text-center">
-    <%= link_to 'Delete all lessons at this time', lesson_path(@lesson, destroy_all: true), method: :delete, class: "btn btn-outline-danger" %>
-    <%= link_to 'Delete this lesson', lesson_path(@lesson), method: :delete, class: "btn btn-outline-danger" %>
-  </div>
+<div class="col-12 text-center">
+  <% unless @lesson.start_time < Time.now.utc + 24.hours && !current_user.teacher %>
+    <% if @lesson.recurring? %>
+      <%= link_to 'Cancel Weekly Lessons', lesson_path(@lesson, destroy_all: true), method: :delete, class: "btn btn-outline-danger" %>
+    <% end %>
+    <%= link_to 'Cancel This Lesson', lesson_path(@lesson), method: :delete, class: "btn btn-outline-danger" %>
+  <% else %>
+    <h3 class="text-info">Cannot cancel lesson within 24 hours of the start time</h3>
+  <% end %>
+  <% unless @lesson.confirmed %>
+    <button class="btn btn-outline-success" data-action="confirm" data-id="<%= @lesson.id %>" data-occurence="single">Confirm This Lesson</button>
+    <% if @lesson.recurring? %>
+      <button class="btn btn-outline-success" data-action="confirm" data-id="<%= @lesson.id %>" data-occurence="weekly">Confirm Recurring Lessons</button>
+    <% end %>
+  <% else %>
+  <% end %>
 </div>

@@ -2,9 +2,10 @@
 //= require devise_forms
 //= require teacher_sidebar
 //= require index
-//= require show
+//= require user_show
 //= require edit_schedule
 //= require new_lesson
+//= require lesson_show
 
 window.addEventListener('turbolinks:load', () => {
   // load dropdown menu
@@ -17,9 +18,10 @@ window.addEventListener('turbolinks:load', () => {
   let sidebar = document.getElementById('teacher-sidebar'); //for teacher sidebar
   let indexDiv = document.getElementById('student_index'); //for index
   let inputs = document.querySelectorAll('#user_form input'); //for devise forms
-  let showDiv = document.getElementById('user-show'); //for show page
+  let userShowDiv = document.getElementById('user-show'); //for user show page
   let calendar = document.getElementById('schedule-calendar'); //for edit schedule page
   let lessonRequestDiv = document.getElementById('new-lesson'); // for new lesson page
+  let lessonShowDiv = document.getElementById('lesson-show'); //for lesson show page
 
   if (inputs.length > 0) {
     deviseForms.load(inputs);
@@ -27,12 +29,14 @@ window.addEventListener('turbolinks:load', () => {
     teacherSidebar.load(sidebar);
   } else if (indexDiv) {
     index.load(indexDiv);
-  } else if (showDiv) {
-    show.load(showDiv);
+  } else if (userShowDiv) {
+    userShow.load(userShowDiv);
   } else if (calendar) {
     schedule.load(calendar);
   } else if (lessonRequestDiv) {
     newLesson.load(lessonRequestDiv);
+  } else if (lessonShowDiv) {
+    lessonShow.load(lessonShowDiv);
   }
 
 });

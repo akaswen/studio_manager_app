@@ -2,8 +2,8 @@
 
 const lessonApi = (() => {
   function confirmLesson(id, occurence) {
-    let path = `/lessons/${id}?occurence=${occurence}`;
-    myFetch(path, 'PATCH');
+    let path = `/lessons/${id}?attribute=confirmed&value=true&occurence=${occurence}`;
+    return myFetch(path, 'PATCH');
   }
 
   function deleteLesson(id, occurence) {
