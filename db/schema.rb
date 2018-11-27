@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_26_122405) do
+ActiveRecord::Schema.define(version: 2018_11_26_165852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,16 @@ ActiveRecord::Schema.define(version: 2018_11_26_122405) do
     t.integer "student_id"
     t.boolean "confirmed", default: false
     t.boolean "repeat", default: false
-    t.boolean "paid", default: false
     t.boolean "taught", default: false
+    t.boolean "paid"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.float "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "phone_numbers", force: :cascade do |t|
@@ -87,6 +95,7 @@ ActiveRecord::Schema.define(version: 2018_11_26_122405) do
     t.string "status", default: "Pending"
     t.boolean "active", default: true
     t.integer "rate_per_hour"
+    t.float "credit", default: 0.0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -94,6 +103,7 @@ ActiveRecord::Schema.define(version: 2018_11_26_122405) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "payments", "users"
   add_foreign_key "phone_numbers", "users"
   add_foreign_key "schedules", "users"
   add_foreign_key "time_slots", "schedules"

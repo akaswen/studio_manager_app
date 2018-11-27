@@ -95,6 +95,7 @@ RSpec.describe User, type: :model do
       before(:each) do
         @other_user = User.new(attributes_for :user)
       end
+
       describe('addresses') do
         it('should have at least one address') do
           @other_user.phone_numbers << build(:phone_number)
@@ -124,6 +125,17 @@ RSpec.describe User, type: :model do
           expect{@user.destroy}.to change{PhoneNumber.count}.by(-1)
         end
       end
+
+      describe('payments') do
+        it('can have at least one payment if it is a student') do
+          @student = create(:student)
+          @student.payments.build(attributes_for(:payment))
+          expect(@student).to be_valid
+        end
+      end
+    end
+    it('has a default credit of 0') do
+      expect(@user.credit).to eq(0.0)
     end
   end
 end

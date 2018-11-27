@@ -13,5 +13,12 @@
       <button class="btn btn-outline-success" data-action="confirm" data-id="<%= @lesson.id %>" data-occurence="weekly">Confirm Recurring Lessons</button>
     <% end %>
   <% else %>
+    <button class="btn btn-outline-warning" data-action="taught" data-id"<%= @lesson.id %>" data-value="
+      <% if @lesson.taught %>
+        false
+      <% else %>
+        true
+      <% end %>
+   ">Mark as Taught</button>
   <% end %>
 </div>

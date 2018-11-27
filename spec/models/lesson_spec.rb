@@ -101,10 +101,6 @@ RSpec.describe Lesson, type: :model do
     expect(@lesson.confirmed).to eq(false)
   end
 
-  it('has a default value of false for paid') do
-    expect(@lesson.paid).to eq(false)
-  end
-
   it('has a default value of false for taught') do
     expect(@lesson.taught).to eq(false)
   end
@@ -213,6 +209,11 @@ RSpec.describe Lesson, type: :model do
 
     it('returns false for non-recurring lessons') do
       expect(@lesson).to_not be_recurring
+    end
+  end
+
+  describe('paid') do
+    xit('returns true or false') do
     end
   end
 end
