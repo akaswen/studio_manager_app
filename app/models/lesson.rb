@@ -66,6 +66,19 @@ class Lesson < ApplicationRecord
     !other_lessons.empty?
   end
 
+  def transfer_credit
+    student = self.student
+    unpaid_lessons = student.learning_lessons.where(paid: false)
+    credit = self.price
+    unpaid_lessons.each do |ul|
+      if credit - ul.price  >= 0
+        credit -= ul.price
+        ul.update_attribute(:paid, true)
+      end
+    end
+    student.update_attribute(:credit, student.credit + credit)
+ end
+
   private
 
   def proper_start_time

@@ -181,6 +181,14 @@ RSpec.describe LessonsController, type: :controller do
         }
       }.to change{ Lesson.count }.by(0).and raise_error
     end
+
+    it("has a status of paid if there is enough credit for a user") do
+      @student.update_attribute(:credit, 100.0)
+      sign_in(@student)
+      subject
+      expect(Lesson.last.paid).to eq(true)
+      expect{ @student.reload }.to change{ @student.credit }.from(100.0).to (55.0)
+    end
   end
 
   describe('PATCH #update') do
@@ -244,19 +252,6 @@ RSpec.describe LessonsController, type: :controller do
         expect{ @lesson.reload }.to change{ @lesson.paid }.from(true).to(false)
      end
     end
-
-    describe('marking a lesson as taught') do
-      before(:each) do
-        sign_in(@teacher)
-      end
-
-      it('can mark a lesson as taught and untaught') do
-        patch :update, params: { id: @lesson.id, attribute: "taught", value: "true" }
-        expect{ @lesson.reload }.to change{ @lesson.taught }.from(false).to(true)
-        patch :update, params: { id: @lesson.id, attribute: "taught", value: "false" }
-        expect{ @lesson.reload }.to change{ @lesson.taught }.from(true).to(false)
-     end
-    end
   end
 
   describe('DELETE #destroy') do
@@ -316,33 +311,75 @@ RSpec.describe LessonsController, type: :controller do
       expect{ subject }.to change{ Lesson.count }.by(-1)
     end
 
+    describe('deleting paid lessons') do
+      before(:each) do
+        @lesson.update_attribute(:paid, true)
+        @lesson2 = Lesson.new(attributes_for(:lesson2))
+        @lesson2.student = @lesson.student
+        @lesson2.teacher = @lesson.teacher
+        @lesson2.save!
+        sign_in(@teacher)
+      end
+
+      it ("finds the next unpaid lesson of student to mark as paid if deleting a paid lesson") do
+        subject
+        expect{ @lesson2.reload }.to change{ @lesson2.paid }.from(false).to(true)
+      end
+
+      it("uses amount from paid lesson combined with credit to pay for next lesson if deleting paid and saves rest to credit") do
+        @lesson.update_attribute(:end_time, @lesson.end_time + 30.minutes)
+        subject
+        expect{ @lesson2.reload }.to change{ @lesson2.paid }.from(false).to(true)
+        expect(@lesson2.student.credit).to eq(22.5)
+      end
+
+      it("adds to credit of student if deleting a paid lesson with no other unpaid lessons") do
+        @lesson2.update_attribute(:paid, true)
+        subject
+        @lesson2.reload
+        expect(@lesson2.student.credit).to eq(45)
+      end
+
+      it("doesn't allow deleting of paid and taught lessons") do
+        @lesson.update_attribute(:start_time, Time.now - 1.hour)
+        @lesson.update_attribute(:end_time, Time.now)
+        expect{ subject }.to change{ Lesson.count }.by(0)
+      end
+    end
+
     describe("deleting recurring lessons") do
       before(:each) do
         make_recurring(@lesson)      
+        sign_in(@teacher)
       end
       
+      subject { delete :destroy, params: { id: @lesson.id, destroy_all: true } }
+
       it("allows deleting all recurring lessons") do
         expect(Lesson.count).to eq(4)
-        sign_in(@teacher)
         expect{
-          delete :destroy, params: { id: @lesson.id, destroy_all: true }
+          subject
         }.to change{ Lesson.count }.by(-4)
       end
 
       it("doesn't delete all recurring lessons at single time if they are not with same student") do
         Lesson.last.update_attribute(:student, @student2)
-        sign_in(@teacher)
         expect{
-          delete :destroy, params: { id: @lesson.id, destroy_all: true }
+          subject
         }.to change{ Lesson.count }.by(-3)
       end
 
       it("if choosing a lesson that repeats but single lesson option, can delete only that one lesson but still have repeating lessons") do
-        sign_in(@teacher)
         lesson = Lesson.where(repeat: true).first
         expect{
           delete :destroy, params: { id: lesson.id, }
         }.to change{ Lesson.count }.by(0)
+      end
+
+      it("adds to user credit for multiple unpaid lessons") do
+        @lesson.update_attribute(:paid, true)
+        expect{ subject }.to change{ Lesson.count }.by(-4)
+        expect{ @student.reload }.to change{ @student.credit }.from(0.0).to(45.0)
       end
     end
   end

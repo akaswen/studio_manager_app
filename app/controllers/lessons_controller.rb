@@ -52,7 +52,14 @@ class LessonsController < ApplicationController
       lessons << lesson
     end
 
-    lessons.each { |l| l.save }
+    lessons.each do |l| 
+      student = l.student
+      if student.credit - l.price >= 0
+        student.update_attribute(:credit, student.credit - l.price)
+        l.paid = true
+      end
+      l.save 
+    end
 
     unless current_user.teacher
       UserMailer.with(user: User.teacher, lessons: lessons).lesson_request_email.deliver_now
@@ -76,15 +83,19 @@ class LessonsController < ApplicationController
 
   def destroy
     lesson = Lesson.find(params["id"])
-    if current_user == lesson.student || current_user.teacher
-      if params["destroy_all"] == "true"
+    if (current_user == lesson.student || current_user.teacher) && !(lesson.paid && lesson.end_time <= Time.now)
+      if params["destroy_all"] == "true" # canceling recurring
         future_lesson_times = []
         6.times do |n|
           future_lesson_times << lesson.start_time + n.weeks
         end
         other_lessons = Lesson.where(start_time: future_lesson_times, student: lesson.student).all
-        other_lessons.destroy_all
-      else
+        other_lessons.each do |ol|
+          ol.transfer_credit
+          ol.destroy
+        end
+      else # canceling single
+        lesson.transfer_credit if lesson.paid # transfering credit
         if lesson.repeat
           new_lesson = Lesson.new(start_time: lesson.start_time + 1.week, end_time: lesson.end_time + 1.week, location: lesson.location, student_id: lesson.student.id, teacher_id: lesson.teacher.id)
           new_lesson.save

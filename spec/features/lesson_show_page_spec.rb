@@ -61,4 +61,12 @@ RSpec.feature "LessonShowPages", type: :feature do
     visit lesson_path(@lesson)
     expect(page).to have_link('Cancel This Lesson')
   end
+
+  it("doesn't allow a teacher to cancel a lesson that is passed and paid") do
+    @lesson.update_attribute(:paid, true)
+    @lesson.update_attribute(:start_time, Time.now - 1.hour)
+    @lesson.update_attribute(:end_time, Time.now)
+    visit lesson_path(@lesson)
+    expect(page).to_not have_link('Cancel This Lesson')
+  end
 end

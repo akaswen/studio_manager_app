@@ -6,6 +6,21 @@ class Payment < ApplicationRecord
   before_validation :check_user, :check_amount
   before_save :round_amount
 
+  def pay
+    student = self.user
+    credit = self.amount
+    lessons = Lesson.where(student_id: student.id, paid: false)
+    unless lessons.empty?
+      lessons.each do |l|
+        if credit - l.price >= 0
+          credit -= l.price
+          l.update_attribute(:paid, true)
+        end
+      end
+    end
+    student.update_attribute(:credit, student.credit + credit)
+  end
+
   private
     
     def check_user

@@ -1,5 +1,5 @@
 <div class="col-12 text-center">
-  <% unless @lesson.start_time < Time.now.utc + 24.hours && !current_user.teacher %>
+  <% unless @lesson.start_time < Time.now.utc + 24.hours && !current_user.teacher || (@lesson.end_time <= Time.now && @lesson.paid) %>
     <% if @lesson.recurring? %>
       <%= link_to 'Cancel Weekly Lessons', lesson_path(@lesson, destroy_all: true), method: :delete, class: "btn btn-outline-danger" %>
     <% end %>
@@ -12,13 +12,5 @@
     <% if @lesson.recurring? %>
       <button class="btn btn-outline-success" data-action="confirm" data-id="<%= @lesson.id %>" data-occurence="weekly">Confirm Recurring Lessons</button>
     <% end %>
-  <% else %>
-    <button class="btn btn-outline-warning" data-action="taught" data-id"<%= @lesson.id %>" data-value="
-      <% if @lesson.taught %>
-        false
-      <% else %>
-        true
-      <% end %>
-   ">Mark as Taught</button>
   <% end %>
 </div>

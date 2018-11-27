@@ -101,10 +101,6 @@ RSpec.describe Lesson, type: :model do
     expect(@lesson.confirmed).to eq(false)
   end
 
-  it('has a default value of false for taught') do
-    expect(@lesson.taught).to eq(false)
-  end
-
   describe('price') do
     it('returns a price') do
       expect(@lesson.price).to eq(45)
@@ -212,8 +208,7 @@ RSpec.describe Lesson, type: :model do
     end
   end
 
-  describe('paid') do
-    xit('returns true or false') do
-    end
+  it('has an initial paid value of false') do
+    expect(@lesson.paid).to eq(false)
   end
 end

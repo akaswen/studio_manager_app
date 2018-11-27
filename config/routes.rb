@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   patch '/time_slots', to: 'time_slots#update'
   put '/time_slots', to: 'time_slots#update'
 
-
   get 'schedule', to: 'schedules#edit'
+
+  resources :payments, only: [:create]
 end
