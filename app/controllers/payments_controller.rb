@@ -4,8 +4,15 @@ class PaymentsController < ApplicationController
 
   def create
     payment = Payment.new(payment_params)
-    payment.save
-    payment.pay
+    if payment.save
+      payment.pay
+      flash["notice"] = "Payment has been added"
+    else 
+      payment.errors.full_messages.each do |fm|
+        flash["alert"] = fm
+      end
+    end
+    redirect_to dashboard_path
   end
 
   private

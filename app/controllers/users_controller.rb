@@ -46,13 +46,17 @@ class UsersController < ApplicationController
 
   def dashboard
     @user = current_user
-    @new_students = User.confirmed.active.where(status: 'Pending').all if current_user.teacher
-    @weekly_lesson_requests = Lesson.initial_of_repeating
-    query_params = []
-    4.times do |n|
-      @weekly_lesson_requests.each { |l| query_params << l.start_time + n.weeks }
+    if current_user.teacher
+      @new_students = User.confirmed.active.where(status: 'Pending').all
+      @weekly_lesson_requests = Lesson.initial_of_repeating
+      query_params = []
+      4.times do |n|
+        @weekly_lesson_requests.each { |l| query_params << l.start_time + n.weeks }
+      end
+      @single_lesson_requests = Lesson.where.not(confirmed: true, start_time: query_params).where("start_time > ?", Time.now)
+      @payment = Payment.new
+      @students = User.active.where(student: true).order(:last_name).all
     end
-    @single_lesson_requests = Lesson.where.not(confirmed: true, start_time: query_params).where("start_time > ?", Time.now)
   end
 
   def wait_list

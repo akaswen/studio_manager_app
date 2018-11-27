@@ -45,5 +45,18 @@ RSpec.describe PaymentsController, type: :controller do
       expect{ subject }.to change{ Payment.count }.by(0)
       expect(response).to redirect_to(new_user_session_path)
    end
+
+    it("redirects to root path with flash on successful submission") do
+      sign_in(@teacher)
+      subject
+      expect(flash).to_not be_empty
+    end
+
+    it("redirects with flash on failed submission") do
+      sign_in(@teacher)
+      post :create, params: { payment: { user_id: @student.id } }
+      expect(response).to redirect_to dashboard_path
+      expect(flash).to_not be_empty
+    end
   end
 end
