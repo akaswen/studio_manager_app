@@ -14,7 +14,7 @@ teacher.save!
 teacher.confirm
 
 # sample student
-student = User.new(first_name: "Student", last_name: "McStudington", email: "student@example.com", password: "Password1", password_confirmation: "Password1", student: true, status: nil)
+student = User.new(first_name: "Student", last_name: "McStudington", email: "student@example.com", password: "Password1", password_confirmation: "Password1", student: true, status: nil, rate_per_hour: 45)
 
 student.addresses.build(street_address: "130 Emmett St", city: "Santa Cruz", state: "CA", zip_code: "95060")
 

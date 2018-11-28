@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :phone_numbers, dependent: :destroy
   has_many :teaching_lessons, foreign_key: :teacher_id, class_name: "Lesson", dependent: :destroy
   has_many :learning_lessons, foreign_key: :student_id, class_name: "Lesson", dependent: :destroy
-  has_many :payments
+  has_many :payments, dependent: :destroy
 
   has_one :schedule, dependent: :destroy
 

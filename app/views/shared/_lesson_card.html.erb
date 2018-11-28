@@ -1,4 +1,10 @@
-<div class="card text-center">
+<div class="lesson-card card text-center my-3
+  <% if lesson.paid %>
+    border-success   
+  <% else %>
+    border-danger
+  <% end %>
+  ">
   <h4><%= link_to lesson.student.full_name, lesson.student %></h4>
   <h5><%= link_to "#{lesson.start_time.strftime("%A, %B %e, %I:%M %p")} - #{lesson.end_time.strftime("%I:%M %p")}", lesson %></h5>
   <p>at</p>
@@ -13,5 +19,10 @@
       <%= lesson.student.addresses.first.city %>, <%= lesson.student.addresses.first.state %> <%= lesson.student.addresses.first.zip_code %>
     <% end %>
   </h6>
+  <% if lesson.paid %>
+    <h4 class="text-success position-absolute text-left ml-3 mt-2">Paid</h4>
+  <% else %>
+    <h4 class="text-danger position-absolute text-left ml-3 mt-2">Unpaid</h4>
+  <% end %>
 </div>
 

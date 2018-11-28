@@ -56,6 +56,8 @@ class UsersController < ApplicationController
       @single_lesson_requests = Lesson.where.not(confirmed: true, start_time: query_params).where("start_time > ?", Time.now)
       @payment = Payment.new
       @students = User.active.where(student: true).order(:last_name).all
+      @todays_lessons = Lesson.where(confirmed: true, start_time: (Time.now.beginning_of_day..Time.now.end_of_day)).order(:start_time)
+      @next_weeks_lessons = Lesson.where(confirmed: true, start_time: (Time.now.end_of_day..Time.now.beginning_of_day + 1.week)).order(:start_time)
     end
   end
 
