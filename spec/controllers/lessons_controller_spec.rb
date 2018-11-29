@@ -219,6 +219,7 @@ RSpec.describe LessonsController, type: :controller do
     describe('confirming a lesson') do
       before(:each) do
         sign_in(@teacher)
+        request.env['HTTP_REFERER'] = '/'
       end
 
       subject { patch :update, params: { id: @lesson.id, attribute: "confirmed", value: "true", occurence: "single" } }
@@ -238,19 +239,6 @@ RSpec.describe LessonsController, type: :controller do
           expect(lesson.confirmed).to eq(true)
         end
       end
-    end
-
-    describe ('marking a lesson as paid') do
-      before(:each) do
-        sign_in(@teacher)
-      end
-
-      it('can mark a lesson as paid and unpaid') do
-        patch :update, params: { id: @lesson.id, attribute: "paid", value: "true" }
-        expect{ @lesson.reload }.to change{ @lesson.paid }.from(false).to(true)
-        patch :update, params: { id: @lesson.id, attribute: "paid", value: "false" }
-        expect{ @lesson.reload }.to change{ @lesson.paid }.from(true).to(false)
-     end
     end
   end
 

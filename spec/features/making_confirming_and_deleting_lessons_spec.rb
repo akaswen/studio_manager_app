@@ -18,7 +18,7 @@ RSpec.feature "MakingLessons", type: :feature do
 
   subject { 
     sign_in(@student)
-    click_link('New Lesson')
+    click_link('Lessons')
     find('i.fa-caret-right').click
     within('.sunday') do
       click_button('12:00')
@@ -99,86 +99,59 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  it("allows a teacher to confirm a single lesson", js: true) do
-    subject
-    within('.inner-menu') do
-      expect(page).to have_content('Lesson Request')
-      expect(page).to have_content('12:00')
-      select('60 minutes', from: 'duration')
-      choose('occurence', option: 'single')
-      expect{ click_button('Okay') }.to change{ Lesson.count }.by(1)
+  describe('confirming and deleting') do
+    before(:each) do
+      ActionController::Base.allow_forgery_protection = false
+      @lesson = Lesson.new(attributes_for(:lesson))
+      @lesson.student = @student
+      @lesson.teacher = @teacher
+      @lesson.save!
     end
-    find("#icon").click
-    sign_out(@student)
-    sign_in(@teacher)
-    within('#teacher-sidebar') do
-      click_button('New Lesson Requests')
-      click_button('Confirm')
-    end
-    expect(Lesson.last.confirmed).to eq(true)
-  end
 
-  it("allows a teacher to confirm weekly lessons", js: true) do
-    subject
-    within('.inner-menu') do
-      expect(page).to have_content('Lesson Request')
-      expect(page).to have_content('12:00')
-      select('60 minutes', from: 'duration')
-      choose('occurence', option: 'weekly')
-      expect{ click_button('Okay') }.to change{ Lesson.count }.by(4)
+    it("allows a teacher to confirm a single lesson") do
+      sign_in(@teacher)
+      within('#teacher-sidebar') do
+        click_button('New Lesson Requests')
+        click_link('Confirm')
+      end
+      @lesson.reload
+      expect(@lesson.confirmed).to eq(true)
     end
-    find("#icon").click
-    sign_out(@student)
-    sign_in(@teacher)
-    within('#teacher-sidebar') do
-      click_button('New Lesson Requests')
-      click_button('Confirm')
-    end
-    Lesson.all.each do |lesson|
-      expect(lesson.confirmed).to eq(true)
-    end
-  end
 
-  it("allows a teacher to delete a new single lesson", js: true) do
-    subject
-    within('.inner-menu') do
-      expect(page).to have_content('Lesson Request')
-      expect(page).to have_content('12:00')
-      select('60 minutes', from: 'duration')
-      choose('occurence', option: 'single')
-      expect{ click_button('Okay') }.to change{ Lesson.count }.by(1)
+    it("allows a teacher to confirm weekly lessons") do
+      make_recurring(@lesson, false)
+      sign_in(@teacher)
+      within('#teacher-sidebar') do
+        click_button('New Lesson Requests')
+        click_link('Confirm')
+      end
+      Lesson.all.each do |lesson|
+        expect(lesson.confirmed).to eq(true)
+      end
     end
-    find("#icon").click
-    sign_out(@student)
-    sign_in(@teacher)
-    within('#teacher-sidebar') do
-      click_button('New Lesson Requests')
-      expect{ click_button('Delete') }.to change{ Lesson.count }.by(-1)
-    end
-  end
 
-  it("allows a teacher to delete new weekly lessons", js: true) do
-    subject
-    within('.inner-menu') do
-      expect(page).to have_content('Lesson Request')
-      expect(page).to have_content('12:00')
-      select('60 minutes', from: 'duration')
-      choose('occurence', option: 'weekly')
-      expect{ click_button('Okay') }.to change{ Lesson.count }.by(4)
+    it("allows a teacher to delete a new single lesson") do
+      sign_in(@teacher)
+      within('#teacher-sidebar') do
+        click_button('New Lesson Requests')
+        expect{ click_link('Delete') }.to change{ Lesson.count }.by(-1)
+      end
     end
-    find("#icon").click
-    sign_out(@student)
-    sign_in(@teacher)
-    within('#teacher-sidebar') do
-      click_button('New Lesson Requests')
-      click_button('Delete')
+
+    it("allows a teacher to delete new weekly lessons") do
+      make_recurring(@lesson, false)
+      sign_in(@teacher)
+      within('#teacher-sidebar') do
+        click_button('New Lesson Requests')
+        click_link('Delete')
+      end
+      expect(Lesson.count).to eq(0)
     end
-    expect(Lesson.count).to eq(0)
   end
 
   it("allows a teacher to make a lesson for any student in their studio", js: true) do
     sign_in(@teacher)
-    click_link('New Lesson')
+    click_link('Lessons')
     find('i.fa-caret-right').click
     within('.sunday') do
       click_button('12:00')

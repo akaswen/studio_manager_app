@@ -4,6 +4,7 @@ RSpec.describe Schedule, type: :model do
   before(:each) do
     @schedule = build(:schedule)
     @teacher = @schedule.user
+    @student = create(:student)
   end
 
   it('is valid') do
@@ -17,5 +18,10 @@ RSpec.describe Schedule, type: :model do
   it('has many time slots') do
     @schedule.save
     expect(@schedule.time_slots.length).to eq(336)
+  end
+
+  it('only allows a teacher to have a schedule') do
+    @schedule.user = @student
+    expect(@schedule).to_not be_valid
   end
 end

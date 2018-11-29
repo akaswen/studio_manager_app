@@ -154,8 +154,9 @@ end
 
 # some confirmed lessons
 
+students = User.where(student: true).all
+
 7.times do |n|
-  students = User.where(student: true).all
   3.times do |x|
     start_time = Time.now.beginning_of_day + (10 + x).hours + (1 + n).days
     lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true)
@@ -166,3 +167,33 @@ end
   end
 end
 
+# weekly lesson request
+
+4.times do |n|
+  start_time = Time.now.beginning_of_day + 9.hours + 1.day + n.weeks
+  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher")
+  lesson.student = student
+  lesson.teacher = teacher
+  repeat = true if n == 3
+  lesson.save!
+end
+
+# single lesson request
+
+  start_time = Time.now.beginning_of_day + 9.hours + 2.days
+  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher")
+  lesson.student = student
+  lesson.teacher = teacher
+  lesson.save!
+
+#unpaid lessons past deadline
+
+2.times do |n|
+  start_time = Time.now.beginning_of_day + 9.hours + 3.days
+  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true)
+  lesson.student = student
+  lesson.teacher = teacher
+  lesson.save!
+  lesson.update_attribute(:start_time, start_time - (4 - n).days)
+  lesson.update_attribute(:end_time, lesson.end_time - (4 - n).days)
+end

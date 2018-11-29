@@ -1,20 +1,20 @@
 require 'rails_helper'
 
 RSpec.feature "Dashboards", type: :feature do
+  before(:each) do
+    @lesson = create(:lesson)
+    @student = @lesson.student
+    @teacher = @lesson.teacher
+    @lesson.update_attribute(:confirmed, true)
+    @student2 = create(:student2)
+    @lesson2 = Lesson.new(attributes_for(:lesson2))
+    @lesson2.student = @student2
+    @lesson2.teacher = @teacher
+    @lesson2.confirmed = true
+    @lesson2.save
+  end
+ 
   describe('lessons timeline') do
-    before(:each) do
-      @lesson = create(:lesson)
-      @student = @lesson.student
-      @teacher = @lesson.teacher
-      @lesson.update_attribute(:confirmed, true)
-      @student2 = create(:student2)
-      @lesson2 = Lesson.new(attributes_for(:lesson2))
-      @lesson2.student = @student2
-      @lesson2.teacher = @teacher
-      @lesson2.confirmed = true
-      @lesson2.save
-    end
-
     it('gets all lessons for the week for a teacher') do
       sign_in(@teacher)
       within('#teacher-lessons') do
@@ -56,6 +56,39 @@ RSpec.feature "Dashboards", type: :feature do
         expect(page).to_not have_link(@lesson.start_time.strftime('%A, %B%e, %I:%M %p'))
         expect(page).to have_link(@lesson2.start_time.strftime('%A, %B%e, %I:%M %p'))
       end
+    end
+  end
+
+  describe('unpaid taught lessons') do
+    before(:each) do
+      @lesson.update_attribute(:start_time, @lesson.start_time - 2.weeks)
+      @lesson.update_attribute(:end_time, @lesson.end_time - 2.weeks)
+      sign_in(@teacher)
+    end
+
+    it('displays a lesson that is past and unpaid') do
+      within('#teacher-sidebar') do
+        expect(page).to have_link(@lesson.student.full_name)
+        expect(page).to have_link(@lesson.start_time.strftime('%I:%M %p'))
+      end
+    end
+
+    it("once lesson is paid for it no longer display's") do
+      @lesson.update_attribute(:paid, true)
+      visit dashboard_path
+      within('#teacher-sidebar') do
+        expect(page).to_not have_link(@lesson.student.full_name)
+        expect(page).to_not have_link(@lesson.start_time.strftime('%I:%M %p'))
+      end
    end
+
+    it("teacher can delete that lesson") do
+      within('#teacher-sidebar') do
+        click_button("Past Unpaid Lessons")
+        expect{
+          click_link("Delete")
+        }.to change{ Lesson.count }.by(-1)
+      end
+    end
   end
 end

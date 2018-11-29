@@ -11,3 +11,10 @@
 <div class="row collapse" id="new_lessons">
   <%= render 'users/dashboard/new_lessons' %>
 </div>
+
+<button id="unpaid_lesson_toggle" class="btn" data-toggle="collapse" data-target="#unpaid_lessons">
+  <h6>Past Unpaid Lessons <em id="unpaid_count">(<%= @unpaid_lessons.length %>)</em> <i class="fas fa-sort-up text-primary"></i></h6>
+</button>
+<div class="row collapse" id="unpaid_lessons">
+  <%= render 'users/dashboard/unpaid_lessons' %>
+</div>

@@ -5,12 +5,11 @@ const teacherSidebar = (() => {
   function load (sidebar) {
     let toggleButtons = document.querySelectorAll('button[data-toggle="collapse"]')
     let students = document.querySelectorAll('#new_students li');
-    let lessons = document.querySelectorAll('#new_lessons li');
 
     toggleButtons.forEach(button => {
       button.addEventListener('click', toggleArrow)
     });
-    studentListAdjuster.enableAdjusting(students, lessons);
+    studentListAdjuster.enableAdjusting(students);
   }
 
   function toggleArrow(e) {

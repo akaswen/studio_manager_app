@@ -5,7 +5,6 @@
 //= require user_show
 //= require edit_schedule
 //= require new_lesson
-//= require lesson_show
 
 window.addEventListener('turbolinks:load', () => {
   // load dropdown menu
@@ -21,7 +20,6 @@ window.addEventListener('turbolinks:load', () => {
   let userShowDiv = document.getElementById('user-show'); //for user show page
   let calendar = document.getElementById('schedule-calendar'); //for edit schedule page
   let lessonRequestDiv = document.getElementById('new-lesson'); // for new lesson page
-  let lessonShowDiv = document.getElementById('lesson-show'); //for lesson show page
 
   if (inputs.length > 0) {
     deviseForms.load(inputs);
@@ -35,8 +33,6 @@ window.addEventListener('turbolinks:load', () => {
     schedule.load(calendar);
   } else if (lessonRequestDiv) {
     newLesson.load(lessonRequestDiv);
-  } else if (lessonShowDiv) {
-    lessonShow.load(lessonShowDiv);
   }
 
 });

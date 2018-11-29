@@ -8,10 +8,6 @@ RSpec.feature "LessonShowPages", type: :feature do
     sign_in(@teacher)
   end
 
-  after(:each) do
-    ActionController::Base.allow_forgery_protection = false
-  end
-
   it('deletes one lesson') do
     visit lesson_path(@lesson)
     expect{
@@ -27,22 +23,20 @@ RSpec.feature "LessonShowPages", type: :feature do
     }.to change{ Lesson.count }.by(-4)
   end
 
-  it('confirms one lesson', js: true) do
-    ActionController::Base.allow_forgery_protection = true
+  it('confirms one lesson') do
     visit lesson_path(@lesson)
-    click_button('Confirm This Lesson')
+    click_link('Confirm This Lesson')
     expect{ @lesson.reload }.to change{ @lesson.confirmed }.from(false).to(true)
-    sleep 1
-    expect(page).to_not have_button('Confirm This Lesson')
+    expect(page).to_not have_link('Confirm This Lesson')
+    expect(page).to have_link('Cancel This Lesson')
   end
 
-  it('confirms recurring lessons', js: true) do
-    ActionController::Base.allow_forgery_protection = true
+  it('confirms recurring lessons') do
     make_recurring(@lesson)
     visit lesson_path(@lesson)
-    click_button('Confirm Recurring Lessons')
-    sleep 1
-    expect(page).to_not have_button('Confirm Recurring Lessons')
+    click_link('Confirm Recurring Lessons')
+    expect(page).to_not have_link('Confirm Recurring Lessons')
+    expect(page).to have_link('Cancel This Lesson')
     Lesson.all.each do |l|
       expect(l).to be_confirmed
     end

@@ -1,0 +1,18 @@
+<ul class="list-group ml-5 unpaid_lesson_list">
+  <% @unpaid_lessons.each do |ul| %>
+    <li class="list-group-item text-danger border-danger" id="<%= ul.id %>">
+      <div class="row">
+        <div class="col-7">
+          <h6><%= link_to ul.student.full_name, ul.student %>:</h6>
+          <%= link_to "#{ul.start_time.strftime("%a %b %e %I:%M %p")} - #{ul.end_time.strftime("%I:%M %p")}", ul %></p>
+        </div>
+
+        <div class="col-5 text-right">
+          <%= link_to lesson_path(ul), method: :delete do %>
+            <button class="btn btn-light"><i class="fas fa-minus-circle text-danger"></i>Delete</button>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>

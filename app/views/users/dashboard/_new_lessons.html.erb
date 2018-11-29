@@ -12,11 +12,16 @@
                 the Student's House.
               <% end %>
             </p>
-            <%= link_to "#{l.start_time.strftime("%a %H:%M")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
+            <%= link_to "#{l.start_time.strftime("%a %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
           </div>
           <div class="col-5 text-right">
-            <button class="btn btn-light" data-decision="confirm" data-occurence="weekly"><i data-decision="confirm" data-occurence="weekly" class="fas fa-check-circle text-success"></i>Confirm</button>
-            <button class="btn btn-light" data-decision="delete" data-occurence="weekly"><i class="fas fa-minus-circle text-danger" data-decision="delete" data-occurence="weekly"></i>Delete</button>
+            <%= link_to lesson_path(l, occurence: "weekly"), method: :patch do %>
+              <button class="btn btn-light"><i class="fas fa-check-circle text-success"></i>Confirm</button>
+            <% end %>
+            
+            <%= link_to lesson_path(l, destroy_all: true), method: :delete do %>
+              <button class="btn btn-light"><i class="fas fa-minus-circle text-danger"></i>Delete</button>
+            <% end %>
           </div>
         </div>
       </li>
@@ -33,11 +38,16 @@
                 the Student's House.
               <% end %>
            </p>
-           <%= link_to "#{l.start_time.strftime("%a %b %e %H:%M")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
+           <%= link_to "#{l.start_time.strftime("%a %b %e %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
           </div>
           <div class="col-5 text-right">
-            <button class="btn btn-light" data-decision="confirm" data-occurence="single"><i data-decision="confirm" data-occurence="single" class="fas fa-check-circle text-success"></i>Confirm</button>
-            <button class="btn btn-light" data-decision="delete" data-occurence="single"><i data-decision="delete" data-occurence="single" class="fas fa-minus-circle text-danger"></i>Delete</button>
+            <%= link_to lesson_path(l), method: :patch do %>
+              <button class="btn btn-light"><i class="fas fa-check-circle text-success"></i>Confirm</button>
+            <% end %>
+
+            <%= link_to lesson_path(l), method: :delete do %>
+              <button class="btn btn-light"><i class="fas fa-minus-circle text-danger"></i>Delete</button>
+            <% end %>
           </div>
         </div>
       </li>

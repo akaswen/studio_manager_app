@@ -8,9 +8,13 @@
     <h3 class="text-info">Cannot cancel lesson within 24 hours of the start time</h3>
   <% end %>
   <% unless @lesson.confirmed %>
-    <button class="btn btn-outline-success" data-action="confirm" data-id="<%= @lesson.id %>" data-occurence="single">Confirm This Lesson</button>
+    <%= link_to lesson_path(@lesson), method: :patch do %>
+      <button class="btn btn-outline-success">Confirm This Lesson</button>
+    <% end %>
     <% if @lesson.recurring? %>
-      <button class="btn btn-outline-success" data-action="confirm" data-id="<%= @lesson.id %>" data-occurence="weekly">Confirm Recurring Lessons</button>
+      <%= link_to lesson_path(@lesson, occurence: "weekly"), method: :patch do %>
+        <button class="btn btn-outline-success">Confirm Recurring Lessons</button>
+      <% end %>
     <% end %>
   <% end %>
 </div>

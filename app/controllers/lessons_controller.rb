@@ -69,7 +69,7 @@ class LessonsController < ApplicationController
 
   def update
     lesson = Lesson.find(params["id"])
-    lesson.update_attribute(params[:attribute], params[:value])
+    flash["notice"] = "Lesson confirmed" if lesson.update_attribute(:confirmed, true)
 
     if params["occurence"] == "weekly"
       3.times do |n|
@@ -79,6 +79,7 @@ class LessonsController < ApplicationController
     end
 
     UserMailer.with(lesson: lesson, occurence: params["occurence"]).lesson_confirmation_email.deliver_now
+    redirect_to request.referrer
   end
 
   def destroy

@@ -4,6 +4,8 @@ class Schedule < ApplicationRecord
 
   before_save :add_time_slots
 
+  after_validation :check_user
+
   private
     
     def add_time_slots
@@ -16,5 +18,9 @@ class Schedule < ApplicationRecord
           end
         end
       end
+    end
+
+    def check_user
+      self.errors.add(:user, "User must be a teacher") unless self.user.teacher
     end
 end
