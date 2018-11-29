@@ -10,8 +10,14 @@
         </div>
       <% end %>
     </div>
-    <div class="col-7">
+    <div class="col-5">
       <h2 class="mb-3"><%= @user.full_name %></h2>
+    </div>
+    <div class="col-2">
+      <div class="bg-light rate text-success">
+        <h5>Credit</h5>
+        <h2 class="text-success" id="rate">$<%= @user.credit %></h2>
+      </div>
     </div>
   </div>
 
