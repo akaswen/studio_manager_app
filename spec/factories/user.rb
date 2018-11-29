@@ -7,7 +7,7 @@ FactoryBot.define do
     password_confirmation { "Password1" }
 
     after(:build) do |user|
-      user.phone_numbers << build(:phone_number) if user.phone_numbers.empty?
+      user.phone_number = build(:phone_number) if user.phone_number.nil?
       user.addresses << build(:address) if user.addresses.empty?
     end
   end
@@ -22,7 +22,7 @@ FactoryBot.define do
     status { nil }
 
     after(:build) do |user|
-      user.phone_numbers << build(:cell_number) if user.phone_numbers.empty?
+      user.phone_number = build(:phone_number) if user.phone_number.nil?
       user.addresses << build(:home) if user.addresses.empty?
       user.confirm
     end
@@ -39,7 +39,7 @@ FactoryBot.define do
     rate_per_hour { 45 }
 
     after(:build) do |user|
-      user.phone_numbers << build(:cell_number) if user.phone_numbers.empty?
+      user.phone_number = build(:phone_number) if user.phone_number.nil?
       user.addresses << build(:home) if user.addresses.empty?
       user.confirm
     end
@@ -56,7 +56,7 @@ FactoryBot.define do
     rate_per_hour { 45 }
 
     after(:build) do |user|
-      user.phone_numbers << build(:cell_number) if user.phone_numbers.empty?
+      user.phone_number = build(:phone_number) if user.phone_number.nil?
       user.addresses << build(:home) if user.addresses.empty?
       user.confirm
     end

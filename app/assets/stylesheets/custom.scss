@@ -58,6 +58,14 @@
   }
 }
 
+/* home */
+
+.home {
+  .card-img-overlay {
+    top: 65%;
+  }
+}
+
 /* dashboard */
 
 /* non-student users */
@@ -66,11 +74,14 @@
   color: #c68a35
 }
 
-/* home */
+/* student users */
 
-.home {
-  .card-img-overlay {
-    top: 65%;
+#student-sidebar {
+  div {
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 3px solid $primary;
   }
 }
 
@@ -264,3 +275,4 @@
     z-index: 0;
   }
 }
+

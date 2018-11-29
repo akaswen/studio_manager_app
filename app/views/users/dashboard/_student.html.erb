@@ -1,5 +1,14 @@
 <div class="row">
-  <div class="col-3"></div>
+  <div class="col-3 text-center" id="student-sidebar">
+    <div class="bg-light rate mb-4 p-4">
+      <span>Rate per Hour</span>
+      <h2 class="text-success" id="rate"><%= @user.rate %></h2>
+    </div>
+    <div class="bg-light rate text-success p-4">
+      <h5>Credit</h5>
+      <h2 class="text-success" id="rate">$<%= @user.credit %></h2>
+    </div>
+  </div>
   <div class="col-6" id="student-lessons">
     <h4 class="text-center border-bottom pb-3">Next Lesson</h4>
     <% if @next_lesson %>

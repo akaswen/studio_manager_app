@@ -19,7 +19,7 @@ RSpec.feature "ShowingUsers", type: :feature do
       click_link(@user.full_name)
     end
     @address = @user.addresses.first
-    @phone = @user.phone_numbers.first
+    @phone = @user.phone_number
     expect(page).to have_content(@user.full_name)
     expect(page).to have_content(@user.email)
     expect(page).to have_content(@address.street_address)
@@ -35,7 +35,7 @@ RSpec.feature "ShowingUsers", type: :feature do
     click_link('Wait List')
     click_link(@user.full_name)
     @address = @user.addresses.first
-    @phone = @user.phone_numbers.first
+    @phone = @user.phone_number
     expect(page).to have_content(@user.full_name)
     expect(page).to have_content(@user.email)
     expect(page).to have_content(@address.street_address)
@@ -50,7 +50,7 @@ RSpec.feature "ShowingUsers", type: :feature do
     click_link('Studio')
     click_link(@student.full_name)
     @address = @student.addresses.first
-    @phone = @student.phone_numbers.first
+    @phone = @student.phone_number
     expect(page).to have_content(@student.full_name)
     expect(page).to have_content(@student.email)
     expect(page).to have_content(@address.street_address)

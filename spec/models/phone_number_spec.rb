@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PhoneNumber, type: :model do
   before(:each) do
     @user = build(:user)
-    @number = @user.phone_numbers.first
+    @number = @user.phone_number
   end
 
   it('should be valid') do
@@ -35,14 +35,14 @@ RSpec.describe PhoneNumber, type: :model do
     @number.number = "(555) 555 - 5555"
     @user.save
     @user.reload
-    expect(@user.phone_numbers.first.number).to eq("5555555555")
+    expect(@user.phone_number.number).to eq("5555555555")
   end
 
   it('should display the number in a readable way') do
     @number.number = "0123456789"
     @user.save
     @user.reload
-    expect(@user.phone_numbers.first.pretty_number).to eq("(012) 345 - 6789")
+    expect(@user.phone_number.pretty_number).to eq("(012) 345 - 6789")
   end
 
   it('should have a kind') do

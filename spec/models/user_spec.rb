@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   before(:each) do
     @user = build(:user)
     @address = @user.addresses.first
-    @number = @user.phone_numbers.first
+    @number = @user.phone_number
   end
 
   it('should be valid') do
@@ -61,7 +61,7 @@ RSpec.describe User, type: :model do
       it('should be unique and not by case') do
         @other_user = User.new(attributes_for(:user))
         @other_user.addresses << build(:address)
-        @other_user.phone_numbers << build(:phone_number)
+        @other_user.phone_number = build(:phone_number)
         @user.save
         expect(@other_user).to_not be_valid
         @other_user.email = 'AarOn@example.com'
@@ -98,7 +98,7 @@ RSpec.describe User, type: :model do
 
       describe('addresses') do
         it('should have at least one address') do
-          @other_user.phone_numbers << build(:phone_number)
+          @other_user.phone_number = build(:phone_number)
           expect(@other_user).to_not be_valid
           @other_user.addresses << build(:address)
           expect(@other_user).to be_valid
@@ -115,7 +115,7 @@ RSpec.describe User, type: :model do
         it('should have at least one phone number') do
           @other_user.addresses << build(:address)
           expect(@other_user).to_not be_valid
-          @other_user.phone_numbers << build(:phone_number)
+          @other_user.phone_number = build(:phone_number)
           expect(@other_user).to be_valid
         end
 
