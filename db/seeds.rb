@@ -24,17 +24,6 @@ student.save!
 
 student.confirm
 
-# some confirmed lessons
-
-4.times do |n|
-  start_time = Time.now.beginning_of_day + 10.hours + (1 + n).days
-  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true)
-  lesson.student = student
-  lesson.teacher = teacher
-  lesson.repeat = true if n == 3
-  lesson.save!
-end
-
 # new student requests
 5.times do
   first_name = Faker::ElderScrolls.first_name
@@ -161,5 +150,19 @@ end
   user.save!
 
   user.confirm
-
 end
+
+# some confirmed lessons
+
+7.times do |n|
+  students = User.where(student: true).all
+  3.times do |x|
+    start_time = Time.now.beginning_of_day + (10 + x).hours + (1 + n).days
+    lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true)
+    lesson.student = x < 2 ? students[x] : student
+    lesson.teacher = teacher
+    lesson.repeat = true if n == 3 || n == 6
+    lesson.save!
+  end
+end
+

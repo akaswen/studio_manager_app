@@ -1,1 +1,19 @@
-<p>hello student</p>
+<div class="row">
+  <div class="col-3"></div>
+  <div class="col-6" id="student-lessons">
+    <h4 class="text-center border-bottom pb-3">Next Lesson</h4>
+    <% if @next_lesson %>
+      <%= render 'shared/lesson_card', lesson: @next_lesson %>
+    <% else %>
+      <h5 class="text-center text-secondary">No upcoming lessons</h5>
+    <% end %>
+    <h4 class="text-center border-bottom pb-3">Lessons over the next few weeks</h4>
+      <% unless @lessons.empty? %>
+        <% @lessons.each do |l| %>
+          <%= render 'shared/lesson_card', lesson: l %>
+        <% end %>
+      <% else %>
+        <h5 class="text-center text-secondary">No other upcoming lessons</h5>
+      <% end %>
+  </div>
+</div>

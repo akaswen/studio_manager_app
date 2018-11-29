@@ -39,6 +39,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Use Devise for authentication
 gem 'devise'
 
+gem 'will_paginate', '~> 3.1.0'
+
 # Use bootstrap framework
 gem 'bootstrap', '~> 4.1.3'
 # boostrap requires jquery

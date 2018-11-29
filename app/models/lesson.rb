@@ -6,6 +6,8 @@ class Lesson < ApplicationRecord
 
   before_validation :proper_start_time, :proper_end_time, :student_check, :available_time
 
+  default_scope { order(:start_time) }
+
   def address
     if self.location == 'teacher'
       return self.teacher.addresses.first
