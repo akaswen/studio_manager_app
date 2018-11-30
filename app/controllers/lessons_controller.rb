@@ -54,11 +54,11 @@ class LessonsController < ApplicationController
 
     lessons.each do |l| 
       student = l.student
+      l.save
       if student.credit - l.price >= 0
         student.update_attribute(:credit, student.credit - l.price)
-        l.paid = true
+        l.update_attribute(:paid, true)
       end
-      l.save 
     end
 
     unless current_user.teacher

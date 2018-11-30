@@ -101,7 +101,7 @@ RSpec.describe Lesson, type: :model do
     expect(@lesson.confirmed).to eq(false)
   end
 
-  describe('price', focus: true) do
+  describe('price') do
     it('has a price after save') do
       @lesson.save
       expect(@lesson.price).to eq(45)
