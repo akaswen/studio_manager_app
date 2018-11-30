@@ -181,6 +181,7 @@ const newLesson = (() => {
 
         select.appendChild(option);
       });
+      studentsDiv.textContent = '';
       studentsDiv.appendChild(header);
       studentsDiv.appendChild(select);
     }).catch((err) => {

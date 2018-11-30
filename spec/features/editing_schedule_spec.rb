@@ -27,7 +27,7 @@ RSpec.feature "EditingSchedules", type: :feature do
       expect(s.available).to eq(false)
     end
     within('.sunday') do
-      click_button('19:45')
+      click_button('07:45 pm')
     end
     find('.fa-calendar-alt').click
     expect(@schedule.time_slots.sunday_slots.last.available).to eq(true)

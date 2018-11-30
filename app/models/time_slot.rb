@@ -36,6 +36,18 @@ class TimeSlot < ApplicationRecord
     where(day: 6)
   end
 
+  def pretty_time
+    array = self.time.split(':')
+    if array[0].to_i > 12
+      array[0] = (array[0].to_i - 12).to_s
+      array[0] = "0" + array[0] if array[0].length == 1
+      array[1] += " pm"
+    else 
+      array[1] += array[0] == "12" ? " pm" : " am"
+    end
+    array.join(':')
+  end
+
   private
 
   def day_range

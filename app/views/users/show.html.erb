@@ -16,7 +16,7 @@
     <div class="col-2">
       <div class="bg-light rate text-success p-4">
         <h5>Credit</h5>
-        <h2 class="text-success" id="rate">$<%= @user.credit %></h2>
+        <h2 class="text-success" id="rate"><%= dollar_prettified(@user.credit) %></h2>
       </div>
     </div>
   </div>

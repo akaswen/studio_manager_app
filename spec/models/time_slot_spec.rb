@@ -46,4 +46,15 @@ RSpec.describe TimeSlot, type: :model do
   it('has a schedule') do
     expect(@time_slot.schedule).to be_truthy
   end
+
+  describe('pretty time') do
+    it('returns an am time for morning') do
+      expect(@time_slot.pretty_time).to eq('08:00 am')
+    end
+
+    it('returns a pm time for evening') do
+      time_slot = TimeSlot.where(time: '17:30').first
+      expect(time_slot.pretty_time).to eq('05:30 pm')
+    end
+  end
 end
