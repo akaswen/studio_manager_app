@@ -159,7 +159,7 @@ students = User.where(student: true).all
 7.times do |n|
   3.times do |x|
     start_time = Time.now.beginning_of_day + (10 + x).hours + (1 + n).days
-    lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true)
+    lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true, kind: "voice")
     lesson.student = x < 2 ? students[x] : student
     lesson.teacher = teacher
     lesson.repeat = true if n == 3 || n == 6
@@ -171,7 +171,7 @@ end
 
 4.times do |n|
   start_time = Time.now.beginning_of_day + 9.hours + 1.day + n.weeks
-  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher")
+  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", kind: "piano")
   lesson.student = student
   lesson.teacher = teacher
   repeat = true if n == 3
@@ -181,7 +181,7 @@ end
 # single lesson request
 
   start_time = Time.now.beginning_of_day + 9.hours + 2.days
-  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher")
+  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", kind: "voice")
   lesson.student = student
   lesson.teacher = teacher
   lesson.save!
@@ -190,7 +190,7 @@ end
 
 2.times do |n|
   start_time = Time.now.beginning_of_day + 9.hours + 3.days
-  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true)
+  lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true, kind: "voice/piano")
   lesson.student = student
   lesson.teacher = teacher
   lesson.save!

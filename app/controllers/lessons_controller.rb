@@ -39,10 +39,11 @@ class LessonsController < ApplicationController
       start_time = DateTime.parse(params["time"]) + i.weeks
       end_time = start_time + params["length"].to_i.minutes
       location = params["location"]
+      kind = params["kind"]
       student = User.find_by(id: params["id"]) || current_user
       teacher = User.teacher
 
-      lesson = Lesson.new(start_time: start_time, end_time: end_time, location: location, student_id: student.id, teacher_id: teacher.id)
+      lesson = Lesson.new(start_time: start_time, end_time: end_time, location: location, student_id: student.id, teacher_id: teacher.id, kind: kind)
 
       lesson.repeat = true  if i == 3
 
@@ -98,7 +99,7 @@ class LessonsController < ApplicationController
       else # canceling single
         lesson.transfer_credit if lesson.paid # transfering credit
         if lesson.repeat
-          new_lesson = Lesson.new(start_time: lesson.start_time + 1.week, end_time: lesson.end_time + 1.week, location: lesson.location, student_id: lesson.student.id, teacher_id: lesson.teacher.id)
+          new_lesson = Lesson.new(start_time: lesson.start_time + 1.week, end_time: lesson.end_time + 1.week, location: lesson.location, student_id: lesson.student.id, teacher_id: lesson.teacher.id, kind: lesson.kind)
           new_lesson.save
 
           lesson.destroy

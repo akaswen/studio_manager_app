@@ -80,7 +80,6 @@ const newLesson = (() => {
     select.name = 'location';
     let option1 = document.createElement('OPTION');
     let option2 = document.createElement('OPTION');
-    let option3 = document.createElement('OPTION');
     option1.textContent = "Teacher's studio";
     option1.value = 'teacher';
     option2.textContent = "Student's house";
@@ -95,9 +94,37 @@ const newLesson = (() => {
     return selectSpan;
   }
 
-  function submitForm(time, day, location, length, occurence, studentId) {
+  function createSelectKind() {
+    let selectSpan = document.createElement('SPAN');
+    let label = document.createElement('LABEL');
+    label.textContent = 'Kind';
+
+    let select = document.createElement('SELECT');
+    select.id = 'kind';
+    select.name = 'kind';
+    let option1 = document.createElement('OPTION');
+    let option2 = document.createElement('OPTION');
+    let option3 = document.createElement('OPTION');
+    option1.textContent = "Voice Lesson";
+    option1.value = 'voice';
+    option2.textContent = "Piano Lesson";
+    option2.value = 'piano';
+    option3.textContent = "Voice and Piano Lesson";
+    option3.value = 'voice/piano';
+
+    select.appendChild(option1);
+    select.appendChild(option2);
+    select.appendChild(option3);
+
+    selectSpan.appendChild(label);
+    selectSpan.appendChild(select);
+
+    return selectSpan;
+ }
+
+  function submitForm(time, day, location, length, occurence, studentId, kind) {
     let loading = myAlert.loadingMenu();
-    let path = `/lessons?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}&id=${studentId}`;
+    let path = `/lessons?time=${day + ' ' + time}&length=${length}&location=${location}&occurence=${occurence}&id=${studentId}&kind=${kind}`;
     myFetch(path, 'POST').then(response => {
       if (response.ok) {
         window.location.reload(true)
@@ -118,7 +145,12 @@ const newLesson = (() => {
     let time = document.createElement('H3');
     let day = document.createElement('H4');
     let selectLocation = createSelectLocation();
+    selectLocation.classList.add('small-select');
     let selectLength = createSelectLength(button);
+    selectLength.classList.add('small-select');
+    let selectKind = createSelectKind();
+    selectKind.classList.add('small-select');
+
     let radioOccuring = createRadioOccuring();
 
     header.textContent = 'Lesson Request';
@@ -132,8 +164,9 @@ const newLesson = (() => {
       let occurenceNode = ([...radioOccuring.children].filter(node => node.checked === true));
       let occurence = occurenceNode[0].value
       let studentId = studentsDiv.lastElementChild ? studentsDiv.lastElementChild.value : null
+      let kind = selectKind.lastElementChild.value;
 
-      submitForm(startTime, weekDay, location, length, occurence, studentId);
+      submitForm(startTime, weekDay, location, length, occurence, studentId, kind);
     });
 
     form.appendChild(header);
@@ -142,6 +175,7 @@ const newLesson = (() => {
     form.appendChild(day);
     form.appendChild(selectLocation);
     form.appendChild(selectLength);
+    form.appendChild(selectKind);
     form.appendChild(radioOccuring);
     innerMenu.appendChild(form);
   }

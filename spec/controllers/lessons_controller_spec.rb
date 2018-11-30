@@ -44,7 +44,7 @@ RSpec.describe LessonsController, type: :controller do
         4.times do |w|
           (w + 1).times do |h|
             start_time = Time.now + 1.hour + (1 * h).hours + (1 * w).weeks
-            lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher")
+            lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", kind: "voice")
             lesson.student = @student
             lesson.teacher = @teacher
 
@@ -92,7 +92,8 @@ RSpec.describe LessonsController, type: :controller do
       time: time,
       location: "teacher",
       length: "60",
-      occurence: "single"
+      occurence: "single",
+      kind: "voice"
     } }
 
     it('creates a new lesson') do
@@ -114,7 +115,8 @@ RSpec.describe LessonsController, type: :controller do
           time: time,
           location: "teacher",
           length: "60",
-          occurence: "weekly"
+          occurence: "weekly",
+          kind: "voice"
         }
       }.to change{Lesson.count}.by(4)
       expect(Lesson.last.repeat).to eq(true)
@@ -146,7 +148,8 @@ RSpec.describe LessonsController, type: :controller do
           location: "teacher",
           length: "60",
           occurence: "single",
-          id: @student.id
+          id: @student.id,
+          kind: "voice"
         }
       }.to change{ Lesson.count }.by(1).and change{ ActionMailer::Base.deliveries.length }.by(0)
       expect(Lesson.last).to be_confirmed
@@ -170,7 +173,7 @@ RSpec.describe LessonsController, type: :controller do
 
     it("doesn't allow the creation of any lessons for recurring if a time slot in the future isn't available") do
       time = (DateTime.now + 10.days).strftime("%a %b %e") + " 08:00"
-      @lesson = Lesson.create!(start_time: DateTime.now.utc.beginning_of_day + 31.days + 8.hours, end_time: DateTime.now.utc.beginning_of_day + 31.days + 9.hours, location: "teacher", student_id: @student.id, teacher_id: @teacher.id)
+      @lesson = Lesson.create!(start_time: DateTime.now.utc.beginning_of_day + 31.days + 8.hours, end_time: DateTime.now.utc.beginning_of_day + 31.days + 9.hours, location: "teacher", student_id: @student.id, teacher_id: @teacher.id, kind: "voice")
       sign_in(@student)
       expect{
         post :create, params: {

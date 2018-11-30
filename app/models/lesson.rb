@@ -2,9 +2,9 @@ class Lesson < ApplicationRecord
   belongs_to :teacher, class_name: "User"
   belongs_to :student, class_name: "User"
 
-  validates_presence_of :start_time, :end_time, :location
+  validates_presence_of :start_time, :end_time, :location, :kind
 
-  before_validation :proper_start_time, :proper_end_time, :student_check, :available_time
+  before_validation :proper_start_time, :proper_end_time, :student_check, :available_time, :kind_check
 
   before_save :make_price
 
@@ -28,7 +28,7 @@ class Lesson < ApplicationRecord
     lessons = Lesson.where(repeat: true)
     lessons.each do |lesson|
       lesson.update_attribute(:repeat, false)
-      new_lesson = Lesson.new(start_time: lesson.start_time + 1.week, end_time: lesson.end_time + 1.week, location: lesson.location, repeat: true)
+      new_lesson = Lesson.new(start_time: lesson.start_time + 1.week, end_time: lesson.end_time + 1.week, location: lesson.location, repeat: true, kind: lesson.kind)
       new_lesson.student = lesson.student
       new_lesson.teacher = lesson.teacher
       new_lesson.save!
@@ -110,5 +110,9 @@ class Lesson < ApplicationRecord
     duration_in_hours = (self.end_time - self.start_time)/60.0/60.0
     self.price = duration_in_hours * self.student.rate_per_hour
     self.price = (self.price * 100).round / 100.0
+  end
+
+  def kind_check
+    self.errors.add(:kind, "kind must be voice, piano, or voice/piano") unless ["voice", "piano", "voice/piano"].include?(self.kind)
   end
 end

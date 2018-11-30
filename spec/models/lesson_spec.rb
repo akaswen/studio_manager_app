@@ -95,6 +95,16 @@ RSpec.describe Lesson, type: :model do
         end
       end
     end
+
+    it('has a kind') do
+      @lesson.kind = ''
+      expect(@lesson).to_not be_valid
+    end
+
+    it('only accepts the proper kind') do
+      @lesson.kind = 'banana'
+      expect(@lesson).to_not be_valid
+    end
   end
 
   it('has default value of false for confirmed') do
@@ -152,14 +162,14 @@ RSpec.describe Lesson, type: :model do
 
     it('duplicates all lessons set to repeat') do
       @lesson.repeat = true
-      lesson2 = Lesson.new(start_time: @lesson.start_time + 1.hour, end_time: @lesson.end_time + 1.hours, location: @lesson.location, repeat: true)
+      lesson2 = Lesson.new(start_time: @lesson.start_time + 1.hour, end_time: @lesson.end_time + 1.hours, location: @lesson.location, repeat: true, kind: @lesson.kind)
       lesson2.student = @lesson.student
       lesson2.teacher = @lesson.teacher
-      lesson3 = Lesson.new(start_time: @lesson.start_time + 2.hours, end_time: @lesson.end_time + 2.hours, location: @lesson.location, repeat: true)
+      lesson3 = Lesson.new(start_time: @lesson.start_time + 2.hours, end_time: @lesson.end_time + 2.hours, location: @lesson.location, repeat: true, kind: @lesson.kind)
       lesson3.student = @lesson.student
       lesson3.teacher = @lesson.teacher
 
-      lesson4 = Lesson.new(start_time: @lesson.start_time + 3.hour, end_time: @lesson.end_time + 3.hours, location: @lesson.location, repeat: true)
+      lesson4 = Lesson.new(start_time: @lesson.start_time + 3.hour, end_time: @lesson.end_time + 3.hours, location: @lesson.location, repeat: true, kind: @lesson.kind)
       lesson4.student = @lesson.student
       lesson4.teacher = @lesson.teacher
 
