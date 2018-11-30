@@ -1,5 +1,42 @@
-<ul>
-  <% @payments.each do |payment| %>
-    <li><%= link_to payment.user.full_name, payment.user %>: <%= payment.pretty_amount %></li>
-  <% end %>
-</ul>
+<div class="row">
+  <div class="col-3"></div>
+  <div class="col-6 text-center">
+    <h2 class="mb-5">Payment History</h2>
+  </div>
+</div>
+<div class="row mb-5">
+  <div class="pagination text-left">
+    <%= link_to "All", payments_path %>
+    <% @years.each do |year| %>
+      <%= link_to year, payments_path(year: year) %>
+    <% end %>
+  </div>
+</div>
+<div class="row mb-5">
+  <div class="col-3"></div>
+  <div class="col-6 text-center">
+    <% unless @payments.empty? %>
+      <h3 class="mb-5 text-success">Total Made between <%= @payments[-1].created_at.strftime('%b/%Y') %> and <%= @payments[0].created_at.strftime('%b/%Y') %>: <%= dollar_prettified(@total) %></h3>
+      <ul class="list-group">
+        <% @payments.each do |payment| %>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <%= link_to payment.user.full_name, payment.user %>
+              </div>
+              <div class="col">
+                <em class="text-success font-weight-bold"><%= dollar_prettified(payment.amount) %></em>
+              </div>
+              <div class="col"> 
+                <%= payment.created_at.strftime('%b/%d/%Y') %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <h3>No Payments Found</h3>
+    <% end %>
+  </div>
+  <div class="col-3"></div>
+</div>

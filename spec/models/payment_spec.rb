@@ -43,4 +43,33 @@ RSpec.describe Payment, type: :model do
     @payment.reload
     expect(@payment.amount).to eq(15.06)
   end
+
+  describe('self.years') do
+    before(:each) do
+      @payment.save
+      @payment2 = @student.payments.create(amount: 45)
+    end
+
+    it('it returns a year if there is a payment made in that year') do
+      expect(Payment.years).to eq([Time.now.strftime('%Y')])
+    end
+
+    it('it returns multiple years if payments exist in multiple years') do
+      @payment2.update_attribute(:created_at, Time.now - 1.year)
+      expect(Payment.years).to eq([Time.now.strftime('%Y'), (Time.now - 1.year).strftime('%Y')])
+    end
+
+    it('it works for more than two years') do
+      2.times { @student.payments.create!(amount: 45) }
+      4.times do |n|
+        Payment.all[n].update_attribute(:created_at, Time.now - n.years)
+      end
+      expect(Payment.years).to eq([
+        Time.now.strftime('%Y'),
+        (Time.now - 1.year).strftime('%Y'),
+        (Time.now - 2.years).strftime('%Y'),
+        (Time.now - 3.years).strftime('%Y')
+      ])
+    end
+  end
 end

@@ -5,7 +5,7 @@ teacher = User.new(first_name: "Aaron", last_name: "Kaswen", email: "aaron@examp
 
 teacher.addresses.build(street_address: "425 Encinal St", city: "Santa Cruz", state: "CA", zip_code: "95060")
 
-teacher.phone_numbers.build(number: "555 555 5555", kind: "Mobile")
+teacher.build_phone_number(number: "555 555 5555", kind: "Mobile")
 
 teacher.build_schedule
 
@@ -18,7 +18,7 @@ student = User.new(first_name: "Student", last_name: "McStudington", email: "stu
 
 student.addresses.build(street_address: "130 Emmett St", city: "Santa Cruz", state: "CA", zip_code: "95060")
 
-student.phone_numbers.build(number: "555 555 5555", kind: "Mobile")
+student.build_phone_number(number: "555 555 5555", kind: "Mobile")
 
 student.save!
 
@@ -42,12 +42,12 @@ student.confirm
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
   user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
-  user.phone_numbers.build(number: number, kind: kind)
+  user.build_phone_number(number: number, kind: kind)
 
   unless user.valid?
     puts user.inspect
     puts user.addresses.first.inspect
-    puts user.phone_numbers.first.inspect
+    puts user.phone_number.inspect
   end
 
   user.save!
@@ -73,13 +73,13 @@ end
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
   user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
-  user.phone_numbers.build(number: number, kind: kind)
+  user.build_phone_number(number: number, kind: kind)
   user.status = "Wait Listed"
 
   unless user.valid? 
     puts user.inspect
     puts user.addresses.first.inspect
-    puts user.phone_numbers.first.inspect
+    puts user.phone_number.inspect
   end
   user.save!
 
@@ -104,13 +104,13 @@ end
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
   user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
-  user.phone_numbers.build(number: number, kind: kind)
+  user.build_phone_number(number: number, kind: kind)
   user.status = "Wait Listed"
 
   unless user.valid? 
     puts user.inspect
     puts user.addresses.first.inspect
-    puts user.phone_numbers.first.inspect
+    puts user.phone_number.inspect
   end
   user.save!
 
@@ -138,13 +138,13 @@ end
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation, rate_per_hour: rate_per_hour)
   user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
-  user.phone_numbers.build(number: number, kind: kind)
+  user.build_phone_number(number: number, kind: kind)
   user.student = true
   user.status = nil
   unless user.valid? 
     puts user.inspect
     puts user.addresses.first.inspect
-    puts user.phone_numbers.first.inspect
+    puts user.phone_number.inspect
   end
 
   user.save!
@@ -196,4 +196,15 @@ end
   lesson.save!
   lesson.update_attribute(:start_time, start_time - (4 - n).days)
   lesson.update_attribute(:end_time, lesson.end_time - (4 - n).days)
+end
+
+# payment history
+
+3.times do |y| #payments over the last three years
+  12.times do |m| #payments each month
+    student = students[rand(students.length - 1)]
+    amount = rand(40..100)
+    p = student.payments.create!(amount: amount)
+    p.update_attribute(:created_at, p.created_at - m.months - y.years)
+  end
 end

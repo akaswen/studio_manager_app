@@ -21,10 +21,10 @@
   </h6>
   <% if lesson.paid %>
     <h4 class="text-success position-absolute text-left ml-3 mt-2">Paid</h4>
-    <h4 class="text-success position-absolute text-left ml-3 mt-5">$<%= lesson.price %></h4>
+    <h4 class="text-success position-absolute text-left ml-3 mt-5"><%= dollar_prettified(lesson.price) %></h4>
   <% else %>
     <h4 class="text-danger position-absolute text-left ml-3 mt-2">Unpaid</h4>
-    <h4 class="text-danger position-absolute text-left ml-3 mt-5">$<%= lesson.price %></h4>
+    <h4 class="text-danger position-absolute text-left ml-3 mt-5"><%= dollar_prettified(lesson.price) %></h4>
   <% end %>
 </div>
 
