@@ -43,14 +43,16 @@
     </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Update" %>
+  <div class="actions text-center">
+    <%= f.submit "Update", class: "btn btn-outline-success" %>
   </div>
 <% end %>
 
-<h3>Deactivate my account</h3>
+<div class="text-center mt-5 border-top pt-5">
+  <h3>Unhappy?</h3>
 
-<p>Unhappy? <%= button_to "Deactivate Account", user_path(@user), data: { confirm: "Are you sure?" }, method: :delete %></p>
+  <p><%= button_to "Deactivate Account", user_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger" %></p>
+</div>
 
   </div>
   <div class="col-1"></div>
