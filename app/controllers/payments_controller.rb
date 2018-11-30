@@ -2,6 +2,10 @@ class PaymentsController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_teacher
 
+  def index
+    @payments = Payment.all
+  end
+
   def create
     payment = Payment.new(payment_params)
     if payment.save

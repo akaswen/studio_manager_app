@@ -101,19 +101,36 @@ RSpec.describe Lesson, type: :model do
     expect(@lesson.confirmed).to eq(false)
   end
 
-  describe('price') do
-    it('returns a price') do
+  describe('price', focus: true) do
+    it('has a price after save') do
+      @lesson.save
       expect(@lesson.price).to eq(45)
     end
 
     it('returns different prices for different rates') do
       @student.update_attribute(:rate_per_hour, 60)
+      @lesson.save
       expect(@lesson.price).to eq(60)
     end
 
     it('returns different prices for different lengths of lessons') do
       @lesson.end_time = Time.now.utc.beginning_of_day + 5.days + 10.hours + 30.minutes
+      @lesson.save
       expect(@lesson.price).to eq(22.5)
+    end
+
+    it("doesn't change price for a lesson already created after changing a student's rate") do
+      @lesson.save
+      expect(@lesson.price).to eq(45)
+      @student.update_attribute(:rate_per_hour, 100)
+      expect(@lesson.price).to eq(45)
+    end
+
+    it("rounds to the nearest cent") do
+      @student.update_attribute(:rate_per_hour, 100)
+      @lesson.end_time = Time.now.utc.beginning_of_day + 5.days + 10.hours + 20.minutes
+      @lesson.save
+      expect(@lesson.price).to eq(33.33)
     end
   end
 

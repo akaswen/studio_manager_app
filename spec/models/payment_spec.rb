@@ -43,6 +43,4 @@ RSpec.describe Payment, type: :model do
     @payment.reload
     expect(@payment.amount).to eq(15.06)
   end
-
-
 end

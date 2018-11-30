@@ -59,4 +59,36 @@ RSpec.describe PaymentsController, type: :controller do
       expect(flash).to_not be_empty
     end
   end
+
+  describe('GET #index') do
+    before(:each) do
+      @payment = Payment.new(user_id: @student.id, amount: 45.0)
+      @payment.save
+    end
+
+    subject { get :index }
+
+    it('gets all payments for the teacher') do
+      sign_in(@teacher)
+      subject
+      expect(response).to render_template(:index)
+    end
+
+    it('redirects a student') do
+      sign_in(@student)
+      subject
+      expect(response).to redirect_to(root_path)
+    end
+
+    it('redirects a non-student') do
+      sign_in(@user)
+      subject
+      expect(response).to redirect_to(root_path)
+   end
+
+    it('redirects a non-user') do
+      subject
+      expect(response).to redirect_to(new_user_session_path)
+   end
+  end
 end

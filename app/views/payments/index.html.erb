@@ -1,0 +1,5 @@
+<ul>
+  <% @payments.each do |payment| %>
+    <li><%= link_to payment.user.full_name, payment.user %>: <%= payment.pretty_amount %></li>
+  <% end %>
+</ul>

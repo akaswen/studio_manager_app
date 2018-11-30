@@ -21,13 +21,15 @@
           <% end %>
         </li>
 
-        <li class="nav-item">
-          <%= link_to new_lesson_path, class: "nav-link" do %>
-            <i class="fas fa-chalkboard-teacher"><em>Lessons</em></i>
-          <% end %>
-        </li>
+        <% if current_user.teacher || current_user.student %>
+          <li class="nav-item">
+            <%= link_to new_lesson_path, class: "nav-link" do %>
+              <i class="fas fa-chalkboard-teacher"><em>Lessons</em></i>
+            <% end %>
+          </li>
+        <% end %>
 
-        <% if current_user.teacher? %>
+        <% if current_user.teacher %>
           <li class="nav-item">
             <%= link_to schedule_path, class: "nav-link" do %>
               <i class="fas fa-calendar-alt"><em>Set Schedule</em></i>
@@ -42,6 +44,12 @@
           <li class="nav-item">
             <%= link_to users_path(status: 'Wait Listed'), class: "nav-link" do %>
               <i class="fas fa-users"><em>Wait List</em></i>
+            <% end %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to payments_path, class: "nav-link" do %>
+              <i class="fas fa-money-bill-alt"><em>Payment History</em></i>
             <% end %>
           </li>
         <% end %>

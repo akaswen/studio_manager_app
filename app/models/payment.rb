@@ -21,6 +21,12 @@ class Payment < ApplicationRecord
     student.update_attribute(:credit, student.credit + credit)
   end
 
+  def pretty_amount
+    amount_string = self.amount.to_s
+    amount_string += "0" if amount_string.split('.')[-1].length == 1
+    prettified = "$#{amount_string}"
+  end
+
   private
     
     def check_user

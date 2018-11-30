@@ -6,6 +6,8 @@ class Lesson < ApplicationRecord
 
   before_validation :proper_start_time, :proper_end_time, :student_check, :available_time
 
+  before_save :make_price
+
   default_scope { order(:start_time) }
 
   def address
@@ -20,12 +22,6 @@ class Lesson < ApplicationRecord
 
   def duration_in_hours
     return (((self.end_time - self.start_time)/60)/60)
-  end
-
-  def price
-    rate = self.student.rate_per_hour
-    time = self.duration_in_hours
-    return (((time * rate) * 100).round) / 100.0
   end
 
   def self.add_new_week_of_lessons
@@ -108,5 +104,11 @@ class Lesson < ApplicationRecord
 
         self.errors.add(:start_time, message: "This time slot is unavailable") unless lesson.empty? && time_slots.empty?
     end
+  end
+
+  def make_price
+    duration_in_hours = (self.end_time - self.start_time)/60.0/60.0
+    self.price = duration_in_hours * self.student.rate_per_hour
+    self.price = (self.price * 100).round / 100.0
   end
 end
