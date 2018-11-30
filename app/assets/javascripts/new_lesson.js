@@ -8,29 +8,7 @@ const newLesson = (() => {
   let studentsDiv = document.createElement('SPAN');
   studentsDiv.className = 'student-select';
   
-  myFetch(path).then(response => {
-    return response.json();
-  }).then(response => {
-    let header = document.createElement('LABEL');
-    header.textContent = "Choose Student";
-
-    let select = document.createElement('SELECT');
-    select.id = 'student';
-    select.name = 'student';
-
-    response.forEach(student => {
-      let option = document.createElement('OPTION');
-      option.textContent = `${student.first_name} ${student.last_name}`;
-      option.value = student.id;
-
-      select.appendChild(option);
-    });
-    studentsDiv.appendChild(header);
-    studentsDiv.appendChild(select);
-  }).catch((err) => {
-    console.log(err);
-  });
-
+  
   function createRadioOccuring() {
     let radioSpan = document.createElement('SPAN');
     let radio1 = document.createElement('INPUT');
@@ -185,6 +163,29 @@ const newLesson = (() => {
 
     lessons = lessonRequestDiv;
     lessonRequestDiv.addEventListener('click', enableRequesting);
+
+    myFetch(path).then(response => {
+      return response.json();
+    }).then(response => {
+      let header = document.createElement('LABEL');
+      header.textContent = "Choose Student";
+
+      let select = document.createElement('SELECT');
+      select.id = 'student';
+      select.name = 'student';
+
+      response.forEach(student => {
+        let option = document.createElement('OPTION');
+        option.textContent = `${student.first_name} ${student.last_name}`;
+        option.value = student.id;
+
+        select.appendChild(option);
+      });
+      studentsDiv.appendChild(header);
+      studentsDiv.appendChild(select);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   return {load}
