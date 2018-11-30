@@ -12,7 +12,16 @@
                 the Student's House.
               <% end %>
             </p>
-            <%= link_to "#{l.start_time.strftime("%a %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
+            <p>
+                <% if l.kind == "voice" %>
+                  <%= link_to "Voice Lesson", l %>
+                <% elsif l.kind == "piano" %>
+                  <%= link_to "Piano Lesson", l %>
+                <% else %>
+                  <%= link_to "Voice and Piano Lesson", l %>
+                <% end %>
+              <%= "#{l.start_time.strftime("%a %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}" %>
+            </p>
           </div>
           <div class="col-5 text-right">
             <%= link_to lesson_path(l, occurence: "weekly"), method: :patch do %>
@@ -37,8 +46,17 @@
               <% else %>
                 the Student's House.
               <% end %>
-           </p>
-           <%= link_to "#{l.start_time.strftime("%a %b %e %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}", l %></p>
+            </p>
+            <p>
+              <% if l.kind == "voice" %>
+                <%= link_to "Voice Lesson", l %>
+              <% elsif l.kind == "piano" %>
+                <%= link_to "Piano Lesson", l %>
+              <% else %>
+                <%= link_to "Voice and Piano Lesson", l %>
+              <% end %>
+              <%= "#{l.start_time.strftime("%a %b %e %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}" %>
+            </p>
           </div>
           <div class="col-5 text-right">
             <%= link_to lesson_path(l), method: :patch do %>

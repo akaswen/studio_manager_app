@@ -6,9 +6,18 @@
   <% end %>
   ">
   <h4><%= link_to lesson.student.full_name, lesson.student %></h4>
-  <h5><%= link_to "#{lesson.start_time.strftime("%A, %B %e, %I:%M %p")} - #{lesson.end_time.strftime("%I:%M %p")}", lesson %></h5>
-  <p>at</p>
   <h6>
+    <% if lesson.kind == "voice" %>
+      <%= link_to "Voice Lesson", lesson %>
+    <% elsif lesson.kind == "piano" %>
+      <%= link_to "Piano Lesson", lesson %>
+    <% else %>
+      <%= link_to "Voice and Piano Lesson", lesson %>
+    <% end %>
+  </h6>
+  <h5 class="text-secondary"><%= "#{lesson.start_time.strftime("%A, %B %e, %I:%M %p")} - #{lesson.end_time.strftime("%I:%M %p")}" %></h5>
+  <p>at</p>
+  <h6 class="text-secondary">
     <% if lesson.location == "teacher" %>
       The Teacher's Studio</br>
       <%= lesson.teacher.addresses.first.street_address %></br>
