@@ -1,8 +1,8 @@
 <div id="header" class="row bg-dark pb-3 align-items-end pr-5">
-  <div class='col-1'>
+  <div class='col-3'>
     <div id="icon" class="bg-light text-dark"></div>
   </div>
-  <div class="col-8 text-center">
+  <div class="col-6 text-center">
     <h1 class="mt-4"><%= link_to 'Heights Studios', root_path, class: "text-white" %></h1>
   </div>
   <div class='col-3'>
@@ -59,16 +59,27 @@
   </div>
 </div>
 
-<div id="menu">
-  <ul class="nav">
-    <li class="nav-item m-3"><%= link_to 'Welcome', home_path, class: "nav-link btn btn-outline-primary" %></li>
-    <li class="nav-item m-3"><%= link_to 'About', about_path, class: "nav-link btn btn-outline-primary" %></li>
-    <% if user_signed_in? %>
-      <li class="nav-item m-3"><%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: "nav-link btn btn-outline-primary" %></li>
-    <% else %>
-      <li class="nav-item m-3"><%= link_to 'Sign up', new_user_registration_path, class: "nav-link btn btn-outline-primary" %></li>
-      <li class="nav-item m-3"><%= link_to 'Sign in', new_user_session_path, class: "nav-link btn btn-outline-primary" %></li>
-    <% end %>
+<div id="menu" class="row">
+  <ul class="nav text-center">
+    <div class="row">
+      <div class="col">
+        <li class="nav-item m-3"><%= link_to 'Welcome', home_path, class: "nav-link btn btn-outline-primary" %></li>
+      </div>
+      <div class="col">
+        <li class="nav-item m-3"><%= link_to 'About', about_path, class: "nav-link btn btn-outline-primary" %></li>
+      </div>
+      <% if user_signed_in? %>
+      <div class="col">
+        <li class="nav-item m-3"><%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: "nav-link btn btn-outline-primary" %></li>
+      </div>
+      <% else %>
+      <div class="col">
+        <li class="nav-item m-3"><%= link_to 'Sign up', new_user_registration_path, class: "nav-link btn btn-outline-primary" %></li>
+      </div>
+      <div class="col">
+        <li class="nav-item m-3"><%= link_to 'Sign in', new_user_session_path, class: "nav-link btn btn-outline-primary" %></li>
+      </div>
+      <% end %>
   </ul>
 </div>
 

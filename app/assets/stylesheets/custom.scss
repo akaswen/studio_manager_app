@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "dropdown_maker";
 
 #header {
   ul {
@@ -23,6 +24,51 @@
   }
 }
 
+/* dropdown menu */
+
+#icon {
+  height: 60px;
+  width: 60px;
+  font-size: 0.7em;
+  position: relative;
+  bottom: 30px;
+}
+
+#menu {
+  overflow: hidden;
+  transition: width 1s, padding-left 1s, height 1s;
+  background-color: black;
+  width: 110%;
+  height: 0; 
+  //media query
+  //position: fixed;
+  //left: 0;
+  //top: 0;
+
+  //width: 0;
+
+  //height: 100vh;
+  //padding-top: 50px;
+  //padding-left: 0;
+
+  //z-index: 10;
+}
+
+.shown {
+  height: 140px !important;
+  //width: 150px !important;
+  //padding-left: 20px !important;
+
+}
+
+//.container-fluid {
+  //transition: margin-left 1s;
+  //margin-left: 0;
+//}
+
+//.shifted {
+  //margin-left: 150px;
+//}
 /* flashes */
 
 .alert {
@@ -62,7 +108,7 @@
 
 .home {
   .card-img-overlay {
-    top: 65%;
+    top: 5%;
   }
 }
 
