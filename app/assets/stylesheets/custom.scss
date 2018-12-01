@@ -32,6 +32,9 @@
   font-size: 0.7em;
   position: relative;
   bottom: 30px;
+  @media only screen and (min-width: 658px) {
+    bottom: 0;
+  }
 }
 
 #menu {
@@ -40,35 +43,40 @@
   background-color: black;
   width: 110%;
   height: 0; 
-  //media query
-  //position: fixed;
-  //left: 0;
-  //top: 0;
-
-  //width: 0;
-
-  //height: 100vh;
-  //padding-top: 50px;
-  //padding-left: 0;
-
-  //z-index: 10;
+  @media only screen and (min-width: 415px) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100vh;
+    padding-top: 50px;
+    padding-left: 0;
+    z-index: 10;
+    height: 100vh !important;
+  }
 }
 
 .shown {
   height: 140px !important;
-  //width: 150px !important;
-  //padding-left: 20px !important;
-
+  @media only screen and (min-width: 415px) {
+    width: 165px !important;
+    padding-left: 20px !important;
+  }
 }
 
-//.container-fluid {
-  //transition: margin-left 1s;
-  //margin-left: 0;
-//}
+.container-fluid {
+  @media only screen and (min-width: 415px) {
+    transition: margin-left 1s;
+    margin-left: 0;
+  }
+}
 
-//.shifted {
-  //margin-left: 150px;
-//}
+.shifted {
+  @media only screen and (min-width: 415px) {
+    margin-left: 150px;
+  }
+}
+
 /* flashes */
 
 .alert {
@@ -109,6 +117,9 @@
 .home {
   .card-img-overlay {
     top: 5%;
+    @media only screen and (min-width: 500px) {
+      top: 45%;
+    }
   }
 }
 
