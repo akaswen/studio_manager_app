@@ -91,4 +91,30 @@ RSpec.describe PaymentsController, type: :controller do
       expect(response).to redirect_to(new_user_session_path)
     end
   end
+
+  describe('DELETE #destroy') do
+    xit('lets a teacher delete a payment') do
+    end
+
+    xit("doesn't let a student delete a payment") do
+    end
+
+    xit("doesn't let a non-student delete a payment") do
+    end
+
+    xit("doesn't let a non-user delete a payemnt") do
+    end
+
+    xit("takes money away from credit when a payment is deleted") do
+    end
+
+    xit("takes money away from paid lessons and marks them as unpaid") do
+    end
+
+    xit("doesn't take away from paid lessons if they have passed and instead leaves negative credit") do
+    end
+
+    xit("does a combination of taking from credit and lessons but leaves unbalanced in credit") do
+    end
+  end
 end
