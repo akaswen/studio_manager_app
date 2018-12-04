@@ -89,12 +89,18 @@
 
 <% end %>
 
-<h4 class="text-center">Password</h4>
-  <% if @minimum_password_length %>
-    <ul class="text-info">
-      <li><%= @minimum_password_length %> characters minimum</li>
-      <li>One Capital Letter</li>
-      <li>One Number</li>
-    </ul>
-  <% end %>
+<div class="row">
 
+  <div class="col-1 col-md"></div>
+
+    <% if @minimum_password_length %>
+      <ul class="col">
+        <h4 class="text-center">Password</h4>
+        <li class="text-info"><%= @minimum_password_length %> characters minimum</li>
+        <li class="text-info">One Capital Letter</li>
+        <li class="text-info">One Number</li>
+      </ul>
+    <% end %>
+
+  <div class="col-1 col-md"></div>
+</div>

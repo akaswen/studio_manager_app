@@ -12,12 +12,17 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
+  <div class="row">
+    <div class="col-1 col-md"></div>
+    <ul class="text-secondary col">
+      <li><i>(leave blank if you don't want to change it)</i></li>
+      <li><i>(we need your current password to confirm your changes)</i></li>
+    </ul>
+    <div class="col-1 col-md"></div>
+  </div>
   <div class="field row my-5">
     <div class='col-3'>
-      <%= f.label :password %> <i>(leave blank if you don't want to change it;</i><br />
-      <% if @minimum_password_length %>
-        <em><%= @minimum_password_length %> characters minimum</em>
-      <% end %>)
+      <%= f.label :password %> <br />
     </div>
     <div class="col-9">
       <%= f.password_field :password, autocomplete: "new-password", class: "col-9" %>
@@ -26,7 +31,7 @@
   </div>
 
   <div class="field row my-5">
-    <%= f.label :password_confirmation, class: "col-3" %>
+    <%= f.label :password_confirmation, class: "col-3 small" %>
     <div class="col-9">
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "col-9" %>
       <span></span>
@@ -35,7 +40,7 @@
 
   <div class="field row my-5">
     <div class="col-3">
-      <%= f.label :current_password %><br /> <i>(we need your current password to confirm your changes)</i>
+      <%= f.label :current_password %><br /> 
     </div>
     <div class="col-9">
       <%= f.password_field :current_password, autocomplete: "current-password", required: true, class: "col-9" %>
