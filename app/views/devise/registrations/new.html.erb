@@ -11,9 +11,7 @@
       <div class="field row my-5">
         <div class="col-3">
           <%= form.label :password %>
-          <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum, 1 capital, 1 number)</em>
-          <% end %>
+
         </div>
         <div class="col-9">
           <%= form.password_field :password, autocomplete: "new-password", class: "col-9", required: true, pattern: '(?:.*[A-Z])(?:.*[0-9])', minlength: "8" %>
@@ -23,7 +21,7 @@
       </div>
 
       <div class="field row my-5">
-        <%= form.label :password_confirmation, class: "col-3" %>
+        <%= form.label :password_confirmation, class: "small col-3" %>
         <div class="col-9">
           <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "col-9", required: true %>
           <span></span>
