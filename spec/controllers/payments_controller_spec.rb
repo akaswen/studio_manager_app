@@ -93,28 +93,82 @@ RSpec.describe PaymentsController, type: :controller do
   end
 
   describe('DELETE #destroy') do
-    xit('lets a teacher delete a payment') do
+    before(:each) do
+      sign_in(@teacher)
+      post :create, 
+        params: { 
+          payment: { 
+            amount: 45.0, user_id: @student.id 
+          } 
+        }
+      sign_out(@teacher)
+      @payment = Payment.first
+      @lesson.reload
     end
 
-    xit("doesn't let a student delete a payment") do
+    subject { delete :destroy, params: { id: @payment.id } }
+
+    it('lets a teacher delete a payment') do
+      sign_in(@teacher)
+      expect{ subject }.to change{ Payment.count }.by(-1)
+      expect(response).to render_template(:index)
     end
 
-    xit("doesn't let a non-student delete a payment") do
+    it("doesn't let a student delete a payment") do
+      sign_in(@student)
+      expect{ subject }.to change{ Payment.count }.by(0)
+      expect(response).to redirect_to(root_path)
+   end
+
+    it("doesn't let a non-student delete a payment") do
+      sign_in(@user)
+      expect{ subject }.to change{ Payment.count }.by(0)
+      expect(response).to redirect_to(root_path)
+   end
+
+    it("doesn't let a non-user delete a payemnt") do
+      expect{ subject }.to change{ Payment.count }.by(0)
+      expect(response).to redirect_to(new_user_session_path)
     end
 
-    xit("doesn't let a non-user delete a payemnt") do
+    it("takes money away from credit when a payment is deleted") do
+      @student.update_attribute(:credit, 45.0)
+      sign_in(@teacher)
+      subject
+      expect{ @student.reload }.to change{ @student.credit }.from(45.0).to(0.0)
     end
 
-    xit("takes money away from credit when a payment is deleted") do
+    it("takes money away from paid lessons and marks them as unpaid") do
+      sign_in(@teacher)
+      subject
+      expect{ @lesson.reload }.to change{ @lesson.paid }.from(true).to(false)
+      @student.reload
+      expect(@student.credit).to eq(0.0)
     end
 
-    xit("takes money away from paid lessons and marks them as unpaid") do
+    it("doesn't take away from paid lessons if they have passed and instead leaves negative credit") do
+      @lesson.update_attribute(:start_time, @lesson.start_time - 1.week)
+      @lesson.update_attribute(:end_time, @lesson.end_time - 1.week)
+      sign_in(@teacher)
+      subject
+      @lesson.reload
+      @student.reload
+      expect(@lesson.paid).to eq(true)
+      expect(@student.credit).to eq(-45.0)
     end
 
-    xit("doesn't take away from paid lessons if they have passed and instead leaves negative credit") do
+    it("does a combination of taking from credit and lessons but leaves unbalanced in credit") do
+      @payment.update_attribute(:amount, 50.0)
+      @student.update_attribute(:credit, 30.0)
+      sign_in(@teacher)
+      subject
+      @lesson.reload
+      @student.reload
+      expect(@lesson.paid).to eq(false)
+      expect(@student.credit).to eq(25.0)
     end
 
-    xit("does a combination of taking from credit and lessons but leaves unbalanced in credit") do
+    xit("if the payment is made with paypal, it cannot be destroyed") do
     end
   end
 end

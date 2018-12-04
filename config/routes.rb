@@ -27,5 +27,5 @@ Rails.application.routes.draw do
 
   get 'schedule', to: 'schedules#edit'
 
-  resources :payments, only: [:create, :index]
+  resources :payments, only: [:create, :index, :destroy]
 end

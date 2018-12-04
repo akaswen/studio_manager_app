@@ -26,6 +26,31 @@ class PaymentsController < ApplicationController
     redirect_to dashboard_path
   end
 
+  def destroy
+    payment = Payment.find(params[:id])
+    student = payment.user
+    amount = payment.amount
+
+    credit = student.credit
+    if credit - amount >= 0
+      student.update_attribute(:credit, credit - amount)
+      amount -= credit
+    end
+
+    paid_lessons = student.learning_lessons.where("start_time > ? AND paid = ?", Time.now, true).order(start_time: "desc")
+    paid_lessons.each do |pl|
+      if amount > 0
+        amount -= pl.price
+        pl.update_attribute(:paid, false)
+      end
+    end
+
+    student.update_attribute(:credit, student.credit - amount)
+
+    payment.destroy
+    render :index
+  end
+
   private
     def payment_params
       params.require(:payment).permit(:amount, :user_id)
