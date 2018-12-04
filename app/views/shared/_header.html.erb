@@ -1,64 +1,66 @@
-<div id="header" class="row bg-dark pb-3 align-items-end pr-5">
-  <div class='col-3'>
+<div id="header" class="row bg-dark pb-3 align-items-center">
+  <div class='col col-sm-3'>
     <div id="icon" class="bg-light text-dark"></div>
   </div>
-  <div class="col-6 text-center">
+  <div class="col col-sm-6 text-center">
     <h1 class="mt-4"><%= link_to 'Heights Studios', root_path, class: "text-white" %></h1>
   </div>
-  <div class='col-3'>
+  <div class='col col-sm-3 text-center'>
     <% if user_signed_in? %>
-
-      <ul class="nav">
-        <li class="nav-item">
-          <%= link_to dashboard_path, class: "nav-link" do %>
-            <i class="fas fa-tachometer-alt"><em>Dashboard</em></i>
-          <% end %>
-        </li>
-
-        <li class="nav-item">
-          <%= link_to edit_user_registration_path, class: "nav-link" do %>
-            <i class="fas fa-user"><em>Edit Profile</em></i>
-          <% end %>
-        </li>
-
-        <% if current_user.teacher || current_user.student %>
-          <li class="nav-item">
-            <%= link_to new_lesson_path, class: "nav-link" do %>
-              <i class="fas fa-chalkboard-teacher"><em>Lessons</em></i>
-            <% end %>
-          </li>
-        <% end %>
-
-        <% if current_user.teacher %>
-          <li class="nav-item">
-            <%= link_to schedule_path, class: "nav-link" do %>
-              <i class="fas fa-calendar-alt"><em>Set Schedule</em></i>
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <%= link_to users_path(student: true), class: "nav-link" do %>
-              <i class="fas fa-user-friends"><em>Studio</em></i>
-            <% end %>
-          </li>
-
-          <li class="nav-item">
-            <%= link_to users_path(status: 'Wait Listed'), class: "nav-link" do %>
-              <i class="fas fa-users"><em>Wait List</em></i>
-            <% end %>
-          </li>
-
-          <li class="nav-item">
-            <%= link_to payments_path, class: "nav-link" do %>
-              <i class="fas fa-money-bill-alt"><em>Payment History</em></i>
-            <% end %>
-          </li>
-        <% end %>
-
-      </ul>
+      <button class="btn btn-outline-light" data-toggle="collapse" data-target="#navbar">Nav <i class="fas fa-sort-up"></i></button>
     <% end %>
   </div>
 </div>
+<% if user_signed_in? %>
+  <div class="row collapse" id="navbar">
+    <ul class="nav col-12 text-center">
+      <li class="nav-item col">
+        <%= link_to dashboard_path, class: "nav-link" do %>
+          <i class="fas fa-tachometer-alt"><em>Dashboard</em></i>
+        <% end %>
+      </li>
 
+      <li class="nav-item col">
+        <%= link_to edit_user_registration_path, class: "nav-link" do %>
+          <i class="fas fa-user"><em>Edit Profile</em></i>
+        <% end %>
+      </li>
+
+      <% if current_user.teacher || current_user.student %>
+        <li class="nav-item col">
+          <%= link_to new_lesson_path, class: "nav-link" do %>
+            <i class="fas fa-chalkboard-teacher"><em>Lessons</em></i>
+          <% end %>
+        </li>
+      <% end %>
+
+      <% if current_user.teacher %>
+        <li class="nav-item col">
+          <%= link_to schedule_path, class: "nav-link" do %>
+            <i class="fas fa-calendar-alt"><em>Set Schedule</em></i>
+          <% end %>
+        </li>
+        <li class="nav-item col">
+          <%= link_to users_path(student: true), class: "nav-link" do %>
+            <i class="fas fa-user-friends"><em>Studio</em></i>
+          <% end %>
+        </li>
+
+        <li class="nav-item col">
+          <%= link_to users_path(status: 'Wait Listed'), class: "nav-link" do %>
+            <i class="fas fa-users"><em>Wait List</em></i>
+          <% end %>
+        </li>
+
+        <li class="nav-item col">
+          <%= link_to payments_path, class: "nav-link" do %>
+            <i class="fas fa-money-bill-alt"><em>Payment History</em></i>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <div id="menu" class="row">
   <ul class="nav text-center">
     <div class="row">

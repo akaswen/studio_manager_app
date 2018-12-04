@@ -6,6 +6,12 @@
 //= require edit_schedule
 //= require new_lesson
 
+function toggleButton(e) {
+  let icon = e.currentTarget.lastElementChild;
+  icon.classList.toggle('fa-sort-up');
+  icon.classList.toggle('fa-sort-down');
+}
+
 window.addEventListener('turbolinks:load', () => {
   // load dropdown menu
   let icon = document.getElementById('icon');
@@ -14,6 +20,7 @@ window.addEventListener('turbolinks:load', () => {
   dropDownMaker.addDropDown(icon, menu, container);
 
 
+  let navButton = document.querySelector('button[data-target="#navbar"]')
   let sidebar = document.getElementById('teacher-sidebar'); //for teacher sidebar
   let indexDiv = document.getElementById('student_index'); //for index
   let inputs = document.querySelectorAll('#user_form input'); //for devise forms
@@ -21,7 +28,9 @@ window.addEventListener('turbolinks:load', () => {
   let calendar = document.getElementById('schedule-calendar'); //for edit schedule page
   let lessonRequestDiv = document.getElementById('new-lesson'); // for new lesson page
 
-  if (inputs.length > 0) {
+  if (navButton) {
+    navButton.addEventListener('click', toggleButton);
+  } else if (inputs.length > 0) {
     deviseForms.load(inputs);
   } else if (sidebar) {
     teacherSidebar.load(sidebar);
