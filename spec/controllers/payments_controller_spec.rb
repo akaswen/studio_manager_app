@@ -111,7 +111,7 @@ RSpec.describe PaymentsController, type: :controller do
     it('lets a teacher delete a payment') do
       sign_in(@teacher)
       expect{ subject }.to change{ Payment.count }.by(-1)
-      expect(response).to render_template(:index)
+      expect(response).to redirect_to(payments_path)
     end
 
     it("doesn't let a student delete a payment") do
