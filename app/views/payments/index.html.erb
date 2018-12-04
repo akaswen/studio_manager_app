@@ -29,6 +29,9 @@
               </div>
               <div class="col"> 
                 <%= payment.created_at.strftime('%b/%d/%Y') %>
+                <%= link_to payment_path(payment), method: :delete do %>
+                  <button class="btn btn-link text-danger"><i class="fas fa-times-circle"></i></button>
+                <% end %>
               </div>
             </div>
           </li>

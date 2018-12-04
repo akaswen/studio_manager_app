@@ -43,5 +43,15 @@ RSpec.feature "PaymentsIndices", type: :feature do
       expect(page).to_not have_content(@payment3.created_at.strftime('%b/%d/%Y'))
       expect(page).to_not have_content(@payment4.created_at.strftime('%b/%d/%Y'))
     end
+
+    describe('deleting payments') do
+      it('deletes a payment') do
+        expect{
+          click_link(href: payment_path(@payment))
+        }.to change{ Payment.count }.by(-1)
+        expect(page).to have_content("Payment History")
+        expect(page).to_not have_link(href: payment_path(@payment))
+      end
+    end
   end
 end

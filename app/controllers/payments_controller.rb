@@ -48,7 +48,7 @@ class PaymentsController < ApplicationController
     student.update_attribute(:credit, student.credit - amount)
 
     payment.destroy
-    render :index
+    redirect_to payments_path
   end
 
   private
