@@ -1,181 +1,187 @@
-<div class="col">
+<div class="col-12" id="key">
   <ul class="list-group">
     <li class="list-group-item list-group-item-success">Available</li>
     <li class="list-group-item list-group-item-danger">Unavailable</li>
   </ul>
 </div>
 
-<div class="col sunday">
-  <h3 class="text-center">
-    <% if edit %>
-      Sunday
-    <% else %>
-      <%= @week.strftime("%A, %B %e, %Y")%>
-    <% end %>
-  </h3>
-  <ul class="list-group">
-    <% if edit %>
-      <div class="day-buttons mb-3">
-        <span class="btn btn-outline-danger">block day</span>
-        <span class="btn btn-outline-success">unblock day</span>
-      </div>
-    <% end %>
-    <% @schedule.time_slots.sunday_slots.each do |ts| %>
-      <% if edit %>
-        <%= render 'shared/slot_button_for_edit', time_slot: ts %>
-      <% else %>
-        <%= render 'shared/slot_button_for_new', time_slot: ts, d: @week.strftime("%a %b %e") %>
-      <% end %>
-    <% end %>
-  </ul>
-</div>
+<div id="days" class="row mb-5">
+  <div class="col-12 col-lg my-3 sunday">
+      <h4 class="text-center col-12">
+        Sunday <br class="d-none d-sm-inline">
+        <% unless edit %>
+          <%= @week.strftime("%m/%d/%Y")%>
+        <% end %>
+      </h4>
+      <button class="btn btn-outline-secondary d-lg-none" data-toggle="collapse" data-target="#sunday-list">See Times</button>
+      <ul class="list-group collapse d-lg-block show-lg" id="sunday-list">
+        <% if edit %>
+          <div class="day-buttons mb-3">
+            <span class="btn btn-outline-danger">block day</span>
+            <span class="btn btn-outline-success">unblock day</span>
+          </div>
+        <% end %>
+        <% @schedule.time_slots.sunday_slots.each do |ts| %>
+          <% if edit %>
+            <%= render 'shared/slot_button_for_edit', time_slot: ts %>
+          <% else %>
+            <%= render 'shared/slot_button_for_new', time_slot: ts, d: @week.strftime("%a %b %e") %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
 
-<div class="col monday">
-  <h3 class="text-center">
-    <% if edit %>
-      Monday
-    <% else %>
-      <%= (@week + 1.day).strftime("%A, %B %e, %Y")%>
-    <% end %>
-  </h3>
-  <ul class="list-group">
-    <% if edit %>
-      <div class="day-buttons mb-3">
-        <span class="btn btn-outline-danger">block day</span>
-        <span class="btn btn-outline-success">unblock day</span>
-      </div>
-    <% end %>
-    <% @schedule.time_slots.monday_slots.each do |ts| %>
-      <% if edit %>
-        <%= render 'shared/slot_button_for_edit', time_slot: ts %>
-      <% else %>
-        <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 1.day).strftime("%a %b %e") %>
-      <% end %>
-    <% end %>
-  </ul>
-</div>
+    <div class="col-12 col-lg my-3 monday">
+      <h4 class="text-center">
+        Monday <br class="d-none d-sm-inline">
 
-<div class="col tuesday">
-  <h3 class="text-center">
-    <% if edit %>
-      Tuesday
-    <% else %>
-      <%= (@week + 2.days).strftime("%A, %B %e, %Y") %>
-    <% end %>
-  </h3>
-  <ul class="list-group">
-    <% if edit %>
-      <div class="day-buttons mb-3">
-        <span class="btn btn-outline-danger">block day</span>
-        <span class="btn btn-outline-success">unblock day</span>
-      </div>
-    <% end %>
-    <% @schedule.time_slots.tuesday_slots.each do |ts| %>
-      <% if edit %>
-        <%= render 'shared/slot_button_for_edit', time_slot: ts %>
-      <% else %>
-        <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 2.day).strftime("%a %b %e") %>
-      <% end %>
-    <% end %>
-  </ul>
-</div>
+        <% unless edit %>
+          <%= (@week + 1.day).strftime("%m/%d/%Y")%>
+        <% end %>
+      </h4>
+      <button class="btn btn-outline-secondary d-lg-none" data-toggle="collapse" data-target="#monday-list">See Times</button>
+      <ul class="list-group collapse d-lg-block" id="monday-list">
+        <% if edit %>
+          <div class="day-buttons mb-3">
+            <span class="btn btn-outline-danger">block day</span>
+            <span class="btn btn-outline-success">unblock day</span>
+          </div>
+        <% end %>
+        <% @schedule.time_slots.monday_slots.each do |ts| %>
+          <% if edit %>
+            <%= render 'shared/slot_button_for_edit', time_slot: ts %>
+          <% else %>
+            <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 1.day).strftime("%a %b %e") %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
 
-<div class="col wednesday">
-  <h3 class="text-center">
-    <% if edit %>
-      Wednesday
-    <% else %>
-      <%= (@week + 3.days).strftime("%A, %B %e, %Y") %>
-    <% end %>
-  </h3>
-  <ul class="list-group">
-    <% if edit %>
-      <div class="day-buttons mb-3">
-        <span class="btn btn-outline-danger">block day</span>
-        <span class="btn btn-outline-success">unblock day</span>
-      </div>
-    <% end %>
-    <% @schedule.time_slots.wednesday_slots.each do |ts| %>
-      <% if edit %>
-        <%= render 'shared/slot_button_for_edit', time_slot: ts %>
-      <% else %>
-        <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 3.day).strftime("%a %b %e") %>
-      <% end %>
-    <% end %>
-  </ul>
-</div>
+    <div class="col-12 col-lg tuesday my-3">
+      <h4 class="text-center">
+        Tuesday <br class="d-none d-sm-inline">
 
-<div class="col thursday">
-  <h3 class="text-center">
-    <% if edit %>
-      Thursday
-    <% else %>
-      <%= (@week + 4.days).strftime("%A, %B %e, %Y") %>
-    <% end %>
-  </h3>
-  <ul class="list-group">
-    <% if edit %>
-      <div class="day-buttons mb-3">
-        <span class="btn btn-outline-danger">block day</span>
-        <span class="btn btn-outline-success">unblock day</span>
-      </div>
-    <% end %>
-    <% @schedule.time_slots.thursday_slots.each do |ts| %>
-      <% if edit %>
-        <%= render 'shared/slot_button_for_edit', time_slot: ts %>
-      <% else %>
-        <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 4.day).strftime("%a %b %e") %>
-      <% end %>
-    <% end %>
-  </ul>
-</div>
+        <% unless edit %>
+          <%= (@week + 2.days).strftime("%m/%d/%Y") %>
+        <% end %>
+      </h4>
+      <button class="btn btn-outline-secondary d-lg-none" data-toggle="collapse" data-target="#tuesday-list">See Times</button>
+      <ul class="list-group collapse d-lg-block" id="tuesday-list">
+        <% if edit %>
+          <div class="day-buttons mb-3">
+            <span class="btn btn-outline-danger">block day</span>
+            <span class="btn btn-outline-success">unblock day</span>
+          </div>
+        <% end %>
+        <% @schedule.time_slots.tuesday_slots.each do |ts| %>
+          <% if edit %>
+            <%= render 'shared/slot_button_for_edit', time_slot: ts %>
+          <% else %>
+            <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 2.day).strftime("%a %b %e") %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
 
-<div class="col friday">
-  <h3 class="text-center">
-    <% if edit %>
-      Friday
-    <% else %>
-      <%= (@week + 5.days).strftime("%A, %B %e, %Y") %>
-    <% end %>
-  </h3>
-  <ul class="list-group">
-    <% if edit %>
-      <div class="day-buttons mb-3">
-        <span class="btn btn-outline-danger">block day</span>
-        <span class="btn btn-outline-success">unblock day</span>
-      </div>
-    <% end %>
-    <% @schedule.time_slots.friday_slots.each do |ts| %>
-      <% if edit %>
-        <%= render 'shared/slot_button_for_edit', time_slot: ts %>
-      <% else %>
-        <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 5.day).strftime("%a %b %e") %>
-      <% end %>
-    <% end %>
-  </ul>
-</div>
+    <div class="col-12 col-lg wednesday my-3">
+      <h4 class="text-center">
+        Wednesday <br class="d-none d-sm-inline">
 
-<div class="col saturday">
-  <h3 class="text-center">
-    <% if edit %>
-      Saturday
-    <% else %>
-      <%= (@week + 6.days).strftime("%A, %B %e, %Y") %>
-    <% end %>
-  </h3>
-  <ul class="list-group">
-    <% if edit %>
-      <div class="day-buttons mb-3">
-        <span class="btn btn-outline-danger">block day</span>
-        <span class="btn btn-outline-success">unblock day</span>
-      </div>
-    <% end %>
-    <% @schedule.time_slots.saturday_slots.each do |ts| %>
-      <% if edit %>
-        <%= render 'shared/slot_button_for_edit', time_slot: ts %>
-      <% else %>
-        <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 6.day).strftime("%a %b %e") %>
-      <% end %>
-    <% end %>
-  </ul>
+        <% unless edit %>
+          <%= (@week + 3.days).strftime("%m/%d/%Y") %>
+        <% end %>
+      </h4>
+      <button class="btn btn-outline-secondary d-lg-none" data-toggle="collapse" data-target="#wednesday-list">See Times</button>
+      <ul class="list-group collapse d-lg-block" id="wednesday-list">
+        <% if edit %>
+          <div class="day-buttons mb-3">
+            <span class="btn btn-outline-danger">block day</span>
+            <span class="btn btn-outline-success">unblock day</span>
+          </div>
+        <% end %>
+        <% @schedule.time_slots.wednesday_slots.each do |ts| %>
+          <% if edit %>
+            <%= render 'shared/slot_button_for_edit', time_slot: ts %>
+          <% else %>
+            <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 3.day).strftime("%a %b %e") %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col-12 col-lg thursday my-3">
+      <h4 class="text-center">
+        Thursday <br class="d-none d-sm-inline">
+        <% unless edit %>
+          <%= (@week + 4.days).strftime("%m/%d/%Y") %>
+        <% end %>
+      </h4>
+      <button class="btn btn-outline-secondary d-lg-none" data-toggle="collapse" data-target="#thursday-list">See Times</button>
+      <ul class="list-group collapse d-lg-block" id="thursday-list">
+        <% if edit %>
+          <div class="day-buttons mb-3">
+            <span class="btn btn-outline-danger">block day</span>
+            <span class="btn btn-outline-success">unblock day</span>
+          </div>
+        <% end %>
+        <% @schedule.time_slots.thursday_slots.each do |ts| %>
+          <% if edit %>
+            <%= render 'shared/slot_button_for_edit', time_slot: ts %>
+          <% else %>
+            <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 4.day).strftime("%a %b %e") %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col-12 col-lg friday my-3">
+      <h4 class="text-center">
+        Friday <br class="d-none d-sm-inline">
+
+        <% unless edit %>
+          <%= (@week + 5.days).strftime("%m/%d/%Y") %>
+        <% end %>
+      </h4>
+      <button class="btn btn-outline-secondary d-lg-none" data-toggle="collapse" data-target="#friday-list">See Times</button>
+      <ul class="list-group collapse d-lg-block" id="friday-list">
+        <% if edit %>
+          <div class="day-buttons mb-3">
+            <span class="btn btn-outline-danger">block day</span>
+            <span class="btn btn-outline-success">unblock day</span>
+          </div>
+        <% end %>
+        <% @schedule.time_slots.friday_slots.each do |ts| %>
+          <% if edit %>
+            <%= render 'shared/slot_button_for_edit', time_slot: ts %>
+          <% else %>
+            <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 5.day).strftime("%a %b %e") %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col-12 col-lg saturday my-3">
+      <h4 class="text-center">
+        Saturday <br class="d-none d-sm-inline">
+        <% unless edit %>
+          <%= (@week + 6.days).strftime("%m/%d/%Y") %>
+        <% end %>
+      </h4>
+      <button class="btn btn-outline-secondary d-lg-none" data-toggle="collapse" data-target="#saturday-list">See Times</button>
+      <ul class="list-group collapse d-lg-block" id="saturday-list">
+        <% if edit %>
+          <div class="day-buttons mb-3">
+            <span class="btn btn-outline-danger">block day</span>
+            <span class="btn btn-outline-success">unblock day</span>
+          </div>
+        <% end %>
+        <% @schedule.time_slots.saturday_slots.each do |ts| %>
+          <% if edit %>
+            <%= render 'shared/slot_button_for_edit', time_slot: ts %>
+          <% else %>
+            <%= render 'shared/slot_button_for_new', time_slot: ts, d: (@week + 6.day).strftime("%a %b %e") %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
 </div>

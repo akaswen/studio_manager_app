@@ -1,7 +1,9 @@
 <% lesson = @weeks_lessons.select { |l| l.start_time.wday == time_slot.day && time_slot.time.between?(l.start_time.strftime("%H:%M"), (l.end_time - 1.minutes).strftime("%H:%M")) } %>
 <% if lesson[0] && lesson[0].confirmed && (current_user.teacher || lesson[0].student == current_user) %>
   <%= link_to lesson[0] do %>
-    <button class="list-group-item list-group-item-action btn btn-primary"><small><%= lesson[0].student.last_name %></small></br><%= time_slot.time %></button>
+    <button class="list-group-item list-group-item-action btn btn-primary"><small><%= lesson[0].student.last_name %></small></br>
+      <%= lesson[0].kind %></br>
+    <%= time_slot.time %></button>
   <% end %>
 <% else %>
   <button id="<%= time_slot.id %>" data-time="<%= time_slot.time %>" data-day="<%= d %>"  class="list-group-item list-group-item-action btn

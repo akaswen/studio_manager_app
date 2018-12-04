@@ -1,28 +1,38 @@
-<h1 class="text-center">
-  <% if params["week"] && params["week"].match(/2|3|4/) %>
-    <%= link_to new_lesson_path(week: params["week"].to_i - 1) do %>
-      <i class="fas fa-caret-left"></i>
+<div class="row align-items-center">
+  <div class="col-2">
+    <% if params["week"] && params["week"].match(/2|3|4/) %>
+      <%= link_to new_lesson_path(week: params["week"].to_i - 1) do %>
+        <h1 class="text-right"><i class="fas fa-caret-left"></i></h1>
+      <% end %>
     <% end %>
-  <% end %>
-  Week of 
-  <%= Date::MONTHNAMES[@week.month] %>
-  <%= @week.day %>,
-  <%= @week.year %>
-  <% case params["week"] %>
-  <% when nil, "1" %>
-    <%= link_to new_lesson_path(week: 2) do %>
-      <i class="fas fa-caret-right"></i>
-    <% end %>
-  <% when "2" %>
-    <%= link_to new_lesson_path(week: 3) do %>
-      <i class="fas fa-caret-right"></i>
-    <% end %>
-  <% when "3" %>
-    <%= link_to new_lesson_path(week: 4) do %>
-      <i class="fas fa-caret-right"></i>
-    <% end %>
-  <% end %>
-</h1>
+ </div>
+  <div class="col">
+    <h1 class="text-center">
+            Week of 
+      <%= Date::MONTHNAMES[@week.month] %>
+      <%= @week.day %>,
+      <%= @week.year %>
+    </h1>
+  </div>
+  <div class="col-2">
+    <h1>
+      <% case params["week"] %>
+      <% when nil, "1" %>
+        <%= link_to new_lesson_path(week: 2) do %>
+          <i class="fas fa-caret-right"></i>
+        <% end %>
+      <% when "2" %>
+        <%= link_to new_lesson_path(week: 3) do %>
+          <i class="fas fa-caret-right"></i>
+        <% end %>
+      <% when "3" %>
+        <%= link_to new_lesson_path(week: 4) do %>
+          <i class="fas fa-caret-right"></i>
+        <% end %>
+      <% end %>
+    </h1>
+ </div>
+</div>
 <h3 class="text-center text-info">Click one of the available time slots to <%= current_user.teacher ? "create" : "request" %> a lesson</h3>
 <h5 class="text-center text-secondary">Please keep in mind that a lesson must be at least 30 minutes</h5>
 <div class="row" id="new-lesson">

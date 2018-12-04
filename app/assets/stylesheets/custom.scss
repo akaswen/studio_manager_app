@@ -333,5 +333,23 @@
   .btn {
     z-index: 0;
   }
+  #key {
+    margin: 0 auto;
+    max-width: 300px;
+  }
+  #days {
+    margin: 0 auto;
+    width: 90%;
+    position: relative;
+    text-align: center;
+    * {
+      @media only screen and (min-width: 992px) {
+        font-size: 0.8vw;
+      }
+    }
+    button.list-group-item {
+      min-height: 75px;
+    }
+  }
 }
 
