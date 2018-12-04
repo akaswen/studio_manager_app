@@ -181,11 +181,10 @@ const newLesson = (() => {
   }
 
   function enableRequesting(e) {
-
     if (e.target.nodeName === "BUTTON") {
       if (e.target.className.includes('danger')) {
         myAlert.message('this slot is not available');
-      } else if (e.target.nextElementSibling.className.includes('danger')) {
+      } else if (e.target.nextElementSibling.className.includes('danger') || e.target.nextElementSibling.className.includes('primary')) {
         myAlert.message('must have at least 30 minutes of available time');
       } else if (e.target.className.includes('success')) {
         addForm(e.target);
@@ -194,7 +193,6 @@ const newLesson = (() => {
   }
 
   function load (lessonRequestDiv) {
-
     lessons = lessonRequestDiv;
     lessonRequestDiv.addEventListener('click', enableRequesting);
 

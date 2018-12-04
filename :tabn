@@ -73,11 +73,11 @@ RSpec.feature "MakingLessons", type: :feature do
     end
   end
 
-  it("doesn't allow a student to make a lesson 15 minutes before another confirmed lesson", js: true) do
+  fit("doesn't allow a student to make a lesson 15 minutes before another confirmed lesson", js: true) do
     start_time = Time.now.utc.beginning_of_day + 12.hours + 15.minutes + 1.day
     i = 0
     until start_time.wday == 0 || i > 14
-      start_time = start_time + 1.day
+      start_time + 1.day
       i += 1
     end
     lesson = Lesson.create!(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", kind: "voice", confirmed: true, student_id: @student.id, teacher_id: @teacher.id)

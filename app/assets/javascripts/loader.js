@@ -30,7 +30,9 @@ window.addEventListener('turbolinks:load', () => {
 
   if (navButton) {
     navButton.addEventListener('click', toggleButton);
-  } else if (inputs.length > 0) {
+  }
+
+  if (inputs.length > 0) {
     deviseForms.load(inputs);
   } else if (sidebar) {
     teacherSidebar.load(sidebar);

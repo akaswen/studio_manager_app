@@ -1,7 +1,23 @@
-<div class="row">
-  <div id="teacher-sidebar" class="col-3 border-right pr-5">
+<div class="row mt-5">
+  <div class="col-12 col-lg-3 border-lg-none border-bottom mx-3 text-center" id="teacher-payments">
+    <h3 class="text-secondary">Student Payments</h3>
+    <%= form_for @payment do |f| %>
+      <div class="field my-3 text-info">
+        <%= f.label :user_id, "Student: " %>
+        <%= f.collection_select :user_id, @students, :id, :full_name %>
+      </div>
+      <div class="field my-3 text-success">
+        <%= f.label :amount, "$" %>
+        <%= f.number_field :amount, min: 0 %>
+      </div>
+      <%= f.submit "Add Payment", class: "btn btn-outline-success m-3" %>
+    <% end %>
+  </div>
+
+  <div id="teacher-sidebar" class="col-lg-3 col-12 border-lg-none border-bottom mx-3">
     <%= render 'users/dashboard/teacher_sidebar' %>
   </div>
+
   <div class="col-6" id="teacher-lessons">
     <h3 class="text-center border-bottom pb-3">Today's Lessons</h3>
     <% unless @todays_lessons.empty? %>
@@ -20,19 +36,5 @@
     <% else %>
       <h5 class="text-center text-secondary">No more lessons this week</h5>
    <% end %>
-  </div>
-  <div class="col-3 border-left pl-5 text-center" id="teacher-payments">
-    <h3 class="text-secondary">Student Payment</h3>
-    <%= form_for @payment do |f| %>
-      <div class="field my-3 text-info">
-        <%= f.label :user_id, "Student: " %>
-        <%= f.collection_select :user_id, @students, :id, :full_name %>
-      </div>
-      <div class="field my-3 text-success">
-        <%= f.label :amount, "$" %>
-        <%= f.number_field :amount, min: 0 %>
-      </div>
-      <%= f.submit "Add Payment", class: "btn btn-outline-success m-3" %>
-    <% end %>
   </div>
 </div>
