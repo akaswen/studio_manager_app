@@ -1,4 +1,7 @@
-<h1 class="text-center">Welcome <%= @user.full_name %>!</h1>
+<div class="row">
+  <div class="col-12 col-sm-3"></div>
+  <div class="col-12 col-md-6"><h1 class="text-center">Welcome <%= @user.full_name %>!</h1></div>
+</div>
 <% if @user.teacher? %>
   <%= render 'users/dashboard/teacher' %>
 <% elsif @user.student? %>
