@@ -307,36 +307,13 @@
     100% { transform: rotate(360deg); }
 }
 
-/* edit schedule */
+/* schedule general */
 
-#edit-schedule {
-  #schedule-calendar {
-    min-width: 1120px;
-    .btn {
-      z-index: 0;
-    }
-    .day-buttons {
-      span {
-        width: 50%;
-        display: inline-block;
-        float: left;
-        font-size: 0.6em;
-      }
-
-    }
-  }
-}
-
-/* new lesson */
-
-#new-lesson {
-  .btn {
-    z-index: 0;
-  }
   #key {
     margin: 0 auto;
     max-width: 300px;
   }
+
   #days {
     margin: 0 auto;
     width: 90%;
@@ -350,6 +327,35 @@
     .list-group-item {
       min-height: 75px;
     }
+    span {
+      min-width: 90%;
+      margin: 5px;
+   }
+  }
+
+/* edit schedule */
+
+#edit-schedule {
+  #schedule-calendar {
+    .btn {
+      z-index: 0;
+    }
+    .day-buttons {
+      //span {
+        //width: 50%;
+        //display: inline-block;
+        //float: left;
+        //font-size: 0.6em;
+      //}
+    }
+  }
+}
+
+/* new lesson */
+
+#new-lesson {
+  .btn {
+    z-index: 0;
   }
 }
 

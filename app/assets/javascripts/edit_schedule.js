@@ -54,7 +54,7 @@ const schedule = (() => {
   }
 
   function enableChanging(e) {
-    if (e.target.nodeName === 'BUTTON') {
+    if (e.target.nodeName === 'BUTTON' && !e.target.className.includes('secondary')) {
       toggleAvailability(e.target);
       toggleButton(e.target);
     } else if (e.target.nodeName === 'SPAN') {
