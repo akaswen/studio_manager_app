@@ -1,29 +1,29 @@
 <div class="m-5" id="user-show" data-id="<%= @user.id %>">
 
-  <div class="row">
-    <div class="col-5">
-      <% if @user.rate %>
+  <div class="row text-center align-items-center">
+    <div class="col-12 col-md order-md-6">
+      <h2 class="mb-3"><%= @user.full_name %></h2>
+    </div>
+    <% if @user.rate %>
+      <div class="col-6 col-md order-md-1">
         <div class="bg-light rate">
           <span>Rate per Hour</span>
           <h2 class="text-success" id="rate"><%= @user.rate %></h2>
           <button class="btn btn-outline-info">Adjust</button>
         </div>
-      <% end %>
-    </div>
-    <div class="col-5">
-      <h2 class="mb-3"><%= @user.full_name %></h2>
-    </div>
-    <div class="col-2">
-      <div class="bg-light rate text-success p-4">
-        <h5>Credit</h5>
-        <h2 class="text-success" id="rate"><%= dollar_prettified(@user.credit) %></h2>
       </div>
-    </div>
+      <div class="col-6 col-md order-md-12">
+        <div class="bg-light rate text-success p-4">
+          <h5>Credit</h5>
+          <h2 class="text-success" id="rate"><%= dollar_prettified(@user.credit) %></h2>
+        </div>
+      </div>
+    <% end %>
   </div>
 
-  <div class="row">
+  <div class="row mt-5">
     <div class="col-1"></div>
-    <div class="col-5">
+    <div class="col-lg-5 col-12">
       <h4 class="text-center">Basic Info:</h4>
       <ul class="list-group px-5">
         <li class="list-group-item">First Name: <span><%= @user.first_name.capitalize %></span></li>
@@ -32,7 +32,7 @@
       </ul>
     </div>
 
-    <div class="col-5 align-text-top">
+    <div class="col-lg-5 col-12 align-text-top">
       <h4 class="text-center">Phone Number:</h4>
       <ul class="list-group px-5">
         <li class="list-group-item">Number: <span><%= @phone_number.pretty_number %></span></li>
@@ -45,11 +45,8 @@
     <div class="col-12">
       <h4 class="mt-5 text-center">Address:</h4>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-1"></div>
-    <div class="col-5">
+    <div class="col-lg-5 col-12 mb-5">
       <ul class="list-group px-5">
         <li class="list-group-item">Address: <span><%= @address.street_address %></span></li>
         <li class="list-group-item">City: <span><%= @address.city %></span></li>
