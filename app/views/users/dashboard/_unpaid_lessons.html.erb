@@ -4,7 +4,18 @@
       <div class="row">
         <div class="col-7">
           <h6><%= link_to ul.student.full_name, ul.student %>:</h6>
-          <%= link_to "#{ul.start_time.strftime("%a %b %e %I:%M %p")} - #{ul.end_time.strftime("%I:%M %p")}", ul %></p>
+            <p>
+                <% if ul.kind == "voice" %>
+                  <%= link_to "Voice Lesson", ul %>
+                <% elsif ul.kind == "piano" %>
+                  <%= link_to "Piano Lesson", ul %>
+                <% else %>
+                  <%= link_to "Voice and Piano Lesson", ul %>
+                <% end %>
+            </p>
+            <p>
+              <%= "#{ul.start_time.strftime("%a %b %e %I:%M %p")} - #{ul.end_time.strftime("%I:%M %p")}" %>
+            </p>
         </div>
 
         <div class="col-5 text-right">

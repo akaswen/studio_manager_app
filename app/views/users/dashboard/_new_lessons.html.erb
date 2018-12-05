@@ -20,6 +20,8 @@
                 <% else %>
                   <%= link_to "Voice and Piano Lesson", l %>
                 <% end %>
+            </p>
+            <p>
               <%= "#{l.start_time.strftime("%a %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}" %>
             </p>
           </div>
@@ -55,6 +57,8 @@
               <% else %>
                 <%= link_to "Voice and Piano Lesson", l %>
               <% end %>
+            </p>
+            <p>
               <%= "#{l.start_time.strftime("%a %b %e %I:%M %p")} - #{l.end_time.strftime("%I:%M %p")}" %>
             </p>
           </div>
