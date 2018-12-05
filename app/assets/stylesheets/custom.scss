@@ -137,7 +137,7 @@
   }
 }
 
-/* student lists (index views and on teacher-sidebar) */
+/* student lists teacher-sidebar) */
 
 #teacher-sidebar {
   button {
@@ -375,3 +375,13 @@
   }
 }
 
+/* student index */
+
+#student_index {
+  li {
+    button {
+      min-width: 150px;
+      margin: 5px;
+    }
+  }
+}

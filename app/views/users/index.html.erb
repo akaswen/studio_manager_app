@@ -1,9 +1,7 @@
 <h1 class="text-center"><%= @title %> <em id="student_count">(<%= @users.count%>)</em></h1> 
-  </div>
-</div>
 <div class="row mt-5" id="student_index">
   <div class="col-3"></div>
-  <div class="col-6">
+  <div class="col-md-6 col-12">
     <ul class="list-group student_list">
       <% @users.each do |u| %>
         <li id="<%= u.id %>" class="list-group-item">
@@ -11,7 +9,9 @@
             <div class="col-6">
               <%= link_to u.full_name, u %>
               <% if @title == "Wait List" %>
-                (<%= distance_of_time_in_words(Time.now - u.created_at) %> ago)
+                <p>
+                  (<%= distance_of_time_in_words(Time.now - u.created_at) %> ago)
+                </p>
               <% end %>
             </div>
 
