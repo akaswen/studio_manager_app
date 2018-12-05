@@ -79,7 +79,7 @@ RSpec.feature "ShowingUsers", type: :feature do
   it('can add a student to the wait list', js: true) do
     visit user_path(@user)
     click_button('Wait List')
-    expect(page).to have_content('Wait List', count: 2)
+    expect(page).to have_content('Wait List')
     expect(page).to have_link(@user.full_name)
   end
 

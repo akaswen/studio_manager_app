@@ -18,7 +18,6 @@ RSpec.feature "MakingLessons", type: :feature do
 
   subject { 
     sign_in(@student)
-    click_button('Nav')
     click_link('Lessons')
     find('i.fa-caret-right').click
     within('.sunday') do
@@ -35,7 +34,7 @@ RSpec.feature "MakingLessons", type: :feature do
       choose('occurence', option: 'single')
       expect{ click_button('Okay') }.to change{ Lesson.count }.by(1)
     end
-    sleep 1
+    sleep 2
     within('.sunday') do
       click_button('12:00')
     end
@@ -95,7 +94,7 @@ RSpec.feature "MakingLessons", type: :feature do
       select('60 minutes', from: 'duration')
       expect{ click_button('Okay') }.to change{ Lesson.count }.by(4)
     end
-    sleep 1
+    sleep 2
     find('i.fa-caret-right').click
      within('.sunday') do
       click_button('12:00')
@@ -166,7 +165,6 @@ RSpec.feature "MakingLessons", type: :feature do
 
   it("allows a teacher to make a lesson for any student in their studio", js: true) do
     sign_in(@teacher)
-    click_button('Nav')
     click_link('Lessons')
     find('i.fa-caret-right').click
     within('.sunday') do
