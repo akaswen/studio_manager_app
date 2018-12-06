@@ -16,6 +16,9 @@
             <p>
               <%= "#{ul.start_time.strftime("%a %b %e %I:%M %p")} - #{ul.end_time.strftime("%I:%M %p")}" %>
             </p>
+            <p>
+              Price: <%= dollar_prettified(ul.price) %>
+            </p>
         </div>
 
         <div class="col-5 text-right">
