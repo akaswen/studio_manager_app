@@ -29,6 +29,45 @@ RSpec.describe PaymentsController, type: :controller do
       expect{ @student.reload }.to change{ @student.credit }.from(0.0).to(55.0)
    end
 
+    it("if not enough is given to pay off a lesson, it is added to credit") do
+      sign_in(@teacher)
+      post :create, params: { payment: { amount: 10.0, user_id: @student.id } }
+      expect{ @student.reload }.to change{ @student.credit }.from(0.0).to(10.0)
+      @lesson.reload
+      expect(@lesson.paid).to eq(false)
+    end
+
+    it("uses existing credit to pay for lessons before adding remainder") do
+      @student.update_attribute(:credit, 40.0)
+      sign_in(@teacher)
+      post :create, params: { payment: { amount: 10.0, user_id: @student.id } }
+      @lesson.reload
+      @student.reload
+      expect(@lesson.paid).to eq(true)
+      expect(@student.credit).to eq(5.0)
+    end
+
+    it("can use existing credit to pay for multiple lessons before adding remainder") do
+      @student.update_attribute(:credit, 85.0)
+      Lesson.create!(start_time: @lesson.start_time + 1.day, end_time: @lesson.end_time + 1.day, location: @lesson.location, kind: @lesson.kind, student_id: @lesson.student_id, teacher_id: @lesson.teacher_id)
+      expect(Lesson.last.paid).to eq(false)
+      sign_in(@teacher)
+      post :create, params: { payment: { amount: 10.0, user_id: @student.id } }
+      @student.reload
+      expect(@student.credit).to eq(5.0)
+      Lesson.all.each do |l|
+        expect(l.paid).to eq(true)
+      end
+   end
+
+    it("pays for past unpaid lessons") do
+      @lesson.update_attribute(:start_time, @lesson.start_time - 1.week)
+      @lesson.update_attribute(:end_time, @lesson.end_time - 1.week)
+      sign_in(@teacher)
+      subject
+      expect{ @lesson.reload }.to change{ @lesson.paid }.from(false).to(true)
+    end
+
     it("doesn't allow a student to create a payment") do
       sign_in(@student)
       expect{ subject }.to change{ Payment.count }.by(0)

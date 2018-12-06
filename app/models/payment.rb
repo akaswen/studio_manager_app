@@ -10,6 +10,7 @@ class Payment < ApplicationRecord
 
   def pay
     student = self.user
+    student_credit = student.credit
     credit = self.amount
     lessons = Lesson.where(student_id: student.id, paid: false)
     unless lessons.empty?
@@ -17,6 +18,11 @@ class Payment < ApplicationRecord
         if credit - l.price >= 0
           credit -= l.price
           l.update_attribute(:paid, true)
+        elsif student_credit + credit - l.price >= 0
+          student_credit -= l.price - credit
+          credit = 0
+          l.update_attribute(:paid, true)
+          student.update_attribute(:credit, student_credit)
         end
       end
     end
