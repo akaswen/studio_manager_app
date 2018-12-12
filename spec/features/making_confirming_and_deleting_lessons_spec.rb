@@ -81,6 +81,7 @@ RSpec.feature "MakingLessons", type: :feature do
     end
     lesson = Lesson.create!(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", kind: "voice", confirmed: true, student_id: @student.id, teacher_id: @teacher.id)
     subject
+    sleep 1
     within('.inner-menu') do
       expect(page).to have_content('must have at least 30 minutes of available time')
     end

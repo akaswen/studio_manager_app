@@ -12,9 +12,9 @@ class Lesson < ApplicationRecord
 
   def address
     if self.location == 'teacher'
-      return self.teacher.addresses.first
+      return self.teacher.address
     elsif self.location == 'student'
-      return self.student.addresses.first
+      return self.student.address
     else
       return 'other'
     end

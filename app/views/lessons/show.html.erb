@@ -10,7 +10,7 @@
         <div class="card-body">
           <%= render 'shared/lesson_card', lesson: @lesson %>
         </div>
-        <% location = @lesson.location == "teacher" ? "label:T|#{@lesson.teacher.addresses.first.street_address},#{@lesson.teacher.addresses.first.city},+#{@lesson.teacher.addresses.first.state}" : "label:S|#{@lesson.student.addresses.first.street_address},#{@lesson.student.addresses.first.city},#{@lesson.student.addresses.first.state}" %>
+        <% location = @lesson.location == "teacher" ? "label:T|#{@lesson.teacher.address.street_address},#{@lesson.teacher.address.city},+#{@lesson.teacher.address.state}" : "label:S|#{@lesson.student.address.street_address},#{@lesson.student.address.city},#{@lesson.student.address.state}" %>
         <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?markers=size:mid|color:red|" + location + "&zoom=13&size=300x200&key=#{ENV["GOOGLE_MAPS_KEY"]}", class: "card-img-bottom" %>
       </div>
     </div>

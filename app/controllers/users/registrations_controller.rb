@@ -8,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #
    def new
      @user = User.new
-     @address = @user.addresses.build
+     @address = @user.build_address
      @phone_number = @user.build_phone_number
    end
 
@@ -48,12 +48,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
    #
    def configure_sign_up_params
-     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, addresses_attributes: [:street_address, :city, :state, :zip_code], phone_number_attributes: [:number, :kind]])
+     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, address_attributes: [:street_address, :city, :state, :zip_code], phone_number_attributes: [:number, :kind]])
    end
 
   # If you have extra params to permit, append them to the sanitizer.
    def configure_account_update_params
-     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, addresses_attributes: [:street_address, :city, :state, :zip_code, :id], phone_number_attributes: [:number, :kind, :id]])
+     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, address_attributes: [:street_address, :city, :state, :zip_code, :id], phone_number_attributes: [:number, :kind, :id]])
    end
 
   # The path used after sign up.

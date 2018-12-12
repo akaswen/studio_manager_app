@@ -18,7 +18,7 @@ RSpec.feature "ShowingUsers", type: :feature do
     within('#teacher-sidebar') do
       click_link(@user.full_name)
     end
-    @address = @user.addresses.first
+    @address = @user.address
     @phone = @user.phone_number
     expect(page).to have_content(@user.full_name)
     expect(page).to have_content(@user.email)
@@ -34,7 +34,7 @@ RSpec.feature "ShowingUsers", type: :feature do
     @user.update_attribute(:status, "Wait Listed")
     click_link('Wait List')
     click_link(@user.full_name)
-    @address = @user.addresses.first
+    @address = @user.address
     @phone = @user.phone_number
     expect(page).to have_content(@user.full_name)
     expect(page).to have_content(@user.email)
@@ -49,7 +49,7 @@ RSpec.feature "ShowingUsers", type: :feature do
   it("allows a teacher to see a user's profile from the studio") do
     click_link('Studio')
     click_link(@student.full_name)
-    @address = @student.addresses.first
+    @address = @student.address
     @phone = @student.phone_number
     expect(page).to have_content(@student.full_name)
     expect(page).to have_content(@student.email)

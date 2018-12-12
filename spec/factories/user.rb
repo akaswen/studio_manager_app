@@ -8,13 +8,13 @@ FactoryBot.define do
 
     after(:build) do |user|
       user.phone_number = build(:phone_number) if user.phone_number.nil?
-      user.addresses << build(:address) if user.addresses.empty?
+      user.address = build(:address) if user.address.nil?
     end
   end
 
   factory :teacher, class: User do
-    first_name { "Jeff" }
-    last_name { "Wienand" }
+    first_name { "Teacher" }
+    last_name { "McTeacherton" }
     email { "jeff@example.com" }
     password { "Password1" }
     password_confirmation { "Password1" }
@@ -23,7 +23,7 @@ FactoryBot.define do
 
     after(:build) do |user|
       user.phone_number = build(:phone_number) if user.phone_number.nil?
-      user.addresses << build(:home) if user.addresses.empty?
+      user.address = build(:home) if user.address.nil?
       user.confirm
     end
   end
@@ -40,7 +40,7 @@ FactoryBot.define do
 
     after(:build) do |user|
       user.phone_number = build(:phone_number) if user.phone_number.nil?
-      user.addresses << build(:home) if user.addresses.empty?
+      user.address = build(:home) if user.address.nil?
       user.confirm
     end
   end
@@ -57,7 +57,7 @@ FactoryBot.define do
 
     after(:build) do |user|
       user.phone_number = build(:phone_number) if user.phone_number.nil?
-      user.addresses << build(:home) if user.addresses.empty?
+      user.address = build(:home) if user.address.nil?
       user.confirm
     end
   end

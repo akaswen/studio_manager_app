@@ -3,7 +3,7 @@ User.destroy_all
 # teacher seed data
 teacher = User.new(first_name: "Aaron", last_name: "Kaswen", email: "aaron@example.com", password: "Password1", password_confirmation: "Password1", teacher: true, status: nil)
 
-teacher.addresses.build(street_address: "425 Encinal St", city: "Santa Cruz", state: "CA", zip_code: "95060")
+teacher.build_address(street_address: "425 Encinal St", city: "Santa Cruz", state: "CA", zip_code: "95060")
 
 teacher.build_phone_number(number: "555 555 5555", kind: "Mobile")
 
@@ -16,7 +16,7 @@ teacher.confirm
 # sample student
 student = User.new(first_name: "Student", last_name: "McStudington", email: "student@example.com", password: "Password1", password_confirmation: "Password1", student: true, status: nil, rate_per_hour: 45)
 
-student.addresses.build(street_address: "130 Emmett St", city: "Santa Cruz", state: "CA", zip_code: "95060")
+student.build_address(street_address: "130 Emmett St", city: "Santa Cruz", state: "CA", zip_code: "95060")
 
 student.build_phone_number(number: "555 555 5555", kind: "Mobile")
 
@@ -26,8 +26,8 @@ student.confirm
 
 # new student requests
 5.times do
-  first_name = Faker::ElderScrolls.first_name
-  last_name = Faker::ElderScrolls.last_name
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
   email = Faker::Internet.unique.email
   password = "Password1"
   password_confirmation = "Password1"
@@ -41,12 +41,12 @@ student.confirm
   zip_code = Faker::Address.zip[0..4]
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
-  user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
+  user.build_address(street_address: street_address, city: city, state: state, zip_code: zip_code)
   user.build_phone_number(number: number, kind: kind)
 
   unless user.valid?
     puts user.inspect
-    puts user.addresses.first.inspect
+    puts user.address.inspect
     puts user.phone_number.inspect
   end
 
@@ -57,8 +57,8 @@ end
 
 # wait list
 50.times do
-  first_name = Faker::ElderScrolls.first_name
-  last_name = Faker::ElderScrolls.last_name
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
   email = Faker::Internet.unique.email
   password = "Password1"
   password_confirmation = "Password1"
@@ -72,13 +72,13 @@ end
   zip_code = Faker::Address.zip[0..4]
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
-  user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
+  user.build_address(street_address: street_address, city: city, state: state, zip_code: zip_code)
   user.build_phone_number(number: number, kind: kind)
   user.status = "Wait Listed"
 
   unless user.valid? 
     puts user.inspect
-    puts user.addresses.first.inspect
+    puts user.address.inspect
     puts user.phone_number.inspect
   end
   user.save!
@@ -88,8 +88,8 @@ end
 
 # wait list of different sign up times
 5.times do |n|
-  first_name = Faker::ElderScrolls.first_name
-  last_name = Faker::ElderScrolls.last_name
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
   email = Faker::Internet.unique.email
   password = "Password1"
   password_confirmation = "Password1"
@@ -103,13 +103,13 @@ end
   zip_code = Faker::Address.zip[0..4]
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation)
-  user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
+  user.build_address(street_address: street_address, city: city, state: state, zip_code: zip_code)
   user.build_phone_number(number: number, kind: kind)
   user.status = "Wait Listed"
 
   unless user.valid? 
     puts user.inspect
-    puts user.addresses.first.inspect
+    puts user.address.inspect
     puts user.phone_number.inspect
   end
   user.save!
@@ -121,8 +121,8 @@ end
 
 # students
 50.times do
-  first_name = Faker::ElderScrolls.first_name
-  last_name = Faker::ElderScrolls.last_name
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
   email = Faker::Internet.unique.email
   password = "Password1"
   password_confirmation = "Password1"
@@ -137,13 +137,13 @@ end
   zip_code = Faker::Address.zip[0..4]
 
   user = User.new(first_name: first_name, last_name: last_name, email: email, password: password, password_confirmation: password_confirmation, rate_per_hour: rate_per_hour)
-  user.addresses.build(street_address: street_address, city: city, state: state, zip_code: zip_code)
+  user.build_address(street_address: street_address, city: city, state: state, zip_code: zip_code)
   user.build_phone_number(number: number, kind: kind)
   user.student = true
   user.status = nil
   unless user.valid? 
     puts user.inspect
-    puts user.addresses.first.inspect
+    puts user.address.inspect
     puts user.phone_number.inspect
   end
 

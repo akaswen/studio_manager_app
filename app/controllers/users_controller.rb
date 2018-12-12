@@ -26,9 +26,9 @@ class UsersController < ApplicationController
     if @user.teacher
       redirect_to root_path
     else
-      @address = @user.addresses.first
+      @address = @user.address
       @phone_number = @user.phone_number
-      @teacher_address = current_user.addresses.first
+      @teacher_address = current_user.address
     end
   end
 

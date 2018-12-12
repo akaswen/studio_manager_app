@@ -56,7 +56,7 @@ RSpec.feature "CreateAndEditProfiles", type: :feature do
     click_button('Log in')
     expect(page).to have_content('Robert George')
     @user.reload
-    @address = @user.addresses.first
+    @address = @user.address
     @phone = @user.phone_number
     expect(@address.street_address).to eq('50 summer ln')
     expect(@address.city).to eq('Las Vegas')

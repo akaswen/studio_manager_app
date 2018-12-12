@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   before(:each) do
     @user = build(:user)
-    @address = @user.addresses.first
+    @address = @user.address
     @number = @user.phone_number
   end
 
@@ -60,7 +60,7 @@ RSpec.describe User, type: :model do
 
       it('should be unique and not by case') do
         @other_user = User.new(attributes_for(:user))
-        @other_user.addresses << build(:address)
+        @other_user.address = build(:address)
         @other_user.phone_number = build(:phone_number)
         @user.save
         expect(@other_user).to_not be_valid
@@ -96,15 +96,15 @@ RSpec.describe User, type: :model do
         @other_user = User.new(attributes_for :user)
       end
 
-      describe('addresses') do
+      describe('address') do
         it('should have at least one address') do
           @other_user.phone_number = build(:phone_number)
           expect(@other_user).to_not be_valid
-          @other_user.addresses << build(:address)
+          @other_user.address = build(:address)
           expect(@other_user).to be_valid
         end
 
-        it('should delete addresses when it is destroyed') do
+        it('should delete address when it is destroyed') do
           expect{@user.save}.to change{Address.count}.by(1)
           @user.reload
           expect{@user.destroy}.to change{Address.count}.by(-1)
@@ -113,7 +113,7 @@ RSpec.describe User, type: :model do
 
       describe('phone numbers') do
         it('should have at least one phone number') do
-          @other_user.addresses << build(:address)
+          @other_user.address = build(:address)
           expect(@other_user).to_not be_valid
           @other_user.phone_number = build(:phone_number)
           expect(@other_user).to be_valid

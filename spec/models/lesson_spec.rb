@@ -55,9 +55,9 @@ RSpec.describe Lesson, type: :model do
     end
 
     it('returns an address for location based on kind') do
-      expect(@lesson.address).to match(@teacher.addresses.first)
+      expect(@lesson.address).to match(@teacher.address)
       @lesson.location = 'student';
-      expect(@lesson.address).to match(@student.addresses.first)
+      expect(@lesson.address).to match(@student.address)
     end
 
     describe('time slot validations') do

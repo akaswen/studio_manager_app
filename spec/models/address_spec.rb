@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Address, type: :model do
   before(:each) do
     @user = build(:user)
-    @address = @user.addresses.first
+    @address = @user.address
   end  
 
   it('should be valid') do

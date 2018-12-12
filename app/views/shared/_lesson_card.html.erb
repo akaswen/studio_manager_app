@@ -33,12 +33,12 @@
       <h6 class="text-secondary">
         <% if lesson.location == "teacher" %>
           The Teacher's Studio</br>
-          <%= lesson.teacher.addresses.first.street_address %></br>
-          <%= lesson.teacher.addresses.first.city %>, <%= lesson.teacher.addresses.first.state %> <%= lesson.teacher.addresses.first.zip_code %>
+          <%= lesson.teacher.address.street_address %></br>
+          <%= lesson.teacher.address.city %>, <%= lesson.teacher.address.state %> <%= lesson.teacher.address.zip_code %>
         <% else %>
           The Student's House</br>
-          <%= lesson.student.addresses.first.street_address %></br>
-          <%= lesson.student.addresses.first.city %>, <%= lesson.student.addresses.first.state %> <%= lesson.student.addresses.first.zip_code %>
+          <%= lesson.student.address.street_address %></br>
+          <%= lesson.student.address.city %>, <%= lesson.student.address.state %> <%= lesson.student.address.zip_code %>
         <% end %>
       </h6>
     </div>
