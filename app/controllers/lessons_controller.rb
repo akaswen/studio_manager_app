@@ -87,6 +87,7 @@ class LessonsController < ApplicationController
     if params["occurence"] == "weekly"
       3.times do |n|
         other_lesson = Lesson.find_by(start_time: lesson.start_time + (n + 1).weeks)
+        debugger
         other_lesson.update_attribute(:confirmed, true)
       end
     end

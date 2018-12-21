@@ -144,9 +144,10 @@ RSpec.describe Lesson, type: :model do
     end
   end
 
-  describe('self.add_new_week_of_lessons') do
+  describe('self.add_new_week_of_lessons', focus: true) do
     it('can duplicate a lesson that is set to repeat') do
       @lesson.repeat = true
+      @lesson.confirmed = true
       @lesson.save
       expect{ Lesson.add_new_week_of_lessons }.to change{ Lesson.count }.by(1)
       @lesson.reload
@@ -158,6 +159,7 @@ RSpec.describe Lesson, type: :model do
       expect(new_lesson.location).to eq(@lesson.location)
       expect(new_lesson.teacher).to eq(@lesson.teacher)
       expect(new_lesson.student).to eq(@lesson.student)
+      expect(new_lesson.confirmed).to eq(true)
     end
 
     it('duplicates all lessons set to repeat') do

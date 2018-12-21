@@ -28,7 +28,7 @@ class Lesson < ApplicationRecord
     lessons = Lesson.where(repeat: true)
     lessons.each do |lesson|
       lesson.update_attribute(:repeat, false)
-      new_lesson = Lesson.new(start_time: lesson.start_time + 1.week, end_time: lesson.end_time + 1.week, location: lesson.location, repeat: true, kind: lesson.kind)
+      new_lesson = Lesson.new(start_time: lesson.start_time + 1.week, end_time: lesson.end_time + 1.week, location: lesson.location, repeat: true, kind: lesson.kind, confirmed: lesson.confirmed)
       new_lesson.student = lesson.student
       new_lesson.teacher = lesson.teacher
       new_lesson.save!
