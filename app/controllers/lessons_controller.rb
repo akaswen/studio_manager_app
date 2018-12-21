@@ -25,18 +25,6 @@ class LessonsController < ApplicationController
       @week = beginning_of_week + 2.weeks
     when "4"
       @week = beginning_of_week + 3.weeks
-    when "5"
-      @week = beginning_of_week + 4.weeks
-
-    when "6"
-      @week = beginning_of_week + 5.weeks
-
-    when "7"
-      @week = beginning_of_week + 6.weeks
-
-    when "8"
-      @week = beginning_of_week + 7.weeks
-
     else
       @week = beginning_of_week
     end
@@ -87,8 +75,7 @@ class LessonsController < ApplicationController
     if params["occurence"] == "weekly"
       3.times do |n|
         other_lesson = Lesson.find_by(start_time: lesson.start_time + (n + 1).weeks)
-        debugger
-        other_lesson.update_attribute(:confirmed, true)
+        other_lesson.update_attribute(:confirmed, true) if other_lesson
       end
     end
 

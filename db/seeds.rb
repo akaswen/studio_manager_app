@@ -158,7 +158,7 @@ students = User.where(student: true).all
 
 # one set of weekly lessons starting 4 weeks from today
 4.times do |n|
-  start_time = Time.now.beginning_of_day + 10.hours + 4.weeks + n.weeks
+  start_time = Time.now.beginning_of_day + 10.hours + 2.weeks + n.weeks
   end_time = start_time + 1.hour
   lesson = Lesson.create!(start_time: start_time, end_time: end_time, location: "teacher", confirmed: true, kind: "voice", student_id: student.id, teacher_id: teacher.id)
   lesson.update_attribute(:repeat, true) if n == 3
