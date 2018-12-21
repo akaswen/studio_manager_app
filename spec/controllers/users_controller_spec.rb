@@ -288,5 +288,27 @@ RSpec.describe UsersController, type: :controller do
       get :dashboard
       expect(response).to redirect_to(home_path)
     end
+
+    describe('lessons for destroyed user') do
+      before(:each) do
+        @confirmed_lesson = Lesson.create!(start_time: Time.now.beginning_of_day + 2.days + 10.hours, end_time: Time.now.beginning_of_day + 2.days + 11.hours, location: "teacher", teacher_id: @teacher.id, student_id: @student.id, kind: "voice", confirmed: true)
+        @past_lesson = Lesson.create!(start_time: Time.now.beginning_of_day + 1.day + 10.hours, end_time: Time.now.beginning_of_day + 1.day + 11.hours, location: "teacher", teacher_id: @teacher.id, student_id: @student.id, kind: "voice")
+        @past_lesson.update_attribute(:start_time, @past_lesson.start_time - 1.week)
+        @past_lesson.update_attribute(:end_time, @past_lesson.end_time - 1.week)
+        @unconfirmed_lesson = Lesson.create!(start_time: Time.now.beginning_of_day + 1.day + 10.hours, end_time: Time.now.beginning_of_day + 1.day + 11.hours, location: "teacher", teacher_id: @teacher.id, student_id: @student.id, kind: "voice")
+      end
+
+      subject do 
+        sign_in(@student)
+        delete :destroy, params: { id: @student.id } 
+      end
+   
+      it('destroys all future lessons but no past lessons') do
+        expect(Lesson.count).to eq(3)
+        subject
+        expect(Lesson.count).to eq(1)
+        expect(Lesson.first).to eq(@past_lesson)
+      end
+    end
   end
 end

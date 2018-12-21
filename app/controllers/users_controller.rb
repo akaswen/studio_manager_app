@@ -35,6 +35,7 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.update_attribute(:active, false)
+    @user.learning_lessons.where("start_time > ?", Time.now).destroy_all
     UserMailer.with(user: @user).deactivation_email.deliver_now
     if current_user == @user
       sign_out(@user)

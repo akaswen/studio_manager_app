@@ -180,4 +180,10 @@ RSpec.feature "MakingLessons", type: :feature do
       expect{ click_button('Okay') }.to change{ Lesson.count }.by(4)
     end
   end
+
+  xit('sends a lesson if confirmation was deleted') do
+  end
+
+  xit('sends the teacher an email if a lesson is canceled') do
+  end
 end

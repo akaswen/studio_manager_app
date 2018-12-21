@@ -81,4 +81,20 @@ RSpec.feature "DeactivatingAccounts", type: :feature do
     click_link('Studio')
     expect(page).to_not have_link(@student.full_name)
   end
+
+  it('no longer displays lessons or lesson requests on teachers\'s pages') do
+    ActionController::Base.allow_forgery_protection = false
+    lesson_request = Lesson.create!(start_time: Time.now.beginning_of_day + 1.day + 10.hours, end_time: Time.now.beginning_of_day + 1.day + 11.hours, location: "teacher", teacher_id: @teacher.id, student_id: @student.id, kind: "voice")
+    confirmed_lesson = Lesson.create!(start_time: Time.now.beginning_of_day + 2.days + 10.hours, end_time: Time.now.beginning_of_day + 2.days + 11.hours, location: "teacher", teacher_id: @teacher.id, student_id: @student.id, kind: "voice", confirmed: true)
+    sign_in(@teacher)
+    expect(page).to have_link(href: lesson_path(lesson_request))
+    expect(page).to have_link(href: lesson_path(confirmed_lesson))
+    sign_out(@teacher)
+    sign_in(@student)
+    visit edit_user_registration_path(@user)
+    click_button('Deactivate Account')
+    sign_in(@teacher)
+    expect(page).to_not have_link(href: lesson_path(lesson_request))
+    expect(page).to_not have_link(href: lesson_path(confirmed_lesson))
+  end
 end
