@@ -34,4 +34,14 @@ FactoryBot.define do
     association :teacher, factory: :teacher
     association :student, factory: :student
  end
+
+  factory :confirmed_lesson, class: Lesson do
+    start_time { Time.now.utc.beginning_of_day + 9.days + 10.hours }
+    end_time { Time.now.utc.beginning_of_day + 9.days + 11.hours }
+    location { 'teacher' }
+    kind { 'voice' }
+    confirmed { true }
+    association :teacher, factory: :teacher
+    association :student, factory: :student
+  end
 end
