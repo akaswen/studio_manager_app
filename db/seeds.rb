@@ -56,7 +56,7 @@ student.confirm
 end
 
 # wait list
-50.times do
+10.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   email = Faker::Internet.unique.email
@@ -120,7 +120,7 @@ end
 end
 
 # students
-50.times do
+10.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   email = Faker::Internet.unique.email
@@ -156,26 +156,23 @@ end
 
 students = User.where(student: true).all
 
-7.times do |n|
-  3.times do |x|
-    start_time = Time.now.beginning_of_day + (10 + x).hours + (1 + n).days
-    lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", confirmed: true, kind: "voice")
-    lesson.student = x < 2 ? students[x] : student
-    lesson.teacher = teacher
-    lesson.repeat = true if n == 3 || n == 6
-    lesson.save!
-  end
+# one set of weekly lessons starting 4 weeks from today
+4.times do |n|
+  start_time = Time.now.beginning_of_day + 10.hours + 4.weeks + n.weeks
+  end_time = start_time + 1.hour
+  lesson = Lesson.create!(start_time: start_time, end_time: end_time, location: "teacher", confirmed: true, kind: "voice", student_id: student.id, teacher_id: teacher.id)
+  lesson.update_attribute(:repeat, true) if n == 3
 end
 
-# weekly lesson request
+# one weekly lesson request
 
 4.times do |n|
   start_time = Time.now.beginning_of_day + 9.hours + 1.day + n.weeks
   lesson = Lesson.new(start_time: start_time, end_time: start_time + 1.hour, location: "teacher", kind: "piano")
   lesson.student = student
   lesson.teacher = teacher
-  repeat = true if n == 3
   lesson.save!
+  lesson.update_attribute(:repeat, true) if n == 3
 end
 
 # single lesson request
