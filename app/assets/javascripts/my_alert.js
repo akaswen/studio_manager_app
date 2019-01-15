@@ -19,6 +19,7 @@ const myAlert = (() => {
     let body = document.querySelector('body');
     let fadedScreen = document.createElement('DIV');
     let innerMenu = document.createElement('DIV');
+    
 
     fadedScreen.className = 'faded-out';
     innerMenu.className = 'inner-menu';
@@ -31,12 +32,21 @@ const myAlert = (() => {
     });
 
     if (button) {
+      let closeButton = document.createElement('DIV');
       let submit = document.createElement('BUTTON');
 
+
+      closeButton.id = 'close-button';
       submit.className = 'btn btn-outline-primary';
       submit.textContent = 'Okay';
 
+      closeButton.appendChild(document.createElement('SPAN'));
+      closeButton.appendChild(document.createElement('SPAN'));
+      innerMenu.appendChild(closeButton);
       innerMenu.appendChild(submit);
+
+
+      closeButton.addEventListener('click', () => fadedScreen.remove());
 
       submit.addEventListener('click', () => {
         fadedScreen.remove();
