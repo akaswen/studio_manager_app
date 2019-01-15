@@ -1,7 +1,6 @@
 class LessonsController < ApplicationController
   include LessonsHelper
   before_action :authenticate_user!
-  before_action :authenticate_active_user
   before_action :authenticate_teacher, only: [:update]
   before_action :redirect_non_student_teacher 
   before_action :day_before_check, only: [:destroy]

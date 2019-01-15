@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :redirect_from_dashboard, only: [:dashboard]
   before_action :authenticate_user!, except: [:dashboard]
-  before_action :authenticate_active_user
   before_action :authenticate_teacher, only: [:wait_list, :add_student, :index, :show]
   before_action :param_check, only: [:index]
   before_action :authenticate_teacher_or_self, only: [:destroy]
@@ -21,15 +20,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    @location = request.env["HTTP_REFERER"]
+    @location = request.env["HTTP_REFERER"] # for friendly forwarding
     @user = User.find(params[:id])
-    if @user.teacher
-      redirect_to root_path
-    else
-      @address = @user.address
-      @phone_number = @user.phone_number
-      @teacher_address = current_user.address
-    end
+    @address = @user.address
+    @phone_number = @user.phone_number
+    @teacher_address = current_user.address
   end
 
   def destroy
